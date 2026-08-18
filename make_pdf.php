@@ -1,0 +1,42 @@
+<?php
+$pdfContent = "%PDF-1.4
+1 0 obj <</Type /Catalog /Pages 2 0 R>> endobj
+2 0 obj <</Type /Pages /Kids [3 0 R] /Count 1>> endobj
+3 0 obj <</Type /Page /Parent 2 0 R /Resources 4 0 R /MediaBox [0 0 595 842] /Contents 5 0 R>> endobj
+4 0 obj <</Font <</F1 6 0 R>>>> endobj
+5 0 obj <</Length 320>> stream
+BT
+/F1 18 Tf
+50 780 Td
+(SENAT GAJAH MADA ADHYAKSA) Tj
+/F1 14 Tf
+0 -30 Td
+(PEDOMAN PERAMPASAN ASET KEJAHATAN LINTAS BATAS) Tj
+/F1 11 Tf
+0 -40 Td
+(Dokumen Resmi Policy Brief Eksekutif - LITBANG Mada Adhyaksa) Tj
+0 -20 Td
+(Nomor Dokumen: PB-01/LITBANG-MADA/2026) Tj
+0 -30 Td
+(Status: Terbit di Vault Repositori Digital & Terverifikasi Stempel QR Seal) Tj
+ET
+endstream endobj
+6 0 obj <</Type /Font /Subtype /Type1 /BaseFont /Helvetica>> endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000216 00000 n 
+0000000257 00000 n 
+0000000628 00000 n 
+trailer <</Size 7 /Root 1 0 R>>
+startxref
+697
+%%EOF";
+
+@mkdir('public/documents', 0777, true);
+file_put_contents('public/documents/pb_01.pdf', $pdfContent);
+file_put_contents('public/documents/pb_02.pdf', $pdfContent);
+echo "PDF generated successfully!";
