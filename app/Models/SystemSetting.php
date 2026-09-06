@@ -14,6 +14,7 @@ class SystemSetting extends Model
         'tagline',
         'period',
         'ketua_tim_riset',
+        'batch_passcode',
         'peneliti_pidsus',
         'peneliti_cyber',
         'max_file_size_mb',

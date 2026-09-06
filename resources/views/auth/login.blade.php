@@ -17,19 +17,19 @@
                 <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Kejaksaan Senat Gajah Mada Adhyaksa" style="height: 80px; width: auto; filter: drop-shadow(0 10px 20px rgba(197,155,39,0.3));" />
                 <div>
                     <div style="font-family: var(--font-heading); font-weight: 900; font-size: 1.85rem; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.02em;">
-                        Senat Gajah Mada Adhyaksa™
+                        Litbang Gajah Mada Adhyaksa™
                     </div>
                     <div style="font-size: 0.875rem; color: #D4AF37; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;">
-                        LITBANG — Formulasi Kebijakan Strategis
+                        Portal Penelitian dan Pengembangan
                     </div>
                 </div>
             </div>
 
             <!-- Main Heading & Description Text -->
             <h1 style="font-size: clamp(2rem, 3.2vw, 2.75rem); font-weight: 900; line-height: 1.2; color: #FFFFFF; margin-bottom: 1.5rem; letter-spacing: -0.02em;">
-                Portal Penelitian & <br />
+                Portal Penelitian dan <br />
                 <span style="color: #D4AF37; text-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);">
-                    Manajemen Naskah Strategis
+                    Pengembangan
                 </span>
             </h1>
 
@@ -46,12 +46,12 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDE: FLOATING GLASSMORPHIC FORM CARD (EXACT LAYOUT FROM USER IMAGE) -->
+        <!-- RIGHT SIDE: FLOATING GLASSMORPHIC FORM CARD -->
         <div>
-            <div style="background: rgba(7, 39, 24, 0.65); border: 2px solid rgba(197, 155, 39, 0.4); border-radius: 28px; padding: 3rem 2.5rem; backdrop-filter: blur(24px); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); position: relative;">
+            <div style="background: rgba(7, 39, 24, 0.65); border: 2px solid rgba(197, 155, 39, 0.4); border-radius: 28px; padding: 2.75rem 2.5rem; backdrop-filter: blur(24px); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); position: relative;" x-data="{ showPass: false }">
                 
                 <!-- Card Header -->
-                <div style="margin-bottom: 2.25rem;">
+                <div style="margin-bottom: 2rem;">
                     <h2 style="font-size: 1.75rem; font-weight: 900; color: #FFFFFF; margin-bottom: 0.375rem; letter-spacing: -0.02em;">
                         Log In to LITBANG™
                     </h2>
@@ -61,10 +61,10 @@
                 </div>
 
                 <!-- Login Form -->
-                <form action="{{ route('login.post') }}" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <form action="{{ route('login.post') }}" method="POST" style="display: flex; flex-direction: column; gap: 1.35rem;">
                     @csrf
 
-                    <!-- Email / Username Field with Icon Inside -->
+                    <!-- Email / Username Field -->
                     <div>
                         <label style="font-size: 0.8125rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.5rem;">Email atau Username</label>
                         <div style="position: relative; display: flex; align-items: center;">
@@ -73,12 +73,14 @@
                         </div>
                     </div>
 
-                    <!-- Password Field with Eye Icon Inside -->
+                    <!-- Password Field with Interactive Eye Toggle -->
                     <div>
                         <label style="font-size: 0.8125rem; font-weight: 700; color: #CBD5E1; display: block; margin-bottom: 0.5rem;">Password</label>
                         <div style="position: relative; display: flex; align-items: center;">
-                            <input type="password" name="password" value="secret123" required style="width: 100%; padding: 0.875rem 2.75rem 0.875rem 1.125rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.08); color: #FFFFFF; font-size: 0.9375rem; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#D4AF37'; this.style.background='rgba(255, 255, 255, 0.12)';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.background='rgba(255, 255, 255, 0.08)';" />
-                            <span style="position: absolute; right: 1rem; color: #94A3B8; font-size: 1.125rem; pointer-events: none;">👁️</span>
+                            <input :type="showPass ? 'text' : 'password'" name="password" value="secret123" required style="width: 100%; padding: 0.875rem 2.75rem 0.875rem 1.125rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.08); color: #FFFFFF; font-size: 0.9375rem; outline: none; transition: all 0.2s;" onfocus="this.style.borderColor='#D4AF37'; this.style.background='rgba(255, 255, 255, 0.12)';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.background='rgba(255, 255, 255, 0.08)';" />
+                            <button type="button" @click="showPass = !showPass" style="position: absolute; right: 0.75rem; background: none; border: none; color: #D4AF37; font-size: 1.125rem; cursor: pointer; padding: 0.25rem 0.5rem; display: flex; align-items: center;" title="Tampilkan / Sembunyikan Password">
+                                <span x-text="showPass ? '🙈' : '👁️'"></span>
+                            </button>
                         </div>
                     </div>
 
@@ -94,17 +96,21 @@
                     </div>
 
                     <!-- Primary Submit Button -->
-                    <button type="submit" style="background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #04180E; font-weight: 900; font-size: 1rem; padding: 1rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(197, 155, 39, 0.35); transition: all 0.2s; margin-top: 0.5rem;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-                        Log In →
+                    <button type="submit" style="background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #04180E; font-weight: 900; font-size: 1rem; padding: 0.95rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(197, 155, 39, 0.35); transition: all 0.2s; margin-top: 0.35rem;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                        Log In Ke Portal →
                     </button>
 
-                    <!-- Separator Text -->
-                    <div style="text-align: center; margin: 0.5rem 0; font-size: 0.8125rem; color: #64748B;">
-                        Akses Administrator Resmi Senat Adhyaksa
+                    <!-- KEJAKSAAN RI INTERNAL SECURITY BADGE CARD -->
+                    <div style="margin-top: 0.75rem; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(52, 211, 153, 0.35); border-radius: 12px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.25rem;">🛡️</span>
+                        <div>
+                            <div style="font-size: 0.71875rem; font-weight: 900; color: #34D399; letter-spacing: 0.04em;">ENKRIPSI KEAMANAN TERVERIFIKASI</div>
+                            <div style="font-size: 0.6875rem; color: #94A3B8; margin-top: 1px;">Sistem Server Terenkripsi SSL 256-bit Kejaksaan RI</div>
+                        </div>
                     </div>
 
                     <!-- Secondary Return Button -->
-                    <a href="{{ route('landing.index') }}" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 0.875rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); color: #FFFFFF; font-weight: 700; font-size: 0.875rem; text-decoration: none; text-align: center; transition: all 0.2s;" onmouseover="this.style.borderColor='#D4AF37'; this.style.color='#D4AF37'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.color='#FFFFFF'">
+                    <a href="{{ route('landing.index') }}" style="display: flex; align-items: center; justify-content: center; width: 100%; padding: 0.75rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.05); color: #CBD5E1; font-weight: 700; font-size: 0.8125rem; text-decoration: none; text-align: center; transition: all 0.2s; margin-top: 0.25rem;" onmouseover="this.style.borderColor='#D4AF37'; this.style.color='#D4AF37'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.color='#CBD5E1'">
                         ⬅️ Kembali ke Beranda Portal
                     </a>
                 </form>

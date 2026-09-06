@@ -14,11 +14,15 @@ class PublicProposal extends Model
         'name',
         'institution',
         'category',
+        'type',
         'title',
         'urgency',
         'description',
+        'custom_attributes',
         'file_name',
         'file_path',
+        'admin_file_path',
+        'additional_attachments',
         'status',
         'disposition_team',
         'rejection_reason',
@@ -26,6 +30,11 @@ class PublicProposal extends Model
         'timeline_step',
         'last_update_note',
         'kajian_id',
+    ];
+
+    protected $casts = [
+        'custom_attributes' => 'array',
+        'additional_attachments' => 'array',
     ];
 
     public function kajian()

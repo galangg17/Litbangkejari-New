@@ -39,6 +39,7 @@ class Kajian extends Model
         'review_metodologi',
         'review_legal',
         'signed_by_ketua',
+        'is_published',
     ];
 
     protected $casts = [
@@ -47,6 +48,7 @@ class Kajian extends Model
         'review_metodologi' => 'boolean',
         'review_legal' => 'boolean',
         'signed_by_ketua' => 'boolean',
+        'is_published' => 'boolean',
         'hashtags' => 'array',
         'infographic_points' => 'array',
     ];
