@@ -183,38 +183,47 @@ class LandingController extends Controller
 
     public function downloadDocument($type, $id)
     {
+        $filePath = null;
+        $fileName = 'Dokumen_Litbang.pdf';
+
         if ($type === 'kajian') {
-            $item = Kajian::findOrFail($id);
-            // Parse numeric count if string or increment
-            $current = is_numeric($item->downloads_count) ? (int)$item->downloads_count : 1420;
-            $item->downloads_count = ($current + 1) . ' Download';
-            $item->save();
-
-            $filePath = public_path($item->file_path);
-            if (!empty($item->file_path) && file_exists($filePath)) {
-                return response()->download($filePath);
+            $item = Kajian::find($id);
+            if ($item) {
+                $current = is_numeric($item->downloads_count) ? (int)$item->downloads_count : 1420;
+                $item->downloads_count = ($current + 1) . ' Download';
+                $item->save();
+                $filePath = $item->file_path;
+                $fileName = 'Policy_Brief_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $item->doc_no ?? 'Dokumen') . '.pdf';
             }
-            return redirect()->to($item->file_path ?? '/documents/pb_01.pdf');
+        } elseif ($type === 'innovation') {
+            $item = InnovationProposal::find($id);
+            if ($item) {
+                $item->increment('downloads_count');
+                $filePath = $item->sop_file_path;
+                $fileName = 'SOP_Inovasi_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $item->innovation_no ?? 'Dokumen') . '.pdf';
+            }
+        } elseif ($type === 'curriculum') {
+            $item = Curriculum::find($id);
+            if ($item) {
+                $filePath = $item->file_path;
+                $fileName = 'Modul_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', substr($item->title ?? 'Kurikulum', 0, 30)) . '.pdf';
+            }
         }
 
-        if ($type === 'innovation') {
-            $item = InnovationProposal::findOrFail($id);
-            $item->increment('downloads_count');
-
-            if (!empty($item->sop_file_path) && file_exists(public_path($item->sop_file_path))) {
-                return response()->download(public_path($item->sop_file_path));
+        // Try downloading target file directly via PHP stream
+        if ($filePath) {
+            $fullPath = public_path(ltrim($filePath, '/'));
+            if (file_exists($fullPath) && is_readable($fullPath)) {
+                return response()->download($fullPath, $fileName);
             }
-            return redirect()->to($item->sop_file_path ?? '/documents/pb_01.pdf');
         }
 
-        if ($type === 'curriculum') {
-            $item = Curriculum::findOrFail($id);
-            if (!empty($item->file_path) && file_exists(public_path($item->file_path))) {
-                return response()->download(public_path($item->file_path));
-            }
-            return redirect()->to($item->file_path ?? '/documents/pb_01.pdf');
+        // Fallback to sample document pb_01.pdf streamed via PHP
+        $samplePath = public_path('documents/pb_01.pdf');
+        if (file_exists($samplePath) && is_readable($samplePath)) {
+            return response()->download($samplePath, $fileName);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Berkas dokumen tidak ditemukan pada server.');
     }
 }
