@@ -1580,7 +1580,7 @@
 
     <!-- MODAL: INSPEKSI BERKAS & DISPOSISI USULAN (selectedProposalDisposition) -->
     <div x-show="selectedProposalDisposition !== null" class="modal-overlay" style="display: none;" @click="selectedProposalDisposition = null">
-        <div class="modal-card" style="max-width: 820px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 18px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);" @click.stop x-data="{ dispositionAction: 'accept', rejectionReasonText: '', acceptResponseText: 'Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan untuk penyusunan lebih lanjut.' }">
+        <div class="modal-card" style="max-width: 820px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 18px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);" @click.stop x-data="{ dispModalTab: 'summary', dispositionAction: 'accept', rejectionReasonText: '', acceptResponseText: 'Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan untuk penyusunan lebih lanjut.' }">
             <!-- HEADER -->
             <div style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); border-bottom: 2.5px solid #C59B27; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start;">
                 <div>
@@ -1589,6 +1589,16 @@
                         <span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #FFF; font-size: 0.71875rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 6px;" x-text="selectedProposalDisposition ? 'Kategori: ' + selectedProposalDisposition.category : ''"></span>
                     </div>
                     <h3 style="font-size: 1.15rem; font-weight: 900; color: #FFFFFF; line-height: 1.35; margin-top: 0.45rem;" x-text="selectedProposalDisposition ? selectedProposalDisposition.title : ''"></h3>
+                    
+                    <!-- TAB NAVIGATION BUTTONS -->
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.85rem;">
+                        <button type="button" @click="dispModalTab = 'summary'" :style="dispModalTab === 'summary' ? 'background: #C59B27; color: #072718; font-weight: 900;' : 'background: rgba(255,255,255,0.15); color: #FFF; font-weight: 700;'" style="padding: 0.35rem 0.85rem; border-radius: 8px; border: none; font-size: 0.78125rem; cursor: pointer; transition: all 0.2s;">
+                            📄 Tab 1: Ringkasan & Berkas
+                        </button>
+                        <button type="button" @click="dispModalTab = 'decision'" :style="dispModalTab === 'decision' ? 'background: #C59B27; color: #072718; font-weight: 900;' : 'background: rgba(255,255,255,0.15); color: #FFF; font-weight: 700;'" style="padding: 0.35rem 0.85rem; border-radius: 8px; border: none; font-size: 0.78125rem; cursor: pointer; transition: all 0.2s;">
+                            ⚙️ Tab 2: Keputusan Disposisi Admin
+                        </button>
+                    </div>
                 </div>
                 <button @click="selectedProposalDisposition = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFF; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem;">✕</button>
             </div>
@@ -1596,35 +1606,35 @@
             <form :action="'/dashboard/disposition/' + (selectedProposalDisposition ? selectedProposalDisposition.id : '')" method="POST" enctype="multipart/form-data" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 78vh; overflow-y: auto;">
                 @csrf
 
-                <!-- VISUAL 4-STAGE PIPELINE STEPPER PROGRESS TRACKER -->
-                <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 14px; padding: 1rem;">
-                    <div style="font-size: 0.71875rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.65rem; display: flex; justify-content: space-between; align-items: center;">
-                        <span>📈 ALUR PROGRES PIPELINE KAJIAN (4-STAGE TRACKER)</span>
-                        <span style="font-size: 0.6875rem; color: #64748B; font-weight: 700;">Klik tahap untuk mengubah status</span>
+                <!-- ================= TAB 1: RINGKASAN USULAN & BERKAS ================= -->
+                <div x-show="dispModalTab === 'summary'" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    <!-- VISUAL 4-STAGE PIPELINE STEPPER PROGRESS TRACKER -->
+                    <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 14px; padding: 1rem;">
+                        <div style="font-size: 0.71875rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.65rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span>📈 ALUR PROGRES PIPELINE KAJIAN (4-STAGE TRACKER)</span>
+                            <span style="font-size: 0.6875rem; color: #64748B; font-weight: 700;">Klik tahap untuk mengubah status</span>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align: center;">
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 1" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 1 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.6875rem;">⏳ Stage 1</div>
+                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Skrining Inbox</div>
+                            </button>
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 2" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 2 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.6875rem;">🔬 Stage 2</div>
+                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Disposisi Riset</div>
+                            </button>
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 3" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 3 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.6875rem;">📄 Stage 3</div>
+                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Policy Brief</div>
+                            </button>
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 4" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 4 ? 'background: #16A34A; color: #FFF; border: 1.5px solid #86EFAC; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.6875rem;">🟢 Stage 4</div>
+                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Terbit Vault</div>
+                            </button>
+                        </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align: center;">
-                        <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 1" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 1 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                            <div style="font-size: 0.6875rem;">⏳ Stage 1</div>
-                            <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Skrining Inbox</div>
-                        </button>
-                        <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 2" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 2 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                            <div style="font-size: 0.6875rem;">🔬 Stage 2</div>
-                            <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Disposisi Riset</div>
-                        </button>
-                        <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 3" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 3 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                            <div style="font-size: 0.6875rem;">📄 Stage 3</div>
-                            <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Policy Brief</div>
-                        </button>
-                        <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 4" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 4 ? 'background: #16A34A; color: #FFF; border: 1.5px solid #86EFAC; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                            <div style="font-size: 0.6875rem;">🟢 Stage 4</div>
-                            <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Terbit Vault</div>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- SEKSI 1: BERKAS & LATAR BELAKANG PENGUSUL -->
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
                     <!-- 2-COLUMN INFO CARDS -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                         <!-- CARD A: IDENTITAS -->
@@ -1650,7 +1660,7 @@
                         </div>
                     </div>
 
-                    <!-- CARD C: DOKUMEN LAMPIRAN ORIGINAL & CLEAN VIEWER -->
+                    <!-- CARD C: DOKUMEN LAMPIRAN ORIGINAL (COMPACT WITHOUT EMBEDDED IFRAME) -->
                     <div style="background: #F0F9FF; border: 1.5px solid #7DD3FC; border-radius: 12px; padding: 1rem;">
                         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
                             <div>
@@ -1670,20 +1680,21 @@
                                 </div>
                             </template>
                         </div>
+                    </div>
 
-                        <!-- RESPONSIVE EMBEDDED VIEWER FRAME (NO DOUBLE SCROLLBARS) -->
-                        <template x-if="selectedProposalDisposition && selectedProposalDisposition.file_path">
-                            <div style="margin-top: 0.875rem; height: 380px; width: 100%; border-radius: 10px; overflow: hidden; border: 1.5px solid #CBD5E1; background: #525659;">
-                                <iframe :src="(selectedProposalDisposition.file_path || '/documents/pb_01.pdf') + '#toolbar=1&navpanes=0'" style="width: 100%; height: 100%; border: none;"></iframe>
-                            </div>
-                        </template>
+                    <!-- FOOTER TAB 1: LANJUT KE KEPUTUSAN -->
+                    <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem; padding-top: 0.875rem; border-top: 1px solid #E2E8F0;">
+                        <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.55rem 1.25rem; cursor: pointer;" @click="selectedProposalDisposition = null">Batal</button>
+                        <button type="button" @click="dispModalTab = 'decision'" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.84375rem; padding: 0.55rem 1.5rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2); display: flex; align-items: center; gap: 0.5rem;">
+                            Lanjut ke Keputusan Admin ➔
+                        </button>
                     </div>
                 </div>
 
-                <!-- SEKSI 2: KEPUTUSAN DISPOSISI ADMIN -->
-                <div style="display: flex; flex-direction: column; gap: 0.875rem; margin-top: 0.5rem; padding-top: 1rem; border-top: 1.5px solid #E2E8F0;">
-                    <div style="font-size: 0.78125rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.05em;">
-                        ⚙️ SEKSI 2: KEPUTUSAN DISPOSISI ADMIN
+                <!-- ================= TAB 2: KEPUTUSAN DISPOSISI ADMIN ================= -->
+                <div x-show="dispModalTab === 'decision'" style="display: flex; flex-direction: column; gap: 1.25rem;">
+                    <div style="font-size: 0.8125rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.05em; background: #F1F5F9; padding: 0.6rem 0.85rem; border-radius: 8px; border-left: 4px solid #072718;">
+                        ⚙️ SEKSI KEPUTUSAN & TANGGAPAN RESMI ADMIN
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
@@ -1740,13 +1751,27 @@
                             <textarea name="official_response" x-model="acceptResponseText" rows="3" required placeholder="Berikan catatan kajian resmi bahwa usulan diterima dan diteruskan..." style="width: 100%; padding: 0.5rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #6EE7B7; background: #FFF; color: #0F172A;"></textarea>
                         </div>
                     </template>
-                </div>
 
-                <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem; padding-top: 0.875rem; border-top: 1px solid #E2E8F0;">
-                    <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.55rem 1.25rem; cursor: pointer;" @click="selectedProposalDisposition = null">Batal</button>
-                    <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.84375rem; padding: 0.55rem 1.5rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2);">
-                        💾 Simpan Keputusan Admin & Teruskan
-                    </button>
+                    <!-- LAMPIRAN SURAT / DOKUMEN DISPOSISI ADMIN (OPTIONAL) -->
+                    <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0.85rem;">
+                        <label style="font-size: 0.75rem; font-weight: 800; color: #334155; display: block; margin-bottom: 0.35rem;">
+                            📎 Lampiran Surat Disposisi / Catatan Tambahan Admin (Opsional)
+                        </label>
+                        <input type="file" name="admin_file" accept=".pdf,.doc,.docx" style="font-size: 0.78125rem; color: #475569;" />
+                    </div>
+
+                    <!-- FOOTER TAB 2: KEMBALI & SIMPAN KEPUTUSAN -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; padding-top: 0.875rem; border-top: 1px solid #E2E8F0;">
+                        <button type="button" @click="dispModalTab = 'summary'" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #334155; font-weight: 800; border-radius: 8px; padding: 0.55rem 1.15rem; font-size: 0.8125rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+                            ⬅️ Kembali ke Ringkasan
+                        </button>
+                        <div style="display: flex; gap: 0.65rem;">
+                            <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.55rem 1.25rem; cursor: pointer;" @click="selectedProposalDisposition = null">Batal</button>
+                            <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.84375rem; padding: 0.55rem 1.5rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2);">
+                                💾 Simpan Keputusan Admin & Teruskan
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
