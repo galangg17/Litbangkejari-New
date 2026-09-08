@@ -1603,6 +1603,38 @@
             font-weight: 900;
             border-bottom-color: #C59B27;
         }
+        .disp-step-btn {
+            border-radius: 12px;
+            padding: 0.65rem 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none !important;
+            box-shadow: none !important;
+            border: 1.5px solid #E2E8F0;
+            background: #FFFFFF;
+            color: #64748B;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .disp-step-btn:hover {
+            border-color: #CBD5E1;
+            background: #F8FAFC;
+            color: #072718;
+        }
+        .disp-step-btn.completed {
+            background: #F0FDF4 !important;
+            border-color: #A7F3D0 !important;
+            color: #047857 !important;
+        }
+        .disp-step-btn.active {
+            background: #072718 !important;
+            border-color: #C59B27 !important;
+            color: #D4AF37 !important;
+            box-shadow: 0 4px 12px rgba(7, 39, 24, 0.25) !important;
+        }
         .disp-action-card {
             padding: 0.9rem;
             border-radius: 12px;
@@ -1703,27 +1735,75 @@
                 <div x-show="dispModalTab === 'summary'" style="display: flex; flex-direction: column; gap: 1.25rem;">
                     <!-- VISUAL 4-STAGE PIPELINE STEPPER PROGRESS TRACKER -->
                     <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 1rem;">
-                        <div style="font-size: 0.71875rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.65rem; display: flex; justify-content: space-between; align-items: center;">
-                            <span>📈 ALUR PROGRES PIPELINE KAJIAN (4-STAGE TRACKER)</span>
-                            <span style="font-size: 0.6875rem; color: #64748B; font-weight: 700;">Klik stage untuk ubah status</span>
+                        <div style="font-size: 0.71875rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.65rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="display: flex; align-items: center; gap: 0.35rem; color: #072718; font-weight: 900;">
+                                📈 ALUR PROGRES PIPELINE KAJIAN (4-STAGE TRACKER)
+                            </span>
+                            <span style="font-size: 0.6875rem; color: #64748B; font-weight: 700; background: #E2E8F0; padding: 0.15rem 0.55rem; border-radius: 6px;">Klik stage untuk ubah status</span>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align: center;">
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 1" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s; outline: none !important;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 1 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.71875rem;">⏳ Stage 1</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Skrining Inbox</div>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.65rem;">
+                            <!-- STAGE 1 -->
+                            <button type="button" 
+                                class="disp-step-btn" 
+                                :class="{ 
+                                    'active': selectedProposalDisposition && selectedProposalDisposition.timeline_step === 1,
+                                    'completed': selectedProposalDisposition && selectedProposalDisposition.timeline_step > 1 
+                                }" 
+                                @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 1">
+                                <div style="font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 0.25rem;">
+                                    ⏳ Stage 1
+                                </div>
+                                <div style="font-size: 0.6875rem; margin-top: 2px; font-weight: 600;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step === 1 ? 'color: #FFF;' : ''">
+                                    Skrining Inbox
+                                </div>
                             </button>
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 2" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s; outline: none !important;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 2 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.71875rem;">🔬 Stage 2</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Disposisi Riset</div>
+
+                            <!-- STAGE 2 -->
+                            <button type="button" 
+                                class="disp-step-btn" 
+                                :class="{ 
+                                    'active': selectedProposalDisposition && selectedProposalDisposition.timeline_step === 2,
+                                    'completed': selectedProposalDisposition && selectedProposalDisposition.timeline_step > 2 
+                                }" 
+                                @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 2">
+                                <div style="font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 0.25rem;">
+                                    🔬 Stage 2
+                                </div>
+                                <div style="font-size: 0.6875rem; margin-top: 2px; font-weight: 600;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step === 2 ? 'color: #FFF;' : ''">
+                                    Disposisi Riset
+                                </div>
                             </button>
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 3" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s; outline: none !important;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 3 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.71875rem;">📄 Stage 3</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Policy Brief</div>
+
+                            <!-- STAGE 3 -->
+                            <button type="button" 
+                                class="disp-step-btn" 
+                                :class="{ 
+                                    'active': selectedProposalDisposition && selectedProposalDisposition.timeline_step === 3,
+                                    'completed': selectedProposalDisposition && selectedProposalDisposition.timeline_step > 3 
+                                }" 
+                                @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 3">
+                                <div style="font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 0.25rem;">
+                                    📄 Stage 3
+                                </div>
+                                <div style="font-size: 0.6875rem; margin-top: 2px; font-weight: 600;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step === 3 ? 'color: #FFF;' : ''">
+                                    Policy Brief
+                                </div>
                             </button>
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 4" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s; outline: none !important;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 4 ? 'background: #16A34A; color: #FFF; border: 1.5px solid #86EFAC; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.71875rem;">🟢 Stage 4</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Terbit Vault</div>
+
+                            <!-- STAGE 4 -->
+                            <button type="button" 
+                                class="disp-step-btn" 
+                                :class="{ 
+                                    'active': selectedProposalDisposition && selectedProposalDisposition.timeline_step === 4 
+                                }" 
+                                @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 4">
+                                <div style="font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; gap: 0.25rem;">
+                                    🟢 Stage 4
+                                </div>
+                                <div style="font-size: 0.6875rem; margin-top: 2px; font-weight: 600;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step === 4 ? 'color: #FFF;' : ''">
+                                    Terbit Vault
+                                </div>
                             </button>
                         </div>
                     </div>
