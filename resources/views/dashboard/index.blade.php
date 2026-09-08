@@ -1580,101 +1580,112 @@
 
     <!-- MODAL: INSPEKSI BERKAS & DISPOSISI USULAN (selectedProposalDisposition) -->
     <div x-show="selectedProposalDisposition !== null" class="modal-overlay" style="display: none;" @click="selectedProposalDisposition = null">
-        <div class="modal-card" style="max-width: 820px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 18px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);" @click.stop x-data="{ dispModalTab: 'summary', dispositionAction: 'accept', rejectionReasonText: '', acceptResponseText: 'Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan untuk penyusunan lebih lanjut.' }">
+        <div class="modal-card" style="max-width: 840px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);" @click.stop x-data="{ dispModalTab: 'summary', dispositionAction: 'accept', rejectionReasonText: '', acceptResponseText: 'Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan untuk penyusunan lebih lanjut.' }">
             <!-- HEADER -->
-            <div style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); border-bottom: 2.5px solid #C59B27; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start;">
-                <div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                        <span style="background: #C59B27; color: #072718; font-weight: 900; font-size: 0.75rem; padding: 0.2rem 0.65rem; border-radius: 9999px; letter-spacing: 0.05em;" x-text="selectedProposalDisposition ? selectedProposalDisposition.ticket_no : ''"></span>
-                        <span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #FFF; font-size: 0.71875rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 6px;" x-text="selectedProposalDisposition ? 'Kategori: ' + selectedProposalDisposition.category : ''"></span>
+            <div style="padding: 1.25rem 1.75rem; background: linear-gradient(135deg, #051C12 0%, #072718 100%); border-bottom: 2px solid #D4AF37; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
+                        <span style="background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #072718; font-weight: 900; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 9999px; letter-spacing: 0.05em; box-shadow: 0 2px 6px rgba(0,0,0,0.2);" x-text="selectedProposalDisposition ? selectedProposalDisposition.ticket_no : ''"></span>
+                        <span style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #F8FAFC; font-size: 0.71875rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 6px; backdrop-filter: blur(4px);" x-text="selectedProposalDisposition ? 'Kategori: ' + selectedProposalDisposition.category : ''"></span>
                     </div>
-                    <h3 style="font-size: 1.15rem; font-weight: 900; color: #FFFFFF; line-height: 1.35; margin-top: 0.45rem;" x-text="selectedProposalDisposition ? selectedProposalDisposition.title : ''"></h3>
+                    <h3 style="font-size: 1.2rem; font-weight: 900; color: #FFFFFF; line-height: 1.4; margin-top: 0.5rem; letter-spacing: -0.01em;" x-text="selectedProposalDisposition ? selectedProposalDisposition.title : ''"></h3>
                     
-                    <!-- TAB NAVIGATION BUTTONS -->
-                    <div style="display: flex; gap: 0.5rem; margin-top: 0.85rem;">
-                        <button type="button" @click="dispModalTab = 'summary'" :style="dispModalTab === 'summary' ? 'background: #C59B27; color: #072718; font-weight: 900;' : 'background: rgba(255,255,255,0.15); color: #FFF; font-weight: 700;'" style="padding: 0.35rem 0.85rem; border-radius: 8px; border: none; font-size: 0.78125rem; cursor: pointer; transition: all 0.2s;">
+                    <!-- PILL SUB-TAB NAVIGATOR -->
+                    <div style="background: rgba(0, 0, 0, 0.35); padding: 4px; border-radius: 12px; display: inline-flex; gap: 4px; border: 1px solid rgba(212, 175, 55, 0.25); margin-top: 0.95rem;">
+                        <button type="button" @click="dispModalTab = 'summary'" :style="dispModalTab === 'summary' ? 'background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #072718; font-weight: 900; box-shadow: 0 4px 12px rgba(0,0,0,0.3);' : 'background: transparent; color: rgba(255, 255, 255, 0.8); font-weight: 700;'" style="padding: 0.45rem 1.15rem; border-radius: 8px; border: none; font-size: 0.8125rem; cursor: pointer; transition: all 0.2s ease;">
                             📄 Tab 1: Ringkasan & Berkas
                         </button>
-                        <button type="button" @click="dispModalTab = 'decision'" :style="dispModalTab === 'decision' ? 'background: #C59B27; color: #072718; font-weight: 900;' : 'background: rgba(255,255,255,0.15); color: #FFF; font-weight: 700;'" style="padding: 0.35rem 0.85rem; border-radius: 8px; border: none; font-size: 0.78125rem; cursor: pointer; transition: all 0.2s;">
+                        <button type="button" @click="dispModalTab = 'decision'" :style="dispModalTab === 'decision' ? 'background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #072718; font-weight: 900; box-shadow: 0 4px 12px rgba(0,0,0,0.3);' : 'background: transparent; color: rgba(255, 255, 255, 0.8); font-weight: 700;'" style="padding: 0.45rem 1.15rem; border-radius: 8px; border: none; font-size: 0.8125rem; cursor: pointer; transition: all 0.2s ease;">
                             ⚙️ Tab 2: Keputusan Disposisi Admin
                         </button>
                     </div>
                 </div>
-                <button @click="selectedProposalDisposition = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFF; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem;">✕</button>
+                <button @click="selectedProposalDisposition = null" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #FFF; width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.8)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">✕</button>
             </div>
 
-            <form :action="'/dashboard/disposition/' + (selectedProposalDisposition ? selectedProposalDisposition.id : '')" method="POST" enctype="multipart/form-data" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 78vh; overflow-y: auto;">
+            <form :action="'/dashboard/disposition/' + (selectedProposalDisposition ? selectedProposalDisposition.id : '')" method="POST" enctype="multipart/form-data" style="padding: 1.6rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 78vh; overflow-y: auto;">
                 @csrf
 
                 <!-- ================= TAB 1: RINGKASAN USULAN & BERKAS ================= -->
                 <div x-show="dispModalTab === 'summary'" style="display: flex; flex-direction: column; gap: 1.25rem;">
                     <!-- VISUAL 4-STAGE PIPELINE STEPPER PROGRESS TRACKER -->
-                    <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 14px; padding: 1rem;">
-                        <div style="font-size: 0.71875rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.65rem; display: flex; justify-content: space-between; align-items: center;">
-                            <span>📈 ALUR PROGRES PIPELINE KAJIAN (4-STAGE TRACKER)</span>
-                            <span style="font-size: 0.6875rem; color: #64748B; font-weight: 700;">Klik tahap untuk mengubah status</span>
+                    <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px; padding: 1.1rem; box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);">
+                        <div style="font-size: 0.71875rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="display: flex; align-items: center; gap: 0.4rem;">
+                                📈 ALUR PROGRES PIPELINE KAJIAN (4-STAGE TRACKER)
+                            </span>
+                            <span style="font-size: 0.6875rem; color: #64748B; font-weight: 700; background: #EDF2F7; padding: 0.15rem 0.5rem; border-radius: 6px;">Klik stage untuk ubah status</span>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align: center;">
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 1" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 1 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.6875rem;">⏳ Stage 1</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Skrining Inbox</div>
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; text-align: center;">
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 1" style="border-radius: 10px; padding: 0.65rem 0.35rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 1 ? 'background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; border: 1.5px solid #C59B27; box-shadow: 0 4px 10px rgba(7,39,24,0.2); font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">⏳ Stage 1</div>
+                                <div style="font-size: 0.65rem; opacity: 0.95; margin-top: 3px;">Skrining Inbox</div>
                             </button>
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 2" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 2 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.6875rem;">🔬 Stage 2</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Disposisi Riset</div>
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 2" style="border-radius: 10px; padding: 0.65rem 0.35rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 2 ? 'background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; border: 1.5px solid #C59B27; box-shadow: 0 4px 10px rgba(7,39,24,0.2); font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">🔬 Stage 2</div>
+                                <div style="font-size: 0.65rem; opacity: 0.95; margin-top: 3px;">Disposisi Riset</div>
                             </button>
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 3" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 3 ? 'background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.6875rem;">📄 Stage 3</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Policy Brief</div>
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 3" style="border-radius: 10px; padding: 0.65rem 0.35rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 3 ? 'background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; border: 1.5px solid #C59B27; box-shadow: 0 4px 10px rgba(7,39,24,0.2); font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">📄 Stage 3</div>
+                                <div style="font-size: 0.65rem; opacity: 0.95; margin-top: 3px;">Policy Brief</div>
                             </button>
-                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 4" style="border-radius: 8px; padding: 0.5rem 0.25rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 4 ? 'background: #16A34A; color: #FFF; border: 1.5px solid #86EFAC; font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
-                                <div style="font-size: 0.6875rem;">🟢 Stage 4</div>
-                                <div style="font-size: 0.625rem; opacity: 0.9; margin-top: 2px;">Terbit Vault</div>
+                            <button type="button" @click="if (selectedProposalDisposition) selectedProposalDisposition.timeline_step = 4" style="border-radius: 10px; padding: 0.65rem 0.35rem; cursor: pointer; transition: all 0.2s;" :style="selectedProposalDisposition && selectedProposalDisposition.timeline_step >= 4 ? 'background: linear-gradient(135deg, #15803D 0%, #166534 100%); color: #FFF; border: 1.5px solid #86EFAC; box-shadow: 0 4px 10px rgba(22,101,52,0.25); font-weight: 900;' : 'background: #FFF; color: #64748B; border: 1.5px solid #CBD5E1; font-weight: 700;'">
+                                <div style="font-size: 0.75rem; display: flex; align-items: center; justify-content: center; gap: 0.25rem;">🟢 Stage 4</div>
+                                <div style="font-size: 0.65rem; opacity: 0.95; margin-top: 3px;">Terbit Vault</div>
                             </button>
                         </div>
                     </div>
 
                     <!-- 2-COLUMN INFO CARDS -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem;">
                         <!-- CARD A: IDENTITAS -->
-                        <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
-                            <div style="font-size: 0.6875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em;">
-                                👤 IDENTITAS PESERTA / PENGUSUL
+                        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="font-size: 0.71875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.35rem;">
+                                    👤 IDENTITAS PESERTA / PENGUSUL
+                                </div>
+                                <div style="font-size: 1.1rem; font-weight: 900; color: #0F172A; margin-top: 0.4rem; letter-spacing: -0.01em;" x-text="selectedProposalDisposition ? selectedProposalDisposition.name : ''"></div>
+                                <div style="margin-top: 0.3rem;">
+                                    <span style="background: #F1F5F9; border: 1px solid #E2E8F0; color: #334155; font-size: 0.78125rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; display: inline-block;" x-text="selectedProposalDisposition ? (selectedProposalDisposition.institution || 'Kejaksaan RI') : 'Kejaksaan RI'"></span>
+                                </div>
                             </div>
-                            <div style="font-size: 1.05rem; font-weight: 900; color: #0F172A; margin-top: 0.35rem;" x-text="selectedProposalDisposition ? selectedProposalDisposition.name : ''"></div>
-                            <div style="font-size: 0.8125rem; color: #475569; font-weight: 700; margin-top: 0.2rem;" x-text="selectedProposalDisposition ? (selectedProposalDisposition.institution || 'Kejaksaan RI') : ''"></div>
-                            <div style="margin-top: 0.65rem;">
-                                <span style="background: #ECFDF5; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.71875rem; padding: 0.25rem 0.55rem; border-radius: 6px; font-weight: 800; display: inline-block;">
+                            <div style="margin-top: 0.85rem;">
+                                <span style="background: #ECFDF5; border: 1px solid #A7F3D0; color: #047857; font-size: 0.75rem; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 800; display: inline-flex; align-items: center; gap: 0.35rem;">
                                     🟢 Status: <span x-text="selectedProposalDisposition ? selectedProposalDisposition.status : 'Menunggu Skrining'"></span>
                                 </span>
                             </div>
                         </div>
 
                         <!-- CARD B: URAIAN MASALAH AWAL -->
-                        <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 1rem;">
-                            <div style="font-size: 0.6875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em;">
+                        <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                            <div style="font-size: 0.71875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.35rem;">
                                 📝 URAIAN & FORMULASI MASALAH AWAL
                             </div>
-                            <div style="font-size: 0.84375rem; color: #1E293B; line-height: 1.55; margin-top: 0.35rem; font-weight: 600; white-space: pre-line;" x-text="selectedProposalDisposition ? selectedProposalDisposition.description : ''"></div>
+                            <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.85rem; font-size: 0.84375rem; color: #1E293B; line-height: 1.6; font-weight: 600; white-space: pre-line; margin-top: 0.45rem; min-height: 85px;" x-text="selectedProposalDisposition ? selectedProposalDisposition.description : ''"></div>
                         </div>
                     </div>
 
-                    <!-- CARD C: DOKUMEN LAMPIRAN ORIGINAL (COMPACT WITHOUT EMBEDDED IFRAME) -->
-                    <div style="background: #F0F9FF; border: 1.5px solid #7DD3FC; border-radius: 12px; padding: 1rem;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
-                            <div>
-                                <div style="font-size: 0.84375rem; font-weight: 900; color: #0369A1; display: flex; align-items: center; gap: 0.35rem;">
-                                    📁 Dokumen / File Lampiran Asli Pengusul
+                    <!-- CARD C: DOKUMEN LAMPIRAN ORIGINAL -->
+                    <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(16,185,129,0.06);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div style="background: #10B981; color: #FFF; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; shrink: 0; box-shadow: 0 4px 10px rgba(16,185,129,0.25);">
+                                    📁
                                 </div>
-                                <div style="font-size: 0.75rem; color: #0284C7; font-weight: 700; margin-top: 2px;" x-text="selectedProposalDisposition && selectedProposalDisposition.file_path ? (selectedProposalDisposition.file_name || 'Usulan_Peserta_Original.pdf') : 'Tidak ada lampiran berkas'"></div>
+                                <div>
+                                    <div style="font-size: 0.875rem; font-weight: 900; color: #065F46; display: flex; align-items: center; gap: 0.35rem;">
+                                        Dokumen / File Lampiran Asli Pengusul
+                                    </div>
+                                    <div style="font-size: 0.78125rem; color: #047857; font-weight: 700; margin-top: 2px;" x-text="selectedProposalDisposition && selectedProposalDisposition.file_path ? (selectedProposalDisposition.file_name || 'Usulan_Peserta_Original.pdf') : 'Tidak ada lampiran berkas'"></div>
+                                </div>
                             </div>
                             <template x-if="selectedProposalDisposition && selectedProposalDisposition.file_path">
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <button type="button" style="background: #0284C7; color: #FFFFFF; font-size: 0.78125rem; font-weight: 800; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 2px 4px rgba(2,132,199,0.25);" @click="previewPdfUrl = selectedProposalDisposition.file_path">
+                                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                                    <button type="button" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.25); display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" @click="previewPdfUrl = selectedProposalDisposition.file_path" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                                         👁️ Pratinjau Fullscreen PDF
                                     </button>
-                                    <a :href="selectedProposalDisposition ? selectedProposalDisposition.file_path : '#'" target="_blank" style="background: #072718; color: #D4AF37; font-size: 0.78125rem; font-weight: 900; padding: 0.45rem 0.875rem; border-radius: 8px; text-decoration: none; border: 1px solid #C59B27;">
+                                    <a :href="selectedProposalDisposition ? selectedProposalDisposition.file_path : '#'" target="_blank" style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; border: 1.5px solid #C59B27; box-shadow: 0 4px 12px rgba(7,39,24,0.25); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                                         📥 Download PDF Original
                                     </a>
                                 </div>
@@ -1683,9 +1694,9 @@
                     </div>
 
                     <!-- FOOTER TAB 1: LANJUT KE KEPUTUSAN -->
-                    <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.5rem; padding-top: 0.875rem; border-top: 1px solid #E2E8F0;">
-                        <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.55rem 1.25rem; cursor: pointer;" @click="selectedProposalDisposition = null">Batal</button>
-                        <button type="button" @click="dispModalTab = 'decision'" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.84375rem; padding: 0.55rem 1.5rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2); display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem; padding-top: 1rem; border-top: 1px solid #E2E8F0;">
+                        <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 10px; padding: 0.6rem 1.35rem; font-size: 0.84375rem; cursor: pointer; transition: all 0.2s;" @click="selectedProposalDisposition = null">Batal</button>
+                        <button type="button" @click="dispModalTab = 'decision'" style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; font-weight: 900; font-size: 0.875rem; padding: 0.65rem 1.6rem; border-radius: 10px; border: 1.5px solid #C59B27; cursor: pointer; box-shadow: 0 4px 14px rgba(7,39,24,0.3); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                             Lanjut ke Keputusan Admin ➔
                         </button>
                     </div>
@@ -1693,15 +1704,16 @@
 
                 <!-- ================= TAB 2: KEPUTUSAN DISPOSISI ADMIN ================= -->
                 <div x-show="dispModalTab === 'decision'" style="display: flex; flex-direction: column; gap: 1.25rem;">
-                    <div style="font-size: 0.8125rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.05em; background: #F1F5F9; padding: 0.6rem 0.85rem; border-radius: 8px; border-left: 4px solid #072718;">
+                    <div style="font-size: 0.8125rem; font-weight: 900; color: #072718; text-transform: uppercase; letter-spacing: 0.06em; background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%); padding: 0.75rem 1rem; border-radius: 10px; border-left: 4px solid #072718; display: flex; align-items: center; gap: 0.4rem;">
                         ⚙️ SEKSI KEPUTUSAN & TANGGAPAN RESMI ADMIN
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                        <button type="button" class="disposition-act-btn" :class="{ 'active-accept': dispositionAction === 'accept' }" @click="dispositionAction = 'accept'">
+                    <!-- ACTION TOGGLE CARDS -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+                        <button type="button" @click="dispositionAction = 'accept'" style="padding: 0.9rem; border-radius: 12px; font-weight: 900; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" :style="dispositionAction === 'accept' ? 'background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; border: 2px solid #C59B27; box-shadow: 0 6px 16px rgba(7,39,24,0.25);' : 'background: #F8FAFC; color: #475569; border: 1.5px solid #CBD5E1;'">
                             ✅ Terima & Teruskan ke 3 Pilar
                         </button>
-                        <button type="button" class="disposition-act-btn" :class="{ 'active-reject': dispositionAction === 'reject' }" @click="dispositionAction = 'reject'">
+                        <button type="button" @click="dispositionAction = 'reject'" style="padding: 0.9rem; border-radius: 12px; font-weight: 900; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" :style="dispositionAction === 'reject' ? 'background: linear-gradient(135deg, #991B1B 0%, #7F1D1D 100%); color: #FFFFFF; border: 2px solid #FCA5A5; box-shadow: 0 6px 16px rgba(153,27,27,0.25);' : 'background: #F8FAFC; color: #475569; border: 1.5px solid #CBD5E1;'">
                             ❌ Tolak Usulan
                         </button>
                     </div>
@@ -1710,64 +1722,68 @@
 
                     <!-- ACTION: REJECT (MANDATORY REASON & QUICK PRESETS) -->
                     <template x-if="dispositionAction === 'reject'">
-                        <div style="background: #FEE2E2; border: 1.5px solid #FCA5A5; border-radius: 12px; padding: 1rem; display: flex; flex-direction: column; gap: 0.65rem;">
-                            <label style="font-size: 0.75rem; font-weight: 900; color: #991B1B;">Alasan Penolakan Usulan (WAJIB DIISI) *</label>
+                        <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; border-radius: 14px; padding: 1.15rem; display: flex; flex-direction: column; gap: 0.75rem; box-shadow: 0 4px 12px rgba(239,68,68,0.06);">
+                            <label style="font-size: 0.78125rem; font-weight: 900; color: #991B1B; display: flex; align-items: center; gap: 0.35rem;">
+                                ⚠️ Alasan Penolakan Usulan (WAJIB DIISI) *
+                            </label>
                             
                             <!-- PRESET TEMPLATE BUTTONS -->
-                            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.25rem;">
-                                <button type="button" style="background: #FFF; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 6px; font-weight: 700; cursor: pointer;" @click="rejectionReasonText = '[DI LUAR WEWENANG LITBANG] Usulan berada di luar wewenang Pokja Riset Litbang.'">
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                                <button type="button" style="background: #FFF; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.71875rem; padding: 0.3rem 0.65rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s;" @click="rejectionReasonText = '[DI LUAR WEWENANG LITBANG] Usulan berada di luar wewenang Pokja Riset Litbang.'" onmouseover="this.style.background='#FEE2E2'" onmouseout="this.style.background='#FFF'">
                                     ⚡ [Di Luar Wewenang]
                                 </button>
-                                <button type="button" style="background: #FFF; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 6px; font-weight: 700; cursor: pointer;" @click="rejectionReasonText = '[BERKAS TIDAK LENGKAP] Berkas atau dokumen pendukung usulan tidak dapat dibuka / tidak sesuai format.'">
+                                <button type="button" style="background: #FFF; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.71875rem; padding: 0.3rem 0.65rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s;" @click="rejectionReasonText = '[BERKAS TIDAK LENGKAP] Berkas atau dokumen pendukung usulan tidak dapat dibuka / tidak sesuai format.'" onmouseover="this.style.background='#FEE2E2'" onmouseout="this.style.background='#FFF'">
                                     ⚡ [Berkas Tidak Lengkap]
                                 </button>
-                                <button type="button" style="background: #FFF; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 6px; font-weight: 700; cursor: pointer;" @click="rejectionReasonText = '[DUPLIKASI USULAN] Usulan isu sejenis telah masuk dalam agenda kajian Tim Riset.'">
+                                <button type="button" style="background: #FFF; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.71875rem; padding: 0.3rem 0.65rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s;" @click="rejectionReasonText = '[DUPLIKASI USULAN] Usulan isu sejenis telah masuk dalam agenda kajian Tim Riset.'" onmouseover="this.style.background='#FEE2E2'" onmouseout="this.style.background='#FFF'">
                                     ⚡ [Duplikasi Usulan]
                                 </button>
                             </div>
 
-                            <textarea name="rejection_reason" x-model="rejectionReasonText" rows="3" required placeholder="Jelaskan alasan penolakan secara spesifik atau pilih tombol preset di atas..." style="width: 100%; padding: 0.5rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #FCA5A5; background: #FFF; color: #0F172A;"></textarea>
+                            <textarea name="rejection_reason" x-model="rejectionReasonText" rows="3" required placeholder="Jelaskan alasan penolakan secara spesifik atau pilih tombol preset di atas..." style="width: 100%; padding: 0.65rem; font-size: 0.84375rem; border-radius: 10px; border: 1.5px solid #FCA5A5; background: #FFF; color: #0F172A; font-family: inherit; line-height: 1.5;"></textarea>
                         </div>
                     </template>
 
                     <!-- ACTION: ACCEPT & FORWARD TO 3 PILLARS (WITH PRESETS) -->
                     <template x-if="dispositionAction === 'accept'">
-                        <div style="display: flex; flex-direction: column; gap: 0.65rem; background: #ECFDF5; border: 1.5px solid #6EE7B7; border-radius: 12px; padding: 1rem;">
-                            <label style="font-size: 0.75rem; font-weight: 900; color: #065F46;">Tanggapan / Catatan Kajian Resmi (WAJIB DIISI) *</label>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem; background: #ECFDF5; border: 1.5px solid #6EE7B7; border-radius: 14px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(16,185,129,0.06);">
+                            <label style="font-size: 0.78125rem; font-weight: 900; color: #065F46; display: flex; align-items: center; gap: 0.35rem;">
+                                📝 Tanggapan / Catatan Kajian Resmi (WAJIB DIISI) *
+                            </label>
 
                             <!-- PRESET TEMPLATE BUTTONS FOR ACCEPTANCE -->
-                            <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.25rem;">
-                                <button type="button" style="background: #FFF; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 6px; font-weight: 700; cursor: pointer;" @click="acceptResponseText = '[DISETUJUI] Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan.'">
+                            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                                <button type="button" style="background: #FFF; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.71875rem; padding: 0.3rem 0.65rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s;" @click="acceptResponseText = '[DISETUJUI] Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan.'" onmouseover="this.style.background='#D1FAE5'" onmouseout="this.style.background='#FFF'">
                                     ⚡ [Disetujui Diteruskan]
                                 </button>
-                                <button type="button" style="background: #FFF; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 6px; font-weight: 700; cursor: pointer;" @click="acceptResponseText = '[AGENDA RISET] Usulan masuk dalam prioritas agenda riset dan penyusunan naskah akademis oleh Tim Riset.'">
+                                <button type="button" style="background: #FFF; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.71875rem; padding: 0.3rem 0.65rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s;" @click="acceptResponseText = '[AGENDA RISET] Usulan masuk dalam prioritas agenda riset dan penyusunan naskah akademis oleh Tim Riset.'" onmouseover="this.style.background='#D1FAE5'" onmouseout="this.style.background='#FFF'">
                                     ⚡ [Masuk Agenda Riset]
                                 </button>
-                                <button type="button" style="background: #FFF; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 6px; font-weight: 700; cursor: pointer;" @click="acceptResponseText = '[GAGASAN INOVASI] Gagasan disetujui untuk pengkajian SOP dan pengujian pada Bank Inovasi.'">
+                                <button type="button" style="background: #FFF; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.71875rem; padding: 0.3rem 0.65rem; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s;" @click="acceptResponseText = '[GAGASAN INOVASI] Gagasan disetujui untuk pengkajian SOP dan pengujian pada Bank Inovasi.'" onmouseover="this.style.background='#D1FAE5'" onmouseout="this.style.background='#FFF'">
                                     ⚡ [Rekomendasi Inovasi]
                                 </button>
                             </div>
 
-                            <textarea name="official_response" x-model="acceptResponseText" rows="3" required placeholder="Berikan catatan kajian resmi bahwa usulan diterima dan diteruskan..." style="width: 100%; padding: 0.5rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #6EE7B7; background: #FFF; color: #0F172A;"></textarea>
+                            <textarea name="official_response" x-model="acceptResponseText" rows="3" required placeholder="Berikan catatan kajian resmi bahwa usulan diterima dan diteruskan..." style="width: 100%; padding: 0.65rem; font-size: 0.84375rem; border-radius: 10px; border: 1.5px solid #6EE7B7; background: #FFF; color: #0F172A; font-family: inherit; line-height: 1.5;"></textarea>
                         </div>
                     </template>
 
                     <!-- LAMPIRAN SURAT / DOKUMEN DISPOSISI ADMIN (OPTIONAL) -->
-                    <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0.85rem;">
-                        <label style="font-size: 0.75rem; font-weight: 800; color: #334155; display: block; margin-bottom: 0.35rem;">
-                            📎 Lampiran Surat Disposisi / Catatan Tambahan Admin (Opsional)
+                    <div style="background: #F8FAFC; border: 1.5px dashed #CBD5E1; border-radius: 14px; padding: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: #334155; display: flex; align-items: center; gap: 0.35rem;">
+                            📎 Upload Lampiran Surat Disposisi / Catatan Tambahan Admin (Opsional)
                         </label>
-                        <input type="file" name="admin_file" accept=".pdf,.doc,.docx" style="font-size: 0.78125rem; color: #475569;" />
+                        <input type="file" name="admin_file" accept=".pdf,.doc,.docx" style="font-size: 0.8125rem; color: #475569; padding: 0.3rem 0;" />
                     </div>
 
                     <!-- FOOTER TAB 2: KEMBALI & SIMPAN KEPUTUSAN -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; padding-top: 0.875rem; border-top: 1px solid #E2E8F0;">
-                        <button type="button" @click="dispModalTab = 'summary'" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #334155; font-weight: 800; border-radius: 8px; padding: 0.55rem 1.15rem; font-size: 0.8125rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; padding-top: 1rem; border-top: 1px solid #E2E8F0;">
+                        <button type="button" @click="dispModalTab = 'summary'" style="background: #FFF; border: 1.5px solid #CBD5E1; color: #334155; font-weight: 800; border-radius: 10px; padding: 0.6rem 1.25rem; font-size: 0.84375rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" onmouseover="this.style.background='#F1F5F9'" onmouseout="this.style.background='#FFF'">
                             ⬅️ Kembali ke Ringkasan
                         </button>
-                        <div style="display: flex; gap: 0.65rem;">
-                            <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.55rem 1.25rem; cursor: pointer;" @click="selectedProposalDisposition = null">Batal</button>
-                            <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.84375rem; padding: 0.55rem 1.5rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2);">
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 10px; padding: 0.6rem 1.35rem; font-size: 0.84375rem; cursor: pointer; transition: all 0.2s;" @click="selectedProposalDisposition = null">Batal</button>
+                            <button type="submit" style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; font-weight: 900; font-size: 0.875rem; padding: 0.65rem 1.6rem; border-radius: 10px; border: 1.5px solid #C59B27; cursor: pointer; box-shadow: 0 4px 14px rgba(7,39,24,0.3); transition: all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                                 💾 Simpan Keputusan Admin & Teruskan
                             </button>
                         </div>
@@ -1779,72 +1795,76 @@
 
     <!-- MODAL INSPEKSI DOKUMEN USULAN ORIGINAL PESERTA (selectedSubmissionFullView) -->
     <div x-show="selectedSubmissionFullView !== null" class="modal-overlay" style="display: none;" @click="selectedSubmissionFullView = null">
-        <div class="modal-card" style="max-width: 820px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 18px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.35);" @click.stop>
-            <div style="padding: 1.2rem 1.5rem; background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); border-bottom: 2.5px solid #C59B27; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="modal-card" style="max-width: 840px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);" @click.stop>
+            <div style="padding: 1.25rem 1.75rem; background: linear-gradient(135deg, #051C12 0%, #072718 100%); border-bottom: 2px solid #D4AF37; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
                 <div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                        <span style="background: #C59B27; color: #072718; font-weight: 900; font-size: 0.75rem; padding: 0.2rem 0.65rem; border-radius: 9999px; letter-spacing: 0.05em;" x-text="selectedSubmissionFullView ? '🎟️ TIKET: ' + selectedSubmissionFullView.ticket_no : ''"></span>
-                        <span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #FFF; font-size: 0.71875rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 6px;" x-text="selectedSubmissionFullView ? 'Kategori: ' + selectedSubmissionFullView.category : ''"></span>
+                    <div style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
+                        <span style="background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #072718; font-weight: 900; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 9999px; letter-spacing: 0.05em; box-shadow: 0 2px 6px rgba(0,0,0,0.2);" x-text="selectedSubmissionFullView ? '🎟️ TIKET: ' + selectedSubmissionFullView.ticket_no : ''"></span>
+                        <span style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #F8FAFC; font-size: 0.71875rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 6px; backdrop-filter: blur(4px);" x-text="selectedSubmissionFullView ? 'Kategori: ' + selectedSubmissionFullView.category : ''"></span>
                     </div>
-                    <h3 style="font-size: 1.15rem; font-weight: 900; color: #FFFFFF; line-height: 1.35; margin-top: 0.45rem;" x-text="selectedSubmissionFullView ? selectedSubmissionFullView.title : ''"></h3>
+                    <h3 style="font-size: 1.2rem; font-weight: 900; color: #FFFFFF; line-height: 1.4; margin-top: 0.5rem; letter-spacing: -0.01em;" x-text="selectedSubmissionFullView ? selectedSubmissionFullView.title : ''"></h3>
                 </div>
-                <button @click="selectedSubmissionFullView = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFF; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem;">✕</button>
+                <button @click="selectedSubmissionFullView = null" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #FFF; width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.8)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">✕</button>
             </div>
 
-            <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 78vh; overflow-y: auto;">
+            <div style="padding: 1.6rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 78vh; overflow-y: auto;">
                 <!-- 2-COLUMN METADATA GRID -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem;">
                     <!-- CARD A: IDENTITAS -->
-                    <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
-                        <div style="font-size: 0.6875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em;">
-                            👤 IDENTITAS PESERTA / PENGUSUL
+                    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.71875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.35rem;">
+                                👤 IDENTITAS PESERTA / PENGUSUL
+                            </div>
+                            <div style="font-size: 1.1rem; font-weight: 900; color: #0F172A; margin-top: 0.4rem; letter-spacing: -0.01em;" x-text="selectedSubmissionFullView ? selectedSubmissionFullView.name : ''"></div>
+                            <div style="margin-top: 0.3rem;">
+                                <span style="background: #F1F5F9; border: 1px solid #E2E8F0; color: #334155; font-size: 0.78125rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; display: inline-block;" x-text="selectedSubmissionFullView ? (selectedSubmissionFullView.institution || 'Kejaksaan RI') : 'Kejaksaan RI'"></span>
+                            </div>
                         </div>
-                        <div style="font-size: 1.05rem; font-weight: 900; color: #0F172A; margin-top: 0.35rem;" x-text="selectedSubmissionFullView ? selectedSubmissionFullView.name : ''"></div>
-                        <div style="font-size: 0.8125rem; color: #475569; font-weight: 700; margin-top: 0.2rem;" x-text="selectedSubmissionFullView ? (selectedSubmissionFullView.institution || 'Kejaksaan RI') : ''"></div>
-                        <div style="margin-top: 0.65rem;">
-                            <span style="background: #ECFDF5; border: 1px solid #6EE7B7; color: #065F46; font-size: 0.71875rem; padding: 0.25rem 0.55rem; border-radius: 6px; font-weight: 800; display: inline-block;">
+                        <div style="margin-top: 0.85rem;">
+                            <span style="background: #ECFDF5; border: 1px solid #A7F3D0; color: #047857; font-size: 0.75rem; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 800; display: inline-flex; align-items: center; gap: 0.35rem;">
                                 🟢 Status: <span x-text="selectedSubmissionFullView ? selectedSubmissionFullView.status : 'Terdaftar'"></span>
                             </span>
                         </div>
                     </div>
 
                     <!-- CARD B: URAIAN MASALAH AWAL -->
-                    <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 1rem;">
-                        <div style="font-size: 0.6875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em;">
+                    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                        <div style="font-size: 0.71875rem; font-weight: 900; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 0.35rem;">
                             📝 URAIAN & FORMULASI MASALAH AWAL
                         </div>
-                        <div style="font-size: 0.84375rem; color: #1E293B; line-height: 1.55; margin-top: 0.35rem; font-weight: 600; white-space: pre-line;" x-text="selectedSubmissionFullView ? (selectedSubmissionFullView.description || selectedSubmissionFullView.summary || 'Uraian gagasan resmi usulan naskah akademis.') : ''"></div>
+                        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.85rem; font-size: 0.84375rem; color: #1E293B; line-height: 1.6; font-weight: 600; white-space: pre-line; margin-top: 0.45rem; min-height: 85px;" x-text="selectedSubmissionFullView ? (selectedSubmissionFullView.description || selectedSubmissionFullView.summary || 'Uraian gagasan resmi usulan naskah akademis.') : ''"></div>
                     </div>
                 </div>
 
-                <!-- CARD C: DOKUMEN LAMPIRAN ORIGINAL & CLEAN VIEWER -->
-                <div style="background: #F0F9FF; border: 1.5px solid #7DD3FC; border-radius: 12px; padding: 1rem;">
-                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
-                        <div>
-                            <div style="font-size: 0.84375rem; font-weight: 900; color: #0369A1; display: flex; align-items: center; gap: 0.35rem;">
-                                📁 Dokumen / File Lampiran Asli Pengusul
+                <!-- CARD C: DOKUMEN LAMPIRAN ORIGINAL -->
+                <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); border: 1.5px solid #A7F3D0; border-radius: 14px; padding: 1.15rem; box-shadow: 0 4px 12px rgba(16,185,129,0.06);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="background: #10B981; color: #FFF; width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; shrink: 0; box-shadow: 0 4px 10px rgba(16,185,129,0.25);">
+                                📁
                             </div>
-                            <div style="font-size: 0.75rem; color: #0284C7; font-weight: 700; margin-top: 2px;" x-text="selectedSubmissionFullView ? (selectedSubmissionFullView.file_name || 'Usulan_Original_Peserta.pdf') : ''"></div>
+                            <div>
+                                <div style="font-size: 0.875rem; font-weight: 900; color: #065F46; display: flex; align-items: center; gap: 0.35rem;">
+                                    Dokumen / File Lampiran Asli Pengusul
+                                </div>
+                                <div style="font-size: 0.78125rem; color: #047857; font-weight: 700; margin-top: 2px;" x-text="selectedSubmissionFullView ? (selectedSubmissionFullView.file_name || 'Usulan_Original_Peserta.pdf') : ''"></div>
+                            </div>
                         </div>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button type="button" style="background: #0284C7; color: #FFFFFF; font-size: 0.78125rem; font-weight: 800; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 2px 4px rgba(2,132,199,0.25);" @click="previewPdfUrl = (selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf'); selectedSubmissionFullView = null;">
+                        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                            <button type="button" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.25); display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" @click="previewPdfUrl = (selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf'); selectedSubmissionFullView = null;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                                 👁️ Pratinjau Fullscreen PDF
                             </button>
-                            <a :href="selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf'" target="_blank" style="background: #072718; color: #D4AF37; font-size: 0.78125rem; font-weight: 900; padding: 0.45rem 0.875rem; border-radius: 8px; text-decoration: none; border: 1px solid #C59B27;">
+                            <a :href="selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf'" target="_blank" style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; border: 1.5px solid #C59B27; box-shadow: 0 4px 12px rgba(7,39,24,0.25); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                                 📥 Download PDF Original
                             </a>
                         </div>
-                    </div>
-
-                    <!-- RESPONSIVE EMBEDDED VIEWER FRAME (NO DOUBLE SCROLLBARS) -->
-                    <div style="margin-top: 0.875rem; height: 380px; width: 100%; border-radius: 10px; overflow: hidden; border: 1.5px solid #CBD5E1; background: #525659;">
-                        <iframe :src="(selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf') + '#toolbar=1&navpanes=0'" style="width: 100%; height: 100%; border: none;"></iframe>
                     </div>
                 </div>
             </div>
 
             <div style="padding: 1rem 1.5rem; background: #F8FAFC; border-top: 1px solid #E2E8F0; display: flex; justify-content: flex-end;">
-                <button type="button" style="background: #072718; color: #D4AF37; font-weight: 800; font-size: 0.84375rem; padding: 0.55rem 1.5rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer;" @click="selectedSubmissionFullView = null">Tutup Inspeksi</button>
+                <button type="button" style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; font-weight: 900; font-size: 0.84375rem; padding: 0.6rem 1.5rem; border-radius: 10px; border: 1.5px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.25); transition: all 0.2s;" @click="selectedSubmissionFullView = null" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">Tutup Inspeksi</button>
             </div>
         </div>
     </div>
