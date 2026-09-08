@@ -650,7 +650,7 @@ class DashboardController extends Controller
                 if (!$proposal->innovation) {
                     $inv = InnovationProposal::create([
                         'proposal_id' => $proposal->id,
-                        'innovation_no' => 'INOV-2026-' . rand(100, 999),
+                        'innovation_no' => $proposal->ticket_no,
                         'innovator_name' => $proposal->name,
                         'title' => $proposal->title,
                         'category' => $proposal->category ?? 'Inovasi Digital SPBE',
@@ -669,7 +669,7 @@ class DashboardController extends Controller
                     $kajian = Kajian::create([
                         'public_proposal_id' => $proposal->id,
                         'title' => $proposal->title,
-                        'doc_no' => 'PB-' . rand(10, 99) . '/LITBANG-MADA/2026',
+                        'doc_no' => $proposal->ticket_no,
                         'category' => $proposal->category ?? 'Pidana',
                         'pic_team' => $dispositionTeam,
                         'summary' => $proposal->description,

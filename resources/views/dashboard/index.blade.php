@@ -733,18 +733,21 @@
                     </div>
 
                     <!-- SUB-TAB NAVIGATION PILLS -->
-                    <div style="display: flex; gap: 0.35rem; background: #F1F5F9; padding: 0.3rem; border-radius: 10px; border: 1px solid #CBD5E1;">
-                        <button type="button" class="subtab-btn" :class="{ 'active-policy': inboxSubTab === 'new' || inboxSubTab === 'policy' }" @click="inboxSubTab = 'new'">
-                            📩 Usulan Masuk ({{ $newProposals->count() }})
+                    <div style="display: flex; gap: 0.35rem; background: #F1F5F9; padding: 0.35rem; border-radius: 12px; border: 1.5px solid #CBD5E1; flex-wrap: wrap;">
+                        <button type="button" class="subtab-btn" :class="{ 'active-policy': inboxSubTab === 'new' || inboxSubTab === 'policy' }" @click="inboxSubTab = 'policy'">
+                            📄 Policy Brief ({{ $newProposals->where('type', '!=', 'Ide Inovasi')->count() }})
                         </button>
-                        <button type="button" class="subtab-btn" :class="{ 'active-innovation': inboxSubTab === 'study' }" @click="inboxSubTab = 'study'">
-                            ✅ Usulan Diterima ({{ $activeStudyProposals->count() }})
-                        </button>
-                        <button type="button" class="subtab-btn" :class="{ 'active-reject': inboxSubTab === 'rejected' }" @click="inboxSubTab = 'rejected'">
-                            🚫 Usulan Ditolak ({{ $rejectedProposals->count() }})
+                        <button type="button" class="subtab-btn" :class="{ 'active-innovation': inboxSubTab === 'innovation' }" @click="inboxSubTab = 'innovation'">
+                            💡 Usulan Inovasi ({{ $newProposals->where('type', 'Ide Inovasi')->count() }})
                         </button>
                         <button type="button" class="subtab-btn" :class="{ 'active-curriculum': inboxSubTab === 'curriculum' }" @click="inboxSubTab = 'curriculum'">
-                            📚 Berkas Kurikulum ({{ $pendingCurriculums->count() }})
+                            📚 Kurikulum Peserta ({{ $pendingCurriculums->count() }})
+                        </button>
+                        <button type="button" class="subtab-btn" :class="{ 'active-policy': inboxSubTab === 'study' }" @click="inboxSubTab = 'study'">
+                            ✅ Diterima ({{ $activeStudyProposals->count() }})
+                        </button>
+                        <button type="button" class="subtab-btn" :class="{ 'active-reject': inboxSubTab === 'rejected' }" @click="inboxSubTab = 'rejected'">
+                            🚫 Ditolak ({{ $rejectedProposals->count() }})
                         </button>
                     </div>
                 </div>
@@ -752,42 +755,40 @@
                 <!-- INSTANT LIVE SEARCH & FILTER BAR -->
                 <div style="margin-bottom: 1.25rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
                     <div style="position: relative; flex: 1; min-width: 240px;">
-                        <input type="text" x-model="tableSearchQuery" placeholder="🔍 Cari Nomor Tiket, Nama Pengusul, atau Judul..." style="width: 100%; padding: 0.55rem 0.875rem; font-size: 0.8125rem; border: 1.5px solid #CBD5E1; border-radius: 10px; outline: none; color: #0F172A;" />
+                        <input type="text" x-model="tableSearchQuery" placeholder="🔍 Cari Nomor Dokumen, Nama Pengusul, atau Judul..." style="width: 100%; padding: 0.55rem 0.875rem; font-size: 0.8125rem; border: 1.5px solid #CBD5E1; border-radius: 10px; outline: none; color: #0F172A;" />
                     </div>
                     <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-size: 0.78125rem; font-weight: 700; padding: 0.55rem 0.875rem; border-radius: 10px; cursor: pointer;" @click="tableSearchQuery = ''">
                         Reset Filter
                     </button>
                 </div>
 
-                <!-- SUB-TAB 1: USULAN BARU MASUK (BELUM DISPOSISI) -->
+                <!-- SUB-TAB 1: USULAN POLICY BRIEF (MENUNGGU SKRINING) -->
                 <div x-show="inboxSubTab === 'new' || inboxSubTab === 'policy'">
                     <table class="light-table">
                         <thead>
                             <tr>
-                                <th>Tiket / Pengusul</th>
-                                <th>Judul Usulan</th>
-                                <th>Kategori Hukum & Tipe</th>
-                                <th>Status Skrining</th>
+                                <th>No. Dokumen / Tiket</th>
+                                <th>Pengusul & Instansi</th>
+                                <th>Judul Usulan Naskah</th>
+                                <th>Kategori Hukum</th>
                                 <th>Berkas Pengusul</th>
                                 <th style="text-align: right;">Aksi Inspeksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($newProposals as $prop)
+                            @forelse($newProposals->where('type', '!=', 'Ide Inovasi') as $prop)
                                 <tr x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
                                     <td>
                                         <div style="font-weight: 900; color: #072718;">{{ $prop->ticket_no }}</div>
-                                        <div style="font-size: 0.71875rem; color: #64748B;">{{ $prop->name }}</div>
+                                    </td>
+                                    <td>
+                                        <div style="font-weight: 800; color: #0F172A; font-size: 0.8125rem;">{{ $prop->name }}</div>
+                                        <div style="font-size: 0.71875rem; color: #64748B;">{{ $prop->institution ?? 'Kejaksaan RI' }}</div>
                                     </td>
                                     <td style="color: #0F172A; font-weight: 700;">{{ $prop->title }}</td>
                                     <td>
                                         <span class="badge-light" style="background: #FEF3C7; color: #92400E;">
-                                            {{ $prop->type ?? 'Policy Brief' }} | {{ $prop->category }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="badge-light" style="background: {{ str_contains($prop->status, 'Ditolak') ? '#FEE2E2' : '#FEF3C7' }}; color: {{ str_contains($prop->status, 'Ditolak') ? '#991B1B' : '#92400E' }};">
-                                            {{ $prop->status }}
+                                            📄 Policy Brief | {{ $prop->category }}
                                         </span>
                                     </td>
                                     <td>
@@ -798,14 +799,65 @@
                                         @endif
                                     </td>
                                     <td style="text-align: right;">
-                                        <button style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer;" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
-                                            🔍 Periksa Berkas & Disposisi
+                                        <button type="button" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer;" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
+                                            🔍 Inspeksi & Disposisi
                                         </button>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" style="text-align: center; padding: 2rem; color: #94A3B8;">Tidak ada usulan baru menunggu skrining.</td>
+                                    <td colspan="6" style="text-align: center; padding: 2rem; color: #94A3B8;">Tidak ada usulan Policy Brief baru yang menunggu skrining.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SUB-TAB 2: USULAN IDE INOVASI (MENUNGGU SKRINING) -->
+                <div x-show="inboxSubTab === 'innovation'" style="display: none;">
+                    <table class="light-table">
+                        <thead>
+                            <tr>
+                                <th>No. Dokumen / Tiket</th>
+                                <th>Pengusul & Instansi</th>
+                                <th>Judul Gagasan Inovasi</th>
+                                <th>Kategori Domain</th>
+                                <th>Berkas Concept Note</th>
+                                <th style="text-align: right;">Aksi Inspeksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($newProposals->where('type', 'Ide Inovasi') as $prop)
+                                <tr x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
+                                    <td>
+                                        <div style="font-weight: 900; color: #0369A1;">{{ $prop->ticket_no }}</div>
+                                    </td>
+                                    <td>
+                                        <div style="font-weight: 800; color: #0F172A; font-size: 0.8125rem;">{{ $prop->name }}</div>
+                                        <div style="font-size: 0.71875rem; color: #64748B;">{{ $prop->institution ?? 'Kejaksaan RI' }}</div>
+                                    </td>
+                                    <td style="color: #0F172A; font-weight: 700;">{{ $prop->title }}</td>
+                                    <td>
+                                        <span class="badge-light" style="background: #E0F2FE; color: #0369A1;">
+                                            💡 Ide Inovasi | {{ $prop->category }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if($prop->file_path)
+                                            <a href="{{ $prop->file_path }}" target="_blank" style="font-size: 0.75rem; font-weight: 800; color: #0284C7; text-decoration: underline;">📄 Concept Note PDF</a>
+                                        @else
+                                            <span style="font-size: 0.71875rem; color: #94A3B8;">Tanpa file</span>
+                                        @endif
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <button type="button" style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer;" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
+                                            🔍 Inspeksi & Disposisi
+                                        </button>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem; color: #94A3B8;">Tidak ada usulan Ide Inovasi baru yang menunggu skrining.</td>
                                 </tr>
                             @endforelse
                         </tbody>

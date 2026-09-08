@@ -131,7 +131,7 @@ class DatabaseSeeder extends Seeder
 
         // 5. Inovasi Teruji & Ide Inovasi (PILAR 2)
         InnovationProposal::create([
-            'innovation_no' => 'INOV-2026-001',
+            'innovation_no' => 'INOV-01/LITBANG-MADA/2026',
             'innovator_name' => 'Tim Inovasi Angkatan Gajah Mada',
             'title' => 'Sistem Pemantauan Aset Disita Berbasis QR Code & Geo-Tagging Real-Time',
             'category' => 'TUN',
@@ -145,7 +145,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         InnovationProposal::create([
-            'innovation_no' => 'INOV-2026-002',
+            'innovation_no' => 'INOV-02/LITBANG-MADA/2026',
             'innovator_name' => 'Dr. Hendra Wijaya, S.H.',
             'title' => 'Bot AI Asisten Penelusuran Dokumen Putusan Yurisprudensi Penuntutan',
             'category' => 'Pidana',
@@ -202,7 +202,7 @@ class DatabaseSeeder extends Seeder
         
         // STAGE 1: PENGAJUAN BARU (MENUNGGU SKRINING)
         PublicProposal::create([
-            'ticket_no' => 'USUL-2026-101',
+            'ticket_no' => 'PB-03/LITBANG-MADA/2026',
             'name' => 'Dr. Hendra Wijaya, S.H.',
             'institution' => 'Kejati Jawa Barat',
             'category' => 'Pidana',
@@ -218,7 +218,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         PublicProposal::create([
-            'ticket_no' => 'USUL-2026-102',
+            'ticket_no' => 'INOV-03/LITBANG-MADA/2026',
             'name' => 'Ahmad Subagyo, S.H.',
             'institution' => 'Kejari Jakarta Pusat',
             'category' => 'TUN',
@@ -235,7 +235,7 @@ class DatabaseSeeder extends Seeder
 
         // STAGE 2: DIPELAJARI & DISPOSISI TIM RISET
         PublicProposal::create([
-            'ticket_no' => 'USUL-2026-201',
+            'ticket_no' => 'PB-04/LITBANG-MADA/2026',
             'name' => 'Maya Indah, S.H., M.H.',
             'institution' => 'Kejati Jawa Timur',
             'category' => 'Pidsus & Ekonomi',

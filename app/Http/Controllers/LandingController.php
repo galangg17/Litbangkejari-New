@@ -84,7 +84,18 @@ class LandingController extends Controller
             'additional_files.*' => 'nullable|file|mimes:pdf,docx,doc,xls,xlsx,pptx,ppt|max:10240',
         ]);
 
-        $randomNo = 'USUL-2026-' . rand(100, 999);
+        $type = $validated['type'] ?? 'Policy Brief';
+        $seqCount = PublicProposal::where('type', $type)->count() + 1;
+        $seqStr = sprintf('%02d', $seqCount);
+
+        if ($type === 'Ide Inovasi') {
+            $ticketNo = 'INOV-' . $seqStr . '/LITBANG-MADA/2026';
+        } elseif ($type === 'Kurikulum') {
+            $ticketNo = 'MODUL-' . $seqStr . '/LITBANG-MADA/2026';
+        } else {
+            $ticketNo = 'PB-' . $seqStr . '/LITBANG-MADA/2026';
+        }
+
         $fileName = null;
         $filePath = null;
 
@@ -107,11 +118,11 @@ class LandingController extends Controller
         }
 
         $proposal = PublicProposal::create([
-            'ticket_no' => $randomNo,
+            'ticket_no' => $ticketNo,
             'name' => $validated['name'],
             'institution' => $validated['institution'] ?? 'Angkatan Gajah Mada',
             'category' => $validated['category'],
-            'type' => $validated['type'] ?? 'Policy Brief',
+            'type' => $type,
             'title' => $validated['title'],
             'urgency' => $validated['urgency'],
             'description' => $validated['description'],
@@ -125,7 +136,7 @@ class LandingController extends Controller
         ]);
 
         return redirect()->back()->with('success_ticket', [
-            'ticket_no' => $randomNo,
+            'ticket_no' => $ticketNo,
             'title' => $validated['title'],
             'name' => $validated['name'],
             'file_name' => $fileName
@@ -152,6 +163,9 @@ class LandingController extends Controller
             'attachment' => 'nullable|file|mimes:pdf,docx,doc,jpg,png,pptx,ppt|max:15360',
         ]);
 
+        $currSeq = Curriculum::count() + 1;
+        $ticketNo = 'MODUL-' . sprintf('%02d', $currSeq) . '/LITBANG-MADA/2026';
+
         $filePath = null;
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
@@ -174,7 +188,7 @@ class LandingController extends Controller
         ]);
 
         return redirect()->back()->with('success_ticket', [
-            'ticket_no' => 'MODUL-PPPJ-2026',
+            'ticket_no' => $ticketNo,
             'title' => $validated['title'],
             'name' => $validated['uploader_name'],
             'file_name' => 'Modul PPPJ Berhasil Diunggah & Menunggu Verifikasi Admin'
