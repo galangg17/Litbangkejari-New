@@ -171,7 +171,7 @@
 
   .main-content {
     flex: 1;
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 1rem;
     overflow-y: auto;
     max-width: calc(100vw - 220px);
     box-sizing: border-box;
@@ -180,24 +180,24 @@
   .topbar-card {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-radius: 16px;
-    padding: 0.85rem 1.25rem;
+    border-radius: 12px;
+    padding: 0.55rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+    margin-bottom: 0.75rem;
+    box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.04);
     flex-wrap: nowrap;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   .welcome-banner {
     background: linear-gradient(135deg, #072718 0%, #0B3C26 60%, #13543A 100%);
     border: 1.5px solid #C59B27;
-    border-radius: 20px;
-    padding: 1.15rem 1.35rem;
+    border-radius: 16px;
+    padding: 0.95rem 1.15rem;
     color: #FFFFFF;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     box-shadow: 0 12px 30px rgba(7, 39, 24, 0.2);
     display: flex;
     justify-content: space-between;
@@ -257,8 +257,8 @@
   .stat-card-executive {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-radius: 18px;
-    padding: 0.85rem 1.15rem;
+    border-radius: 14px;
+    padding: 0.75rem 1rem;
     box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
     position: relative;
     overflow: hidden;
@@ -266,24 +266,24 @@
   }
 
   .stat-card-executive:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
   }
 
   .content-card {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-radius: 18px;
-    padding: 1rem 1.15rem;
-    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-    margin-bottom: 1rem;
+    border-radius: 14px;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+    margin-bottom: 0.75rem;
   }
 
   .light-table-container {
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    border-radius: 12px;
+    border-radius: 10px;
   }
 
   .light-table {
@@ -294,20 +294,20 @@
   }
 
   .light-table th {
-    padding: 0.55rem 0.75rem;
+    padding: 0.5rem 0.65rem;
     text-align: left;
     background: #F8FAFC;
     color: #334155;
     font-weight: 800;
     border-bottom: 2px solid #E2E8F0;
     text-transform: uppercase;
-    font-size: 0.65rem;
+    font-size: 0.625rem;
     letter-spacing: 0.05em;
     white-space: nowrap;
   }
 
   .light-table td {
-    padding: 0.55rem 0.75rem;
+    padding: 0.5rem 0.65rem;
     border-bottom: 1px solid #F1F5F9;
     color: #1E293B;
     vertical-align: middle;
@@ -321,9 +321,9 @@
   .badge-light {
     display: inline-flex;
     align-items: center;
-    padding: 0.18rem 0.5rem;
+    padding: 0.15rem 0.45rem;
     border-radius: 9999px;
-    font-size: 0.65rem;
+    font-size: 0.625rem;
     font-weight: 800;
     white-space: nowrap;
   }
@@ -331,8 +331,8 @@
   .pipeline-step-box {
     background: #F8FAFC;
     border: 1.5px solid #E2E8F0;
-    border-radius: 14px;
-    padding: 1.125rem;
+    border-radius: 12px;
+    padding: 0.85rem;
     text-align: center;
     position: relative;
     transition: all 0.2s;
@@ -349,18 +349,18 @@
     display: inline-block;
   }
   .action-dropdown-btn {
-    background: #F1F5F9;
-    border: 1.5px solid #CBD5E1;
-    color: #334155;
-    font-size: 0.75rem;
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    color: #475569;
+    font-size: 0.72rem;
     font-weight: 800;
-    padding: 0.3rem 0.6rem;
-    border-radius: 8px;
+    padding: 0.22rem 0.5rem;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s ease;
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: 0.25rem;
     outline: none;
   }
   .action-dropdown-btn:hover {
@@ -375,20 +375,20 @@
     margin-top: 4px;
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     z-index: 999;
-    min-width: 175px;
-    padding: 0.35rem 0;
+    min-width: 160px;
+    padding: 0.25rem 0;
     animation: modalScaleUp 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .action-dropdown-item {
     display: flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.4rem;
     width: 100%;
-    padding: 0.45rem 0.85rem;
-    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: #334155;
     background: transparent;
@@ -411,85 +411,85 @@
     color: #991B1B;
   }
 
-  /* EXECUTIVE STUDIO CARDS (LINEAR / STRIPE AESTHETIC) */
+  /* EXECUTIVE STUDIO CARDS (COMPACT HIGH DENSITY) */
   .studio-card-grid {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.55rem;
     width: 100%;
   }
 
   .studio-card {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    padding: 1.15rem 1.35rem;
+    border-radius: 10px;
+    padding: 0.75rem 1.05rem;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
   }
 
   .studio-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px -4px rgba(15, 23, 42, 0.07);
     border-color: #CBD5E1;
   }
 
   .studio-card-policy {
-    border-left: 4px solid #C59B27;
+    border-left: 3px solid #C59B27;
   }
 
   .studio-card-innovation {
-    border-left: 4px solid #0284C7;
+    border-left: 3px solid #0284C7;
   }
 
   .studio-card-curriculum {
-    border-left: 4px solid #16A34A;
+    border-left: 3px solid #16A34A;
   }
 
   .studio-card-inbox {
-    border-left: 4px solid #6366F1;
+    border-left: 3px solid #6366F1;
   }
 
   .glowing-dot-published {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background-color: #10B981;
-    box-shadow: 0 0 8px #10B981;
-    margin-right: 6px;
+    box-shadow: 0 0 6px #10B981;
+    margin-right: 5px;
   }
 
   .glowing-dot-draft {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background-color: #F59E0B;
-    box-shadow: 0 0 8px #F59E0B;
-    margin-right: 6px;
+    box-shadow: 0 0 6px #F59E0B;
+    margin-right: 5px;
   }
 
   .glowing-dot-review {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background-color: #3B82F6;
-    box-shadow: 0 0 8px #3B82F6;
-    margin-right: 6px;
+    box-shadow: 0 0 6px #3B82F6;
+    margin-right: 5px;
   }
 
   .file-chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.25rem 0.6rem;
+    gap: 0.3rem;
+    padding: 0.18rem 0.45rem;
     background: #F1F5F9;
     border: 1px solid #CBD5E1;
-    border-radius: 6px;
-    font-size: 0.72rem;
+    border-radius: 5px;
+    font-size: 0.6875rem;
     font-weight: 700;
     color: #334155;
     text-decoration: none;
@@ -506,7 +506,7 @@
   @media (max-width: 992px) {
     .dashboard-layout { flex-direction: column; }
     .sidebar-container { width: 100%; height: auto; position: relative; }
-    .main-content { max-width: 100%; padding: 1rem; }
+    .main-content { max-width: 100%; padding: 0.75rem; }
   }
 </style>
 
@@ -903,8 +903,8 @@
             <div class="content-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
                     <div>
-                        <h3 style="font-size: 1.1rem; font-weight: 900; color: #0F172A;">📥 Inbox Skrining Usulan & Berkas Masuk</h3>
-                        <p style="font-size: 0.78125rem; color: #64748B;">Periksa usulan baru, pantau progres penyusunan tim riset, dan verifikasi modul kurikulum.</p>
+                        <h3 style="font-size: 0.9rem; font-weight: 900; color: #0F172A;">📥 Inbox Skrining Usulan & Berkas Masuk</h3>
+                        <p style="font-size: 0.7rem; color: #64748B;">Periksa usulan baru, pantau progres penyusunan tim riset, dan verifikasi modul kurikulum.</p>
                     </div>
 
                     <!-- SUB-TAB NAVIGATION PILLS -->
@@ -951,7 +951,7 @@
                                         🔍 Inspeksi & Disposisi
                                     </button>
                                 </div>
-                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
                                     {{ $prop->title }}
                                 </div>
                                 <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
@@ -987,7 +987,7 @@
                                         🔍 Inspeksi & Disposisi
                                     </button>
                                 </div>
-                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
                                     {{ $prop->title }}
                                 </div>
                                 <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
@@ -1023,7 +1023,7 @@
                                         📄 Berkas & Ajuan
                                     </button>
                                 </div>
-                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
                                     {{ $prop->title }}
                                 </div>
                                 <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
@@ -1059,7 +1059,7 @@
                                         Ditolak: {{ $prop->updated_at->format('d M Y H:i') }}
                                     </span>
                                 </div>
-                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
                                     {{ $prop->title }}
                                 </div>
                                 <div style="font-size: 0.75rem; color: #991B1B; background: #FEF2F2; border: 1px solid #FCA5A5; padding: 0.45rem 0.75rem; border-radius: 8px; margin-bottom: 0.65rem; font-weight: 700;">
@@ -1140,8 +1140,8 @@
         <div x-show="activeTab === 'policy'" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: nowrap; gap: 0.75rem;">
                 <div style="flex: 1;">
-                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #0F172A;">📄 Studio Policy Brief & Katalog Naskah Akademis (Pilar 1)</h3>
-                    <p style="font-size: 0.75rem; color: #64748B;">Kelola naskah akademis, perbarui berkas PDF hasil kajian, dan atur publikasi ke Vault.</p>
+                    <h3 style="font-size: 0.9rem; font-weight: 900; color: #0F172A;">📄 Studio Policy Brief & Katalog Naskah Akademis (Pilar 1)</h3>
+                    <p style="font-size: 0.7rem; color: #64748B;">Kelola naskah akademis, perbarui berkas PDF hasil kajian, dan atur publikasi ke Vault.</p>
                 </div>
                 <button style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2); white-space: nowrap; flex-shrink: 0;" @click="isNewKajianModalOpen = true">
                     + Buat Policy Brief Baru
@@ -1193,7 +1193,7 @@
                                 </div>
                             </div>
 
-                            <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                            <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
                                 {{ $k->title }}
                             </div>
                             @if($linkedProp)
@@ -1222,8 +1222,8 @@
         <div x-show="activeTab === 'innovations'" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: nowrap; gap: 0.75rem;">
                 <div style="flex: 1;">
-                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #0F172A;">💡 Kelola Bank Inovasi Teruji & Gagasan Ide (Pilar 2)</h3>
-                    <p style="font-size: 0.75rem; color: #64748B;">Kelola portofolio inovasi teruji, inkubasi gagasan peserta, dan SOP pelaksanaan.</p>
+                    <h3 style="font-size: 0.9rem; font-weight: 900; color: #0F172A;">💡 Kelola Bank Inovasi Teruji & Gagasan Ide (Pilar 2)</h3>
+                    <p style="font-size: 0.7rem; color: #64748B;">Kelola portofolio inovasi teruji, inkubasi gagasan peserta, dan SOP pelaksanaan.</p>
                 </div>
                 <button style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.2); white-space: nowrap; flex-shrink: 0;" @click="isNewInnovationModalOpen = true">
                     + Tambah Inovasi Baru
@@ -1275,7 +1275,7 @@
                                 </div>
                             </div>
 
-                            <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                            <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
                                 {{ $inv->title }}
                             </div>
                             @if($invProp)
@@ -1304,8 +1304,8 @@
         <div x-show="activeTab === 'curriculums'" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: nowrap; gap: 0.75rem;">
                 <div style="flex: 1;">
-                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #0F172A;">📚 Vault Kurikulum & Arsip Materi Pembelajaran (Pilar 3)</h3>
-                    <div style="font-size: 0.75rem; color: #64748B;">Kelola, pratinjau, edit naskah modul, dan verifikasi publikasi berkas kurikulum PPPJ 2026.</div>
+                    <h3 style="font-size: 0.9rem; font-weight: 900; color: #0F172A;">📚 Vault Kurikulum & Arsip Materi Pembelajaran (Pilar 3)</h3>
+                    <div style="font-size: 0.7rem; color: #64748B;">Kelola, pratinjau, edit naskah modul, dan verifikasi publikasi berkas kurikulum PPPJ 2026.</div>
                 </div>
                 <button style="background: #16A34A; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.2); white-space: nowrap; flex-shrink: 0;" @click="isNewCurriculumModalOpen = true">
                     + Upload Modul (Admin Direct)
@@ -1319,7 +1319,7 @@
 
             <!-- VAULT KURIKULUM TERVERIFIKASI -->
             <div class="content-card">
-                <h4 style="font-size: 0.95rem; font-weight: 900; color: #0F172A; margin-bottom: 0.85rem;">✅ Vault Kurikulum Terverifikasi (Aktif di Public)</h4>
+                <h4 style="font-size: 0.85rem; font-weight: 900; color: #0F172A; margin-bottom: 0.55rem;">✅ Vault Kurikulum Terverifikasi (Aktif di Public)</h4>
                 <div class="studio-card-grid">
                     @foreach($verifiedCurriculums as $c)
                         <div class="studio-card studio-card-curriculum">
@@ -1361,7 +1361,7 @@
                                 </div>
                             </div>
 
-                            <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                            <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
                                 {{ $c->title }}
                             </div>
                             <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
