@@ -406,6 +406,98 @@
     color: #991B1B;
   }
 
+  /* EXECUTIVE STUDIO CARDS (LINEAR / STRIPE AESTHETIC) */
+  .studio-card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .studio-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 1.15rem 1.35rem;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .studio-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+    border-color: #CBD5E1;
+  }
+
+  .studio-card-policy {
+    border-left: 4px solid #C59B27;
+  }
+
+  .studio-card-innovation {
+    border-left: 4px solid #0284C7;
+  }
+
+  .studio-card-curriculum {
+    border-left: 4px solid #16A34A;
+  }
+
+  .studio-card-inbox {
+    border-left: 4px solid #6366F1;
+  }
+
+  .glowing-dot-published {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10B981;
+    box-shadow: 0 0 8px #10B981;
+    margin-right: 6px;
+  }
+
+  .glowing-dot-draft {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #F59E0B;
+    box-shadow: 0 0 8px #F59E0B;
+    margin-right: 6px;
+  }
+
+  .glowing-dot-review {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #3B82F6;
+    box-shadow: 0 0 8px #3B82F6;
+    margin-right: 6px;
+  }
+
+  .file-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    background: #F1F5F9;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #334155;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    cursor: pointer;
+  }
+
+  .file-chip:hover {
+    background: #E2E8F0;
+    color: #0F172A;
+    border-color: #94A3B8;
+  }
+
   @media (max-width: 992px) {
     .dashboard-layout { flex-direction: column; }
     .sidebar-container { width: 100%; height: auto; position: relative; }
@@ -842,289 +934,198 @@
 
                 <!-- SUB-TAB 1: USULAN POLICY BRIEF (MENUNGGU SKRINING) -->
                 <div x-show="inboxSubTab === 'new' || inboxSubTab === 'policy'">
-                    <div class="light-table-container">
-                        <table class="light-table">
-                            <thead>
-                                <tr>
-                                    <th>No. Dokumen / Tiket</th>
-                                    <th>Pengusul & Instansi</th>
-                                    <th>Judul Usulan Naskah</th>
-                                    <th>Kategori Hukum</th>
-                                    <th>Berkas Pengusul</th>
-                                    <th style="text-align: right;">Aksi Inspeksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($newProposals->where('type', '!=', 'Ide Inovasi') as $prop)
-                                    <tr x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
-                                        <td style="white-space: nowrap;">
-                                            <div style="font-weight: 900; color: #072718;">{{ $prop->ticket_no }}</div>
-                                        </td>
-                                        <td>
-                                            <div style="font-weight: 800; color: #0F172A; font-size: 0.8125rem;">{{ $prop->name }}</div>
-                                            <div style="font-size: 0.71875rem; color: #64748B;">{{ $prop->institution ?? 'Kejaksaan RI' }}</div>
-                                        </td>
-                                        <td style="color: #0F172A; font-weight: 700; min-width: 240px; max-width: 450px;">{{ $prop->title }}</td>
-                                        <td style="white-space: nowrap;">
-                                            <span class="badge-light" style="background: #FEF3C7; color: #92400E;">
-                                                📄 Policy Brief | {{ $prop->category }}
-                                            </span>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            @if($prop->file_path)
-                                                <a href="{{ $prop->file_path }}" target="_blank" style="font-size: 0.75rem; font-weight: 800; color: #0284C7; text-decoration: underline;">📄 Berkas PDF</a>
-                                            @else
-                                                <span style="font-size: 0.71875rem; color: #94A3B8;">Tanpa file</span>
-                                            @endif
-                                        </td>
-                                        <td style="text-align: right; white-space: nowrap;">
-                                            <button type="button" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap;" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
-                                                🔍 Inspeksi & Disposisi
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" style="text-align: center; padding: 2rem; color: #94A3B8;">Tidak ada usulan Policy Brief baru yang menunggu skrining.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <div class="studio-card-grid">
+                        @forelse($newProposals->where('type', '!=', 'Ide Inovasi') as $prop)
+                            <div class="studio-card studio-card-inbox" x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span style="font-size: 0.75rem; font-weight: 900; color: #072718; background: #FEF3C7; border: 1px solid #FCD34D; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $prop->ticket_no }}</span>
+                                        <span style="font-size: 0.72rem; font-weight: 800; color: #92400E; background: #FFFBEB; border: 1px solid #FDE68A; padding: 0.15rem 0.5rem; border-radius: 6px;">📄 Policy Brief | {{ $prop->category }}</span>
+                                    </div>
+                                    <button type="button" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(7,39,24,0.2);" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
+                                        🔍 Inspeksi & Disposisi
+                                    </button>
+                                </div>
+                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                    {{ $prop->title }}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                    <span>Pengusul: <strong style="color: #334155;">{{ $prop->name }}</strong> ({{ $prop->institution ?? 'Kejaksaan RI' }})</span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                    @if($prop->file_path)
+                                        <a href="{{ $prop->file_path }}" target="_blank" class="file-chip">
+                                            📄 Berkas PDF Pengusul
+                                        </a>
+                                    @else
+                                        <span style="font-size: 0.72rem; color: #94A3B8;">Tanpa lampiran file</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div style="text-align: center; color: #94A3B8; padding: 2.5rem; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E1; font-weight: 700; font-size: 0.8125rem;">Tidak ada usulan Policy Brief baru yang menunggu skrining.</div>
+                        @endforelse
                     </div>
                 </div>
 
                 <!-- SUB-TAB 2: USULAN IDE INOVASI (MENUNGGU SKRINING) -->
                 <div x-show="inboxSubTab === 'innovation'" style="display: none;">
-                    <div class="light-table-container">
-                        <table class="light-table">
-                            <thead>
-                                <tr>
-                                    <th>No. Dokumen / Tiket</th>
-                                    <th>Pengusul & Instansi</th>
-                                    <th>Judul Gagasan Inovasi</th>
-                                    <th>Kategori Domain</th>
-                                    <th>Berkas Concept Note</th>
-                                    <th style="text-align: right;">Aksi Inspeksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($newProposals->where('type', 'Ide Inovasi') as $prop)
-                                    <tr x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
-                                        <td style="white-space: nowrap;">
-                                            <div style="font-weight: 900; color: #0369A1;">{{ $prop->ticket_no }}</div>
-                                        </td>
-                                        <td>
-                                            <div style="font-weight: 800; color: #0F172A; font-size: 0.8125rem;">{{ $prop->name }}</div>
-                                            <div style="font-size: 0.71875rem; color: #64748B;">{{ $prop->institution ?? 'Kejaksaan RI' }}</div>
-                                        </td>
-                                        <td style="color: #0F172A; font-weight: 700; min-width: 240px; max-width: 450px;">{{ $prop->title }}</td>
-                                        <td style="white-space: nowrap;">
-                                            <span class="badge-light" style="background: #E0F2FE; color: #0369A1;">
-                                                💡 Ide Inovasi | {{ $prop->category }}
-                                            </span>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            @if($prop->file_path)
-                                                <a href="{{ $prop->file_path }}" target="_blank" style="font-size: 0.75rem; font-weight: 800; color: #0284C7; text-decoration: underline;">📄 Concept Note PDF</a>
-                                            @else
-                                                <span style="font-size: 0.71875rem; color: #94A3B8;">Tanpa file</span>
-                                            @endif
-                                        </td>
-                                        <td style="text-align: right; white-space: nowrap;">
-                                            <button type="button" style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap;" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
-                                                🔍 Inspeksi & Disposisi
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" style="text-align: center; padding: 2rem; color: #94A3B8;">Tidak ada usulan Ide Inovasi baru yang menunggu skrining.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <div class="studio-card-grid">
+                        @forelse($newProposals->where('type', 'Ide Inovasi') as $prop)
+                            <div class="studio-card studio-card-innovation" x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span style="font-size: 0.75rem; font-weight: 900; color: #0369A1; background: #E0F2FE; border: 1px solid #7DD3FC; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $prop->ticket_no }}</span>
+                                        <span style="font-size: 0.72rem; font-weight: 800; color: #0369A1; background: #F0F9FF; border: 1px solid #BAE6FD; padding: 0.15rem 0.5rem; border-radius: 6px;">💡 Ide Inovasi | {{ $prop->category }}</span>
+                                    </div>
+                                    <button type="button" style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(2,132,199,0.2);" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
+                                        🔍 Inspeksi & Disposisi
+                                    </button>
+                                </div>
+                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                    {{ $prop->title }}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                    <span>Pengusul: <strong style="color: #334155;">{{ $prop->name }}</strong> ({{ $prop->institution ?? 'Kejaksaan RI' }})</span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                    @if($prop->file_path)
+                                        <a href="{{ $prop->file_path }}" target="_blank" class="file-chip">
+                                            📄 Concept Note PDF
+                                        </a>
+                                    @else
+                                        <span style="font-size: 0.72rem; color: #94A3B8;">Tanpa file</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div style="text-align: center; color: #94A3B8; padding: 2.5rem; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E1; font-weight: 700; font-size: 0.8125rem;">Tidak ada usulan Ide Inovasi baru yang menunggu skrining.</div>
+                        @endforelse
                     </div>
                 </div>
 
-                <!-- SUB-TAB 2: USULAN DITERIMA & DALAM KAJIAN TIM RISET -->
+                <!-- SUB-TAB 3: USULAN DITERIMA & DALAM KAJIAN TIM RISET -->
                 <div x-show="inboxSubTab === 'study'" style="display: none;">
-                    <div class="light-table-container">
-                        <table class="light-table">
-                            <thead>
-                                <tr>
-                                    <th>Tiket / Pengusul</th>
-                                    <th>Judul Usulan</th>
-                                    <th>Status Progres</th>
-                                    <th>Berkas Hasil Admin</th>
-                                    <th style="text-align: right;">Pratinjau</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($activeStudyProposals as $prop)
-                                    <tr x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
-                                        <td style="white-space: nowrap;">
-                                            <div style="font-weight: 900; color: #072718;">{{ $prop->ticket_no }}</div>
-                                            <div style="font-size: 0.71875rem; color: #64748B;">{{ $prop->name }}</div>
-                                        </td>
-                                        <td style="color: #0F172A; font-weight: 700; min-width: 240px; max-width: 450px;">{{ $prop->title }}</td>
-                                        <td style="white-space: nowrap;">
-                                            <span class="badge-light" style="background: #E0F2FE; color: #0369A1;">
-                                                {{ $prop->status }}
-                                            </span>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            @if($prop->admin_file_path)
-                                                <a href="{{ $prop->admin_file_path }}" target="_blank" style="font-size: 0.75rem; font-weight: 800; color: #16A34A; text-decoration: underline;">📥 PDF Hasil Admin</a>
-                                            @else
-                                                <span style="font-size: 0.71875rem; color: #94A3B8;">Belum diunggah</span>
-                                            @endif
-                                        </td>
-                                        <td style="text-align: right; white-space: nowrap;">
-                                            <button style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.4rem 0.75rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap;" @click="selectedSubmissionFullView = proposalsMap[{{ $prop->id }}]">
-                                                📄 Berkas & Ajuan
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" style="text-align: center; padding: 2rem; color: #94A3B8;">Tidak ada usulan aktif yang sedang dipelajari.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <div class="studio-card-grid">
+                        @forelse($activeStudyProposals as $prop)
+                            <div class="studio-card studio-card-policy" x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span style="font-size: 0.75rem; font-weight: 900; color: #072718; background: #FEF3C7; border: 1px solid #FCD34D; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $prop->ticket_no }}</span>
+                                        <span style="font-size: 0.72rem; font-weight: 800; color: #0369A1; background: #E0F2FE; border: 1px solid #7DD3FC; padding: 0.15rem 0.5rem; border-radius: 6px;">🟢 {{ $prop->status }}</span>
+                                    </div>
+                                    <button style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.4rem 0.75rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(2,132,199,0.2);" @click="selectedSubmissionFullView = proposalsMap[{{ $prop->id }}]">
+                                        📄 Berkas & Ajuan
+                                    </button>
+                                </div>
+                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                    {{ $prop->title }}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                    <span>Pengusul: <strong style="color: #334155;">{{ $prop->name }}</strong></span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                    @if($prop->admin_file_path)
+                                        <a href="{{ $prop->admin_file_path }}" target="_blank" class="file-chip" style="background: #DCFCE7; color: #15803D; border-color: #86EFAC;">
+                                            📥 PDF Hasil Admin
+                                        </a>
+                                    @else
+                                        <span style="font-size: 0.72rem; color: #94A3B8;">Belum diunggah hasil kajian admin</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div style="text-align: center; color: #94A3B8; padding: 2.5rem; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E1; font-weight: 700; font-size: 0.8125rem;">Tidak ada usulan aktif yang sedang dipelajari.</div>
+                        @endforelse
                     </div>
                 </div>
 
-                <!-- SUB-TAB 3: USULAN DITOLAK ADMIN -->
+                <!-- SUB-TAB 4: USULAN DITOLAK ADMIN -->
                 <div x-show="inboxSubTab === 'rejected'" style="display: none;">
-                    <div class="light-table-container">
-                        <table class="light-table">
-                            <thead>
-                                <tr>
-                                    <th>Tiket / Pengusul</th>
-                                    <th>Judul Usulan & Alasan Penolakan</th>
-                                    <th>Kategori Hukum & Tipe</th>
-                                    <th>Status</th>
-                                    <th>Berkas PDF Asli</th>
-                                    <th>Tanggal Ditolak</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($rejectedProposals as $prop)
-                                    <tr x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
-                                        <td style="white-space: nowrap;">
-                                            <div style="font-weight: 900; color: #991B1B;">{{ $prop->ticket_no }}</div>
-                                            <div style="font-size: 0.71875rem; color: #64748B;">{{ $prop->name }} ({{ $prop->institution ?? 'Kejaksaan' }})</div>
-                                        </td>
-                                        <td style="color: #0F172A; font-weight: 700; min-width: 240px; max-width: 450px;">
-                                            <div>{{ $prop->title }}</div>
-                                            <div style="font-size: 0.75rem; color: #991B1B; background: #FEF2F2; border: 1px solid #FCA5A5; padding: 0.35rem 0.65rem; border-radius: 6px; margin-top: 4px; font-weight: 700;">
-                                                ❌ Alasan Penolakan: <strong>{{ $prop->rejection_reason ?? $prop->official_response ?? 'Di luar wewenang Pokja Riset Litbang' }}</strong>
-                                            </div>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            <span class="badge-light" style="background: #F1F5F9; color: #475569;">
-                                                {{ $prop->type ?? 'Policy Brief' }} | {{ $prop->category }}
-                                            </span>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            <span class="badge-light" style="background: #FEE2E2; color: #991B1B;">
-                                                🚫 Ditolak
-                                            </span>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            @if($prop->file_path)
-                                                <a href="{{ $prop->file_path }}" target="_blank" style="font-size: 0.75rem; font-weight: 800; color: #0284C7; text-decoration: underline;">📄 PDF Original</a>
-                                            @else
-                                                <span style="font-size: 0.71875rem; color: #94A3B8;">Tanpa file</span>
-                                            @endif
-                                        </td>
-                                        <td style="font-size: 0.75rem; color: #64748B; font-weight: 600; white-space: nowrap;">
-                                            {{ $prop->updated_at->format('d M Y H:i') }}
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" style="text-align: center; padding: 2rem; color: #94A3B8;">Belum ada usulan yang ditolak admin.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <div class="studio-card-grid">
+                        @forelse($rejectedProposals as $prop)
+                            <div class="studio-card" style="border-left: 4px solid #EF4444;" x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span style="font-size: 0.75rem; font-weight: 900; color: #991B1B; background: #FEE2E2; border: 1px solid #FCA5A5; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $prop->ticket_no }}</span>
+                                        <span style="font-size: 0.72rem; font-weight: 800; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $prop->type ?? 'Policy Brief' }} | {{ $prop->category }}</span>
+                                    </div>
+                                    <span style="font-size: 0.72rem; color: #64748B; font-weight: 600;">
+                                        Ditolak: {{ $prop->updated_at->format('d M Y H:i') }}
+                                    </span>
+                                </div>
+                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                    {{ $prop->title }}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #991B1B; background: #FEF2F2; border: 1px solid #FCA5A5; padding: 0.45rem 0.75rem; border-radius: 8px; margin-bottom: 0.65rem; font-weight: 700;">
+                                    ❌ Alasan Penolakan: <strong>{{ $prop->rejection_reason ?? $prop->official_response ?? 'Di luar wewenang Pokja Riset Litbang' }}</strong>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                    @if($prop->file_path)
+                                        <a href="{{ $prop->file_path }}" target="_blank" class="file-chip">
+                                            📄 PDF Original
+                                        </a>
+                                    @else
+                                        <span style="font-size: 0.72rem; color: #94A3B8;">Tanpa file</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div style="text-align: center; color: #94A3B8; padding: 2.5rem; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E1; font-weight: 700; font-size: 0.8125rem;">Belum ada usulan yang ditolak admin.</div>
+                        @endforelse
                     </div>
                 </div>
 
-                <!-- SUB-TAB 4: INBOX UNGGUHAN KURIKULUM PESERTA -->
+                <!-- SUB-TAB 5: INBOX UNGGUHAN KURIKULUM PESERTA -->
                 <div x-show="inboxSubTab === 'curriculum'" style="display: none;">
-                    <div class="light-table-container">
-                        <table class="light-table">
-                            <thead>
-                                <tr style="background: #F8FAFC; border-bottom: 2px solid #CBD5E1;">
-                                    <th style="color: #072718; font-weight: 900; white-space: nowrap;">KODE & TIPE</th>
-                                    <th style="color: #072718; font-weight: 900;">JUDUL MATERI & PENGUNGGAH PESERTA</th>
-                                    <th style="color: #072718; font-weight: 900; white-space: nowrap;">PRATINJAU DOKUMEN</th>
-                                    <th style="text-align: center; color: #072718; font-weight: 900; white-space: nowrap;">STATUS INBOX</th>
-                                    <th style="text-align: right; color: #072718; font-weight: 900; white-space: nowrap;">AKSI ADMIN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($pendingCurriculums as $c)
-                                    <tr style="border-bottom: 1px solid #F1F5F9;" x-show="tableSearchQuery === '' || '{{ strtolower($c->title . ' ' . $c->uploader_name . ' ' . $c->subject_category) }}'.includes(tableSearchQuery.toLowerCase())">
-                                        <td style="white-space: nowrap;">
-                                            <div style="font-weight: 900; color: #16A34A; font-size: 0.8125rem;">CURR-{{ $c->id }}</div>
-                                            <span style="display: inline-block; background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; font-size: 0.6875rem; font-weight: 800; padding: 0.15rem 0.45rem; border-radius: 4px; margin-top: 4px; white-space: nowrap;">
-                                                {{ $c->file_type }}
-                                            </span>
-                                        </td>
-                                        <td style="min-width: 240px; max-width: 450px;">
-                                            <div style="color: #0F172A; font-weight: 800; font-size: 0.875rem; line-height: 1.35; margin-bottom: 4px;">{{ $c->title }}</div>
-                                            <div style="font-size: 0.71875rem; color: #475569; font-weight: 700;">
-                                                🎓 Bidang: <strong>{{ $c->subject_category }}</strong> | Pengunggah: <strong>{{ $c->uploader_name ?? 'Peserta' }}</strong>
-                                            </div>
-                                        </td>
-                                        <td style="white-space: nowrap;">
-                                            <div style="display: flex; gap: 0.35rem; flex-wrap: nowrap;">
-                                                @if($c->external_link)
-                                                    <a href="{{ $c->external_link }}" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; font-size: 0.71875rem; font-weight: 800; padding: 0.35rem 0.65rem; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: 0 1px 3px rgba(14,165,233,0.3); white-space: nowrap;">
-                                                        🔗 Google Drive Link
-                                                    </a>
-                                                @endif
-                                                @if($c->file_path)
-                                                    <button type="button" style="background: #0284C7; color: #FFF; border: none; font-size: 0.71875rem; font-weight: 800; padding: 0.35rem 0.65rem; border-radius: 6px; cursor: pointer; text-align: left; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 3px rgba(2,132,199,0.25); white-space: nowrap;" @click="previewPdfUrl = '{{ $c->file_path }}'">
-                                                        <span>👁️ Pratinjau Modul</span>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td style="text-align: center; white-space: nowrap;">
-                                            <span style="background: #FEF3C7; border: 1px solid #FCD34D; color: #B45309; font-size: 0.6875rem; padding: 0.25rem 0.55rem; border-radius: 9999px; font-weight: 800; white-space: nowrap;">
-                                                ⏳ Skrining Inbox
-                                            </span>
-                                        </td>
-                                        <td style="text-align: right; white-space: nowrap;">
-                                            <div style="display: flex; gap: 0.3rem; justify-content: flex-end; flex-wrap: nowrap;">
-                                                <form action="{{ route('dashboard.curriculums.verify', $c->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    <button type="submit" style="background: #16A34A; color: #FFF; font-size: 0.71875rem; padding: 0.35rem 0.65rem; border-radius: 6px; font-weight: 800; border: none; cursor: pointer; white-space: nowrap;">
-                                                        ✅ Terima & Teruskan
-                                                    </button>
-                                                </form>
-                                                <form action="{{ route('dashboard.curriculums.destroy', $c->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" style="background: #FEF2F2; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.71875rem; padding: 0.35rem 0.55rem; border-radius: 6px; font-weight: 800; cursor: pointer; white-space: nowrap;" onclick="return confirm('Tolak dan hapus materi kurikulum ini?')">
-                                                        🗑️ Tolak
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" style="text-align: center; padding: 2rem; color: #94A3B8;">Tidak ada unggahan berkas kurikulum peserta yang menunggu verifikasi di Inbox.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <div class="studio-card-grid">
+                        @forelse($pendingCurriculums as $c)
+                            <div class="studio-card studio-card-curriculum" x-show="tableSearchQuery === '' || '{{ strtolower($c->title . ' ' . $c->uploader_name . ' ' . $c->subject_category) }}'.includes(tableSearchQuery.toLowerCase())">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span style="font-size: 0.75rem; font-weight: 900; color: #16A34A; background: #DCFCE7; border: 1px solid #86EFAC; padding: 0.15rem 0.5rem; border-radius: 6px;">CURR-{{ $c->id }}</span>
+                                        <span style="font-size: 0.72rem; font-weight: 800; color: #92400E; background: #FEF3C7; border: 1px solid #FCD34D; padding: 0.15rem 0.5rem; border-radius: 6px;">📚 {{ $c->file_type }}</span>
+                                    </div>
+                                    <div style="display: flex; gap: 0.35rem; align-items: center;">
+                                        <form action="{{ route('dashboard.curriculums.verify', $c->id) }}" method="POST" style="margin: 0;">
+                                            @csrf
+                                            <button type="submit" style="background: #16A34A; color: #FFF; font-size: 0.72rem; padding: 0.35rem 0.65rem; border-radius: 6px; font-weight: 800; border: none; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(22,163,74,0.2);">
+                                                ✅ Terima & Teruskan
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('dashboard.curriculums.destroy', $c->id) }}" method="POST" style="margin: 0;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" style="background: #FEF2F2; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.72rem; padding: 0.35rem 0.55rem; border-radius: 6px; font-weight: 800; cursor: pointer; white-space: nowrap;" onclick="return confirm('Tolak dan hapus materi kurikulum ini?')">
+                                                🗑️ Tolak
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                    {{ $c->title }}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                    <span>🎓 Bidang: <strong style="color: #334155;">{{ $c->subject_category }}</strong></span>
+                                    <span>•</span>
+                                    <span>Pengunggah: <strong style="color: #334155;">{{ $c->uploader_name ?? 'Peserta' }}</strong></span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                    @if($c->external_link)
+                                        <a href="{{ $c->external_link }}" target="_blank" rel="noopener noreferrer" class="file-chip" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; border: none;">
+                                            🔗 Google Drive Link
+                                        </a>
+                                    @endif
+                                    @if($c->file_path)
+                                        <button type="button" class="file-chip" style="background: #0284C7; color: #FFF; border-color: #0284C7;" @click="previewPdfUrl = '{{ $c->file_path }}'">
+                                            👁️ Pratinjau Modul
+                                        </button>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div style="text-align: center; color: #94A3B8; padding: 2.5rem; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E1; font-weight: 700; font-size: 0.8125rem;">Tidak ada unggahan berkas kurikulum peserta yang menunggu verifikasi di Inbox.</div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -1143,88 +1144,73 @@
             </div>
 
             <div class="content-card">
-                <div class="light-table-container">
-                    <table class="light-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 155px;">NO. DOKUMEN</th>
-                                <th>JUDUL NASKAH AKADEMIS & PENGUSUL</th>
-                                <th style="width: 215px;">DOKUMEN RISET & NASKAH FINAL</th>
-                                <th style="width: 120px; text-align: center;">STATUS VAULT</th>
-                                <th style="width: 110px; text-align: right;">AKSI ADMIN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($kajianList as $k)
-                                @php
-                                    $linkedProp = $k->proposal ?? ($pendingProposals->firstWhere('kajian_id', $k->id) ?? $pendingProposals->first());
-                                @endphp
-                                <tr>
-                                    <td style="white-space: nowrap;">
-                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.8125rem; letter-spacing: -0.01em; white-space: nowrap;">{{ $k->doc_no }}</div>
-                                        <span style="display: inline-block; background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 6px; margin-top: 3px; white-space: nowrap;">
-                                            {{ $k->category }}
-                                        </span>
-                                    </td>
-                                    <td style="min-width: 220px; max-width: 420px;">
-                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.8125rem; line-height: 1.35; margin-bottom: 3px;">{{ $k->title }}</div>
-                                        @if($linkedProp)
-                                            <div style="font-size: 0.6875rem; color: #475569; font-weight: 700; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
-                                                <span style="color: #072718; font-weight: 800; white-space: nowrap;">🎟️ {{ $linkedProp->ticket_no }}</span>
-                                                <span style="color: #CBD5E1;">•</span>
-                                                <span style="white-space: nowrap;">Pengusul: <strong>{{ $linkedProp->name }}</strong></span>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td style="white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.3rem; align-items: center; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;" @click="selectedSubmissionFullView = kajianProposalsMap[{{ $k->id }}]">
-                                                📄 Usulan Original
+                <div class="studio-card-grid">
+                    @foreach($kajianList as $k)
+                        @php
+                            $linkedProp = $k->proposal ?? ($pendingProposals->firstWhere('kajian_id', $k->id) ?? $pendingProposals->first());
+                        @endphp
+                        <div class="studio-card studio-card-policy">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.75rem; font-weight: 900; color: #0F172A; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $k->doc_no }}</span>
+                                    <span style="font-size: 0.72rem; font-weight: 800; color: #92400E; background: #FEF3C7; border: 1px solid #FCD34D; padding: 0.15rem 0.5rem; border-radius: 6px;">📄 Policy Brief | {{ $k->category }}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="font-size: 0.75rem; font-weight: 800; color: {{ $k->is_published ? '#047857' : '#B45309' }}; display: flex; align-items: center;">
+                                        <span class="{{ $k->is_published ? 'glowing-dot-published' : 'glowing-dot-draft' }}"></span>
+                                        {{ $k->is_published ? 'Terbit di Vault' : 'Draft' }}
+                                    </span>
+                                    <div class="action-dropdown-container" @click.away="if (openDropdown === 'policy-{{ $k->id }}') openDropdown = null">
+                                        <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'policy-{{ $k->id }}' ? null : 'policy-{{ $k->id }}')">
+                                            <span>⚙️ Kelola</span>
+                                            <span style="font-size: 0.6rem;">▼</span>
+                                        </button>
+                                        <div class="action-dropdown-menu" x-show="openDropdown === 'policy-{{ $k->id }}'" style="display: none;" @click.stop>
+                                            <button type="button" class="action-dropdown-item" @click="selectedKajianEdit = policyBriefsMap[{{ $k->id }}]; openDropdown = null;">
+                                                <span>✏️ Edit Naskah</span>
                                             </button>
-                                            <button type="button" style="background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(7,39,24,0.18);" @click="previewPdfUrl = '{{ $k->file_path ?? '/documents/pb_01.pdf' }}'">
-                                                👁️ Naskah Final
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center; white-space: nowrap;">
-                                        <span class="badge-light" style="background: {{ $k->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $k->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $k->is_published ? '#047857' : '#B45309' }};">
-                                            {{ $k->is_published ? '🟢 Terbit di Vault' : '🔒 Draft' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right; white-space: nowrap;">
-                                        <div class="action-dropdown-container" @click.away="if (openDropdown === 'policy-{{ $k->id }}') openDropdown = null">
-                                            <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'policy-{{ $k->id }}' ? null : 'policy-{{ $k->id }}')">
-                                                <span>⚙️ Kelola</span>
-                                                <span style="font-size: 0.6rem;">▼</span>
-                                            </button>
-
-                                            <div class="action-dropdown-menu" x-show="openDropdown === 'policy-{{ $k->id }}'" style="display: none;" @click.stop>
-                                                <button type="button" class="action-dropdown-item" @click="selectedKajianEdit = policyBriefsMap[{{ $k->id }}]; openDropdown = null;">
-                                                    <span>✏️ Edit Naskah</span>
+                                            <form action="{{ route('dashboard.policy.toggle_publish', $k->id) }}" method="POST" style="margin: 0;">
+                                                @csrf
+                                                <button type="submit" class="action-dropdown-item">
+                                                    <span>{{ $k->is_published ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
                                                 </button>
-                                                <form action="{{ route('dashboard.policy.toggle_publish', $k->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    <button type="submit" class="action-dropdown-item">
-                                                        <span>{{ $k->is_published ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
-                                                    </button>
-                                                </form>
-                                                <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
-                                                <form action="{{ route('dashboard.policy.destroy', $k->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus naskah Policy Brief ini?')">
-                                                        <span>🗑️ Hapus Naskah</span>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            </form>
+                                            <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
+                                            <form action="{{ route('dashboard.policy.destroy', $k->id) }}" method="POST" style="margin: 0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus naskah Policy Brief ini?')">
+                                                    <span>🗑️ Hapus Naskah</span>
+                                                </button>
+                                            </form>
                                         </div>
-                                    </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                {{ $k->title }}
+                            </div>
+                            @if($linkedProp)
+                                <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                    <span style="color: #072718; font-weight: 800;">🎟️ {{ $linkedProp->ticket_no }}</span>
+                                    <span>•</span>
+                                    <span>Pengusul: <strong style="color: #334155;">{{ $linkedProp->name }}</strong> ({{ $linkedProp->institution ?? 'Kejaksaan RI' }})</span>
+                                </div>
+                            @endif
+
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                <button type="button" class="file-chip" @click="selectedSubmissionFullView = kajianProposalsMap[{{ $k->id }}]">
+                                    📄 Usulan Original
+                                </button>
+                                <button type="button" class="file-chip" style="background: #072718; color: #D4AF37; border-color: #C59B27;" @click="previewPdfUrl = '{{ $k->file_path ?? '/documents/pb_01.pdf' }}'">
+                                    👁️ Naskah Final PDF
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-        </div>
 
         <!-- TAB 4: KELOLA BANK INOVASI (PILAR 2) -->
         <div x-show="activeTab === 'innovations'" style="display: none;">
@@ -1239,86 +1225,71 @@
             </div>
 
             <div class="content-card">
-                <div class="light-table-container">
-                    <table class="light-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 155px;">NO. INOVASI</th>
-                                <th>JUDUL INOVASI & INOVATOR ORIGINAL</th>
-                                <th style="width: 215px;">GAGASAN ORIGINAL & SOP FINAL</th>
-                                <th style="width: 120px; text-align: center;">STATUS VAULT</th>
-                                <th style="width: 110px; text-align: right;">AKSI ADMIN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($innovations as $inv)
-                                @php
-                                    $invProp = $inv->proposal ?? ($pendingProposals->firstWhere('type', 'Ide Inovasi') ?? $pendingProposals->last());
-                                @endphp
-                                <tr>
-                                    <td style="white-space: nowrap;">
-                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.8125rem; letter-spacing: -0.01em; white-space: nowrap;">{{ $inv->innovation_no }}</div>
-                                        <span style="display: inline-block; background: #E0F2FE; border: 1px solid #7DD3FC; color: #0369A1; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 6px; margin-top: 3px; white-space: nowrap;">
-                                            {{ $inv->category }}
-                                        </span>
-                                    </td>
-                                    <td style="min-width: 220px; max-width: 420px;">
-                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.8125rem; line-height: 1.35; margin-bottom: 3px;">{{ $inv->title }}</div>
-                                        @if($invProp)
-                                            <div style="font-size: 0.6875rem; color: #475569; font-weight: 700; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
-                                                <span style="color: #0284C7; font-weight: 800; white-space: nowrap;">🎟️ {{ $invProp->ticket_no }}</span>
-                                                <span style="color: #CBD5E1;">•</span>
-                                                <span style="white-space: nowrap;">Inovator: <strong>{{ $inv->innovator_name ?? $invProp->name }}</strong></span>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td style="white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.3rem; align-items: center; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;" @click="selectedSubmissionFullView = innovationProposalsMap[{{ $inv->id }}]">
-                                                📄 Gagasan Original
+                <div class="studio-card-grid">
+                    @foreach($innovations as $inv)
+                        @php
+                            $invProp = $inv->proposal ?? ($pendingProposals->firstWhere('type', 'Ide Inovasi') ?? $pendingProposals->last());
+                        @endphp
+                        <div class="studio-card studio-card-innovation">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.75rem; font-weight: 900; color: #0F172A; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $inv->innovation_no }}</span>
+                                    <span style="font-size: 0.72rem; font-weight: 800; color: #0369A1; background: #E0F2FE; border: 1px solid #7DD3FC; padding: 0.15rem 0.5rem; border-radius: 6px;">💡 Inovasi | {{ $inv->category }}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="font-size: 0.75rem; font-weight: 800; color: {{ $inv->is_published ? '#047857' : '#B45309' }}; display: flex; align-items: center;">
+                                        <span class="{{ $inv->is_published ? 'glowing-dot-published' : 'glowing-dot-draft' }}"></span>
+                                        {{ $inv->is_published ? 'Terbit di Vault' : 'Draft' }}
+                                    </span>
+                                    <div class="action-dropdown-container" @click.away="if (openDropdown === 'inv-{{ $inv->id }}') openDropdown = null">
+                                        <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'inv-{{ $inv->id }}' ? null : 'inv-{{ $inv->id }}')">
+                                            <span>⚙️ Kelola</span>
+                                            <span style="font-size: 0.6rem;">▼</span>
+                                        </button>
+                                        <div class="action-dropdown-menu" x-show="openDropdown === 'inv-{{ $inv->id }}'" style="display: none;" @click.stop>
+                                            <button type="button" class="action-dropdown-item" @click="selectedInnovationEdit = innovationsMap[{{ $inv->id }}]; openDropdown = null;">
+                                                <span>✏️ Edit Inovasi</span>
                                             </button>
-                                            <button type="button" style="background: #0284C7; color: #FFF; border: none; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(2,132,199,0.2);" @click="previewPdfUrl = '{{ $inv->sop_file_path ?? '/documents/pb_01.pdf' }}'">
-                                                👁️ SOP Final PDF
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center; white-space: nowrap;">
-                                        <span class="badge-light" style="background: {{ $inv->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $inv->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $inv->is_published ? '#047857' : '#B45309' }};">
-                                            {{ $inv->is_published ? '🟢 Terbit di Vault' : '🔒 Draft' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right; white-space: nowrap;">
-                                        <div class="action-dropdown-container" @click.away="if (openDropdown === 'inv-{{ $inv->id }}') openDropdown = null">
-                                            <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'inv-{{ $inv->id }}' ? null : 'inv-{{ $inv->id }}')">
-                                                <span>⚙️ Kelola</span>
-                                                <span style="font-size: 0.6rem;">▼</span>
-                                            </button>
-
-                                            <div class="action-dropdown-menu" x-show="openDropdown === 'inv-{{ $inv->id }}'" style="display: none;" @click.stop>
-                                                <button type="button" class="action-dropdown-item" @click="selectedInnovationEdit = innovationsMap[{{ $inv->id }}]; openDropdown = null;">
-                                                    <span>✏️ Edit Inovasi</span>
+                                            <form action="{{ route('dashboard.innovations.toggle_publish', $inv->id) }}" method="POST" style="margin: 0;">
+                                                @csrf
+                                                <button type="submit" class="action-dropdown-item">
+                                                    <span>{{ $inv->is_published ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
                                                 </button>
-                                                <form action="{{ route('dashboard.innovations.toggle_publish', $inv->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    <button type="submit" class="action-dropdown-item">
-                                                        <span>{{ $inv->is_published ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
-                                                    </button>
-                                                </form>
-                                                <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
-                                                <form action="{{ route('dashboard.innovations.destroy', $inv->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus data Inovasi ini?')">
-                                                        <span>🗑️ Hapus Inovasi</span>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            </form>
+                                            <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
+                                            <form action="{{ route('dashboard.innovations.destroy', $inv->id) }}" method="POST" style="margin: 0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus data Inovasi ini?')">
+                                                    <span>🗑️ Hapus Inovasi</span>
+                                                </button>
+                                            </form>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                {{ $inv->title }}
+                            </div>
+                            @if($invProp)
+                                <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                    <span style="color: #0284C7; font-weight: 800;">🎟️ {{ $invProp->ticket_no }}</span>
+                                    <span>•</span>
+                                    <span>Inovator: <strong style="color: #334155;">{{ $inv->innovator_name ?? $invProp->name }}</strong></span>
+                                </div>
+                            @endif
+
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                <button type="button" class="file-chip" @click="selectedSubmissionFullView = innovationProposalsMap[{{ $inv->id }}]">
+                                    📄 Gagasan Original
+                                </button>
+                                <button type="button" class="file-chip" style="background: #0284C7; color: #FFF; border-color: #0284C7;" @click="previewPdfUrl = '{{ $inv->sop_file_path ?? '/documents/pb_01.pdf' }}'">
+                                    👁️ SOP Final PDF
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -1343,87 +1314,73 @@
             <!-- VAULT KURIKULUM TERVERIFIKASI -->
             <div class="content-card">
                 <h4 style="font-size: 0.95rem; font-weight: 900; color: #0F172A; margin-bottom: 0.85rem;">✅ Vault Kurikulum Terverifikasi (Aktif di Public)</h4>
-                <div class="light-table-container">
-                    <table class="light-table">
-                        <thead>
-                            <tr>
-                                <th style="width: 140px;">KODE & TIPE</th>
-                                <th>JUDUL MATERI & PENGUNGGAH DOKUMEN</th>
-                                <th style="width: 230px;">PRATINJAU & DOWNLOAD DOKUMEN</th>
-                                <th style="width: 120px; text-align: center;">STATUS VAULT</th>
-                                <th style="width: 110px; text-align: right;">AKSI ADMIN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($verifiedCurriculums as $c)
-                                <tr>
-                                    <td style="white-space: nowrap;">
-                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.8125rem; letter-spacing: -0.01em; white-space: nowrap;">CURR-{{ $c->id }}</div>
-                                        <span style="display: inline-block; background: #DCFCE7; border: 1px solid #86EFAC; color: #15803D; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 6px; margin-top: 3px; white-space: nowrap;">
-                                            {{ $c->file_type }}
-                                        </span>
-                                    </td>
-                                    <td style="min-width: 220px; max-width: 420px;">
-                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.8125rem; line-height: 1.35; margin-bottom: 3px;">{{ $c->title }}</div>
-                                        <div style="font-size: 0.6875rem; color: #334155; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.15rem 0.45rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700; flex-wrap: wrap;">
-                                            <span>🎓 Bidang: <strong>{{ $c->subject_category }}</strong></span>
-                                            <span>• Pengunggah: <strong>{{ $c->uploader_name ?? 'Admin' }}</strong></span>
-                                        </div>
-                                    </td>
-                                    <td style="white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.3rem; align-items: center; flex-wrap: nowrap;">
-                                            @if($c->external_link)
-                                                <a href="{{ $c->external_link }}" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(14,165,233,0.3); white-space: nowrap;">
-                                                    🔗 Drive Link
-                                                </a>
-                                            @endif
-                                            @if($c->file_path)
-                                                <button type="button" style="background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(7,39,24,0.18);" @click="previewPdfUrl = '{{ $c->file_path }}'">
-                                                    👁️ Pratinjau
-                                                </button>
-                                                <a href="{{ $c->file_path }}" download style="background: #E0F2FE; border: 1.5px solid #7DD3FC; color: #0369A1; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;">
-                                                    📥 Unduh
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </td>
-                                    <td style="text-align: center; white-space: nowrap;">
-                                        <span class="badge-light" style="background: {{ $c->is_verified ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $c->is_verified ? '#6EE7B7' : '#FCD34D' }}; color: {{ $c->is_verified ? '#047857' : '#B45309' }};">
-                                            {{ $c->is_verified ? '🟢 Terbit di Vault' : '🔒 Draft' }}
-                                        </span>
-                                    </td>
-                                    <td style="text-align: right; white-space: nowrap;">
-                                        <div class="action-dropdown-container" @click.away="if (openDropdown === 'curr-{{ $c->id }}') openDropdown = null">
-                                            <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'curr-{{ $c->id }}' ? null : 'curr-{{ $c->id }}')">
-                                                <span>⚙️ Kelola</span>
-                                                <span style="font-size: 0.6rem;">▼</span>
+                <div class="studio-card-grid">
+                    @foreach($verifiedCurriculums as $c)
+                        <div class="studio-card studio-card-curriculum">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.75rem; font-weight: 900; color: #0F172A; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.15rem 0.5rem; border-radius: 6px;">CURR-{{ $c->id }}</span>
+                                    <span style="font-size: 0.72rem; font-weight: 800; color: #15803D; background: #DCFCE7; border: 1px solid #86EFAC; padding: 0.15rem 0.5rem; border-radius: 6px;">📚 {{ $c->file_type }} | {{ $c->subject_category }}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="font-size: 0.75rem; font-weight: 800; color: {{ $c->is_verified ? '#047857' : '#B45309' }}; display: flex; align-items: center;">
+                                        <span class="{{ $c->is_verified ? 'glowing-dot-published' : 'glowing-dot-draft' }}"></span>
+                                        {{ $c->is_verified ? 'Terbit di Vault' : 'Draft' }}
+                                    </span>
+                                    <div class="action-dropdown-container" @click.away="if (openDropdown === 'curr-{{ $c->id }}') openDropdown = null">
+                                        <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'curr-{{ $c->id }}' ? null : 'curr-{{ $c->id }}')">
+                                            <span>⚙️ Kelola</span>
+                                            <span style="font-size: 0.6rem;">▼</span>
+                                        </button>
+                                        <div class="action-dropdown-menu" x-show="openDropdown === 'curr-{{ $c->id }}'" style="display: none;" @click.stop>
+                                            <button type="button" class="action-dropdown-item" @click="selectedCurriculumEdit = curriculumsMap[{{ $c->id }}]; openDropdown = null;">
+                                                <span>✏️ Edit Modul</span>
                                             </button>
-
-                                            <div class="action-dropdown-menu" x-show="openDropdown === 'curr-{{ $c->id }}'" style="display: none;" @click.stop>
-                                                <button type="button" class="action-dropdown-item" @click="selectedCurriculumEdit = curriculumsMap[{{ $c->id }}]; openDropdown = null;">
-                                                    <span>✏️ Edit Modul</span>
+                                            <form action="{{ route('dashboard.curriculums.toggle_publish', $c->id) }}" method="POST" style="margin: 0;">
+                                                @csrf
+                                                <button type="submit" class="action-dropdown-item">
+                                                    <span>{{ $c->is_verified ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
                                                 </button>
-                                                <form action="{{ route('dashboard.curriculums.toggle_publish', $c->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    <button type="submit" class="action-dropdown-item">
-                                                        <span>{{ $c->is_verified ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
-                                                    </button>
-                                                </form>
-                                                <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
-                                                <form action="{{ route('dashboard.curriculums.destroy', $c->id) }}" method="POST" style="margin: 0;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus materi kurikulum ini?')">
-                                                        <span>🗑️ Hapus Materi</span>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            </form>
+                                            <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
+                                            <form action="{{ route('dashboard.curriculums.destroy', $c->id) }}" method="POST" style="margin: 0;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus materi kurikulum ini?')">
+                                                    <span>🗑️ Hapus Materi</span>
+                                                </button>
+                                            </form>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="font-size: 0.9375rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin-bottom: 0.4rem;">
+                                {{ $c->title }}
+                            </div>
+                            <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                <span>🎓 Bidang: <strong style="color: #334155;">{{ $c->subject_category }}</strong></span>
+                                <span>•</span>
+                                <span>Pengunggah: <strong style="color: #334155;">{{ $c->uploader_name ?? 'Admin' }}</strong></span>
+                            </div>
+
+                            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                @if($c->external_link)
+                                    <a href="{{ $c->external_link }}" target="_blank" rel="noopener noreferrer" class="file-chip" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; border: none;">
+                                        🔗 Drive Link
+                                    </a>
+                                @endif
+                                @if($c->file_path)
+                                    <button type="button" class="file-chip" style="background: #072718; color: #D4AF37; border-color: #C59B27;" @click="previewPdfUrl = '{{ $c->file_path }}'">
+                                        👁️ Pratinjau Modul
+                                    </button>
+                                    <a href="{{ $c->file_path }}" download class="file-chip" style="background: #E0F2FE; border-color: #7DD3FC; color: #0369A1;">
+                                        📥 Unduh PDF
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
