@@ -123,9 +123,11 @@
     flex-direction: column;
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: calc(100vh / 0.82);
+    min-height: 100%;
     z-index: 40;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
   }
 
   .sidebar-header {
