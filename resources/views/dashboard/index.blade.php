@@ -107,7 +107,7 @@
   }
 
   .sidebar-container {
-    width: 240px;
+    width: 220px;
     background: #072718;
     border-right: 1.5px solid rgba(197, 155, 39, 0.35);
     flex-shrink: 0;
@@ -121,38 +121,38 @@
   }
 
   .sidebar-header {
-    padding: 1.15rem 1rem;
+    padding: 0.9rem 0.85rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.2);
   }
 
   .sidebar-menu {
-    padding: 1rem 0.65rem;
+    padding: 0.75rem 0.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.25rem;
     flex: 1;
     overflow-y: auto;
   }
 
   .sidebar-section-title {
-    font-size: 0.65rem;
+    font-size: 0.625rem;
     font-weight: 800;
     color: #D4AF37;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    padding: 0.75rem 0.75rem 0.25rem;
+    padding: 0.65rem 0.65rem 0.2rem;
   }
 
   .menu-item {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.65rem 0.85rem;
-    border-radius: 10px;
+    gap: 0.65rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
     color: #CBD5E1;
     font-weight: 700;
-    font-size: 0.8125rem;
+    font-size: 0.78125rem;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -171,9 +171,9 @@
 
   .main-content {
     flex: 1;
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.25rem;
     overflow-y: auto;
-    max-width: calc(100vw - 240px);
+    max-width: calc(100vw - 220px);
     box-sizing: border-box;
   }
 
@@ -181,13 +181,13 @@
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 16px;
-    padding: 1rem 1.5rem;
+    padding: 0.85rem 1.25rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 1rem;
   }
 
@@ -195,15 +195,15 @@
     background: linear-gradient(135deg, #072718 0%, #0B3C26 60%, #13543A 100%);
     border: 1.5px solid #C59B27;
     border-radius: 20px;
-    padding: 1.25rem 1.5rem;
+    padding: 1.15rem 1.35rem;
     color: #FFFFFF;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     box-shadow: 0 12px 30px rgba(7, 39, 24, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 1.25rem;
+    flex-wrap: nowrap;
+    gap: 1rem;
     position: relative;
     overflow: hidden;
   }
@@ -253,7 +253,7 @@
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 18px;
-    padding: 1rem 1.25rem;
+    padding: 0.85rem 1.15rem;
     box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
     position: relative;
     overflow: hidden;
@@ -269,9 +269,9 @@
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
     border-radius: 18px;
-    padding: 1.15rem 1.25rem;
+    padding: 1rem 1.15rem;
     box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .light-table-container {
@@ -285,24 +285,24 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    font-size: 0.78125rem;
+    font-size: 0.75rem;
   }
 
   .light-table th {
-    padding: 0.65rem 0.85rem;
+    padding: 0.55rem 0.75rem;
     text-align: left;
     background: #F8FAFC;
     color: #334155;
     font-weight: 800;
     border-bottom: 2px solid #E2E8F0;
     text-transform: uppercase;
-    font-size: 0.6875rem;
+    font-size: 0.65rem;
     letter-spacing: 0.05em;
     white-space: nowrap;
   }
 
   .light-table td {
-    padding: 0.65rem 0.85rem;
+    padding: 0.55rem 0.75rem;
     border-bottom: 1px solid #F1F5F9;
     color: #1E293B;
     vertical-align: middle;
@@ -316,9 +316,9 @@
   .badge-light {
     display: inline-flex;
     align-items: center;
-    padding: 0.2rem 0.6rem;
+    padding: 0.18rem 0.5rem;
     border-radius: 9999px;
-    font-size: 0.6875rem;
+    font-size: 0.65rem;
     font-weight: 800;
     white-space: nowrap;
   }
@@ -461,16 +461,16 @@
         
         <!-- TOPBAR HEADER CARD -->
         <div class="topbar-card">
-            <div>
-                <h1 style="font-size: 1.35rem; font-weight: 900; color: #0F172A; line-height: 1.2;">Portal Kontrol Admin Litbang Gajah Mada Adhyaksa</h1>
-                <div style="font-size: 0.8125rem; color: #64748B; margin-top: 3px;">Pusat Komando 3 Pilar: Policy Brief, Bank Inovasi, & Kurikulum Pembelajaran</div>
+            <div style="flex: 1; min-width: 260px;">
+                <h1 style="font-size: 1.15rem; font-weight: 900; color: #0F172A; line-height: 1.2;">Portal Kontrol Admin Litbang Gajah Mada Adhyaksa</h1>
+                <div style="font-size: 0.75rem; color: #64748B; margin-top: 2px;">Pusat Komando 3 Pilar: Policy Brief, Bank Inovasi, & Kurikulum Pembelajaran</div>
             </div>
 
-            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
-                <button onclick="window.print()" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.78125rem; padding: 0.6rem 1.15rem; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: nowrap; flex-shrink: 0;">
+                <button onclick="window.print()" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap;">
                     🖨️ Cetak Laporan Eksekutif
                 </button>
-                <a href="{{ route('landing.index') }}" target="_blank" style="background: linear-gradient(135deg, #072718 0%, #0B3C26 100%); color: #D4AF37; font-weight: 900; font-size: 0.78125rem; padding: 0.6rem 1.25rem; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 12px rgba(7,39,24,0.2);">
+                <a href="{{ route('landing.index') }}" target="_blank" style="background: linear-gradient(135deg, #072718 0%, #0B3C26 100%); color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.95rem; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 12px rgba(7,39,24,0.2); white-space: nowrap; display: inline-flex; align-items: center; gap: 0.35rem;">
                     🌐 Lihat Portal Public
                 </a>
             </div>
@@ -1063,12 +1063,12 @@
 
         <!-- TAB 3: POLICY BRIEF STUDIO (PILAR 1) -->
         <div x-show="activeTab === 'policy'" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
-                <div>
-                    <h3 style="font-size: 1.1rem; font-weight: 900; color: #0F172A;">📄 Studio Policy Brief & Katalog Naskah Akademis (Pilar 1)</h3>
-                    <p style="font-size: 0.78125rem; color: #64748B;">Kelola naskah akademis, perbarui berkas PDF hasil kajian, dan atur publikasi ke Vault.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: nowrap; gap: 0.75rem;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #0F172A;">📄 Studio Policy Brief & Katalog Naskah Akademis (Pilar 1)</h3>
+                    <p style="font-size: 0.75rem; color: #64748B;">Kelola naskah akademis, perbarui berkas PDF hasil kajian, dan atur publikasi ke Vault.</p>
                 </div>
-                <button style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1.125rem; border-radius: 10px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2);" @click="isNewKajianModalOpen = true">
+                <button style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.2); white-space: nowrap; flex-shrink: 0;" @click="isNewKajianModalOpen = true">
                     + Buat Policy Brief Baru
                 </button>
             </div>
@@ -1078,11 +1078,11 @@
                     <table class="light-table">
                         <thead>
                             <tr>
-                                <th>NO. DOKUMEN</th>
+                                <th style="width: 155px;">NO. DOKUMEN</th>
                                 <th>JUDUL NASKAH AKADEMIS & PENGUSUL</th>
-                                <th>DOKUMEN RISET & NASKAH FINAL</th>
-                                <th style="text-align: center;">STATUS VAULT</th>
-                                <th style="text-align: right;">AKSI ADMIN</th>
+                                <th style="width: 215px;">DOKUMEN RISET & NASKAH FINAL</th>
+                                <th style="width: 120px; text-align: center;">STATUS VAULT</th>
+                                <th style="width: 110px; text-align: right;">AKSI ADMIN</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1092,15 +1092,15 @@
                                 @endphp
                                 <tr>
                                     <td style="white-space: nowrap;">
-                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.84375rem; letter-spacing: -0.01em; white-space: nowrap;">{{ $k->doc_no }}</div>
-                                        <span style="display: inline-block; background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; font-size: 0.6875rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 6px; margin-top: 4px; white-space: nowrap;">
+                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.8125rem; letter-spacing: -0.01em; white-space: nowrap;">{{ $k->doc_no }}</div>
+                                        <span style="display: inline-block; background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 6px; margin-top: 3px; white-space: nowrap;">
                                             {{ $k->category }}
                                         </span>
                                     </td>
-                                    <td style="min-width: 240px; max-width: 450px;">
-                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.875rem; line-height: 1.4; margin-bottom: 4px;">{{ $k->title }}</div>
+                                    <td style="min-width: 220px; max-width: 420px;">
+                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.8125rem; line-height: 1.35; margin-bottom: 3px;">{{ $k->title }}</div>
                                         @if($linkedProp)
-                                            <div style="font-size: 0.71875rem; color: #475569; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                                            <div style="font-size: 0.6875rem; color: #475569; font-weight: 700; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
                                                 <span style="color: #072718; font-weight: 800; white-space: nowrap;">🎟️ {{ $linkedProp->ticket_no }}</span>
                                                 <span style="color: #CBD5E1;">•</span>
                                                 <span style="white-space: nowrap;">Pengusul: <strong>{{ $linkedProp->name }}</strong></span>
@@ -1108,11 +1108,11 @@
                                         @endif
                                     </td>
                                     <td style="white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem;" @click="selectedSubmissionFullView = kajianProposalsMap[{{ $k->id }}]">
+                                        <div style="display: flex; gap: 0.3rem; align-items: center; flex-wrap: nowrap;">
+                                            <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;" @click="selectedSubmissionFullView = kajianProposalsMap[{{ $k->id }}]">
                                                 📄 Usulan Original
                                             </button>
-                                            <button type="button" style="background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-size: 0.75rem; font-weight: 800; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: 0 2px 6px rgba(7,39,24,0.18);" @click="previewPdfUrl = '{{ $k->file_path ?? '/documents/pb_01.pdf' }}'">
+                                            <button type="button" style="background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(7,39,24,0.18);" @click="previewPdfUrl = '{{ $k->file_path ?? '/documents/pb_01.pdf' }}'">
                                                 👁️ Naskah Final
                                             </button>
                                         </div>
@@ -1120,24 +1120,24 @@
                                     <td style="text-align: center; white-space: nowrap;">
                                         <form action="{{ route('dashboard.policy.toggle_publish', $k->id) }}" method="POST" style="display: inline;">
                                             @csrf
-                                            <button type="submit" style="background: {{ $k->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $k->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $k->is_published ? '#047857' : '#B45309' }}; font-size: 0.71875rem; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 800; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                            <button type="submit" style="background: {{ $k->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $k->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $k->is_published ? '#047857' : '#B45309' }}; font-size: 0.6875rem; padding: 0.25rem 0.55rem; border-radius: 9999px; font-weight: 800; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;">
                                                 {{ $k->is_published ? '🟢 Terbit di Vault' : '🔒 Draft' }}
                                             </button>
                                         </form>
                                     </td>
                                     <td style="text-align: right; white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.4rem; justify-content: flex-end; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap;" @click="selectedKajianEdit = policyBriefsMap[{{ $k->id }}]">
+                                        <div style="display: flex; gap: 0.3rem; justify-content: flex-end; flex-wrap: nowrap;">
+                                            <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.55rem; border-radius: 6px; cursor: pointer; white-space: nowrap;" @click="selectedKajianEdit = policyBriefsMap[{{ $k->id }}]">
                                                 ✏️ Edit
                                             </button>
                                             <form action="{{ route('dashboard.policy.destroy', $k->id) }}" method="POST" style="margin: 0;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #991B1B; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap;" onclick="return confirm('Hapus naskah Policy Brief ini?')">
-                                                🗑️ Hapus
-                                            </button>
-                                        </form>
-                                    </div>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #991B1B; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.55rem; border-radius: 6px; cursor: pointer; white-space: nowrap;" onclick="return confirm('Hapus naskah Policy Brief ini?')">
+                                                    🗑️ Hapus
+                                                </button>
+                                            </form>
+                                        </div>
                                 </td>
                             </tr>
                         @endforeach
