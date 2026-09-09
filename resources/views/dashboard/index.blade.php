@@ -1211,6 +1211,7 @@
                     @endforeach
                 </div>
             </div>
+        </div>
 
         <!-- TAB 4: KELOLA BANK INOVASI (PILAR 2) -->
         <div x-show="activeTab === 'innovations'" style="display: none;">
