@@ -338,6 +338,74 @@
     background: #FFFBF0;
   }
 
+  /* ACTION DROPDOWN MENU STYLING */
+  .action-dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  .action-dropdown-btn {
+    background: #F1F5F9;
+    border: 1.5px solid #CBD5E1;
+    color: #334155;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    outline: none;
+  }
+  .action-dropdown-btn:hover {
+    background: #E2E8F0;
+    color: #0F172A;
+    border-color: #94A3B8;
+  }
+  .action-dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.18), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    min-width: 175px;
+    padding: 0.35rem 0;
+    animation: modalScaleUp 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .action-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: 100%;
+    padding: 0.45rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #334155;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.12s ease, color 0.12s ease;
+    box-sizing: border-box;
+    text-decoration: none;
+  }
+  .action-dropdown-item:hover {
+    background: #F1F5F9;
+    color: #0F172A;
+  }
+  .action-dropdown-item.danger {
+    color: #DC2626;
+  }
+  .action-dropdown-item.danger:hover {
+    background: #FEF2F2;
+    color: #991B1B;
+  }
+
   @media (max-width: 992px) {
     .dashboard-layout { flex-direction: column; }
     .sidebar-container { width: 100%; height: auto; position: relative; }
@@ -348,6 +416,7 @@
 <div class="dashboard-layout" x-data="{ 
     activeTab: '{{ $activeTab }}',
     inboxSubTab: 'policy',
+    openDropdown: null,
     previewPdfUrl: null,
     rejectionReasonText: '',
     isNewKajianModalOpen: false,
@@ -1118,27 +1187,38 @@
                                         </div>
                                     </td>
                                     <td style="text-align: center; white-space: nowrap;">
-                                        <form action="{{ route('dashboard.policy.toggle_publish', $k->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" style="background: {{ $k->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $k->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $k->is_published ? '#047857' : '#B45309' }}; font-size: 0.6875rem; padding: 0.25rem 0.55rem; border-radius: 9999px; font-weight: 800; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;">
-                                                {{ $k->is_published ? '🟢 Terbit di Vault' : '🔒 Draft' }}
-                                            </button>
-                                        </form>
+                                        <span class="badge-light" style="background: {{ $k->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $k->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $k->is_published ? '#047857' : '#B45309' }};">
+                                            {{ $k->is_published ? '🟢 Terbit di Vault' : '🔒 Draft' }}
+                                        </span>
                                     </td>
                                     <td style="text-align: right; white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.3rem; justify-content: flex-end; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.55rem; border-radius: 6px; cursor: pointer; white-space: nowrap;" @click="selectedKajianEdit = policyBriefsMap[{{ $k->id }}]">
-                                                ✏️ Edit
+                                        <div class="action-dropdown-container" @click.away="if (openDropdown === 'policy-{{ $k->id }}') openDropdown = null">
+                                            <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'policy-{{ $k->id }}' ? null : 'policy-{{ $k->id }}')">
+                                                <span>⚙️ Kelola</span>
+                                                <span style="font-size: 0.6rem;">▼</span>
                                             </button>
-                                            <form action="{{ route('dashboard.policy.destroy', $k->id) }}" method="POST" style="margin: 0;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #991B1B; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.55rem; border-radius: 6px; cursor: pointer; white-space: nowrap;" onclick="return confirm('Hapus naskah Policy Brief ini?')">
-                                                    🗑️ Hapus
+
+                                            <div class="action-dropdown-menu" x-show="openDropdown === 'policy-{{ $k->id }}'" style="display: none;" @click.stop>
+                                                <button type="button" class="action-dropdown-item" @click="selectedKajianEdit = policyBriefsMap[{{ $k->id }}]; openDropdown = null;">
+                                                    <span>✏️ Edit Naskah</span>
                                                 </button>
-                                            </form>
+                                                <form action="{{ route('dashboard.policy.toggle_publish', $k->id) }}" method="POST" style="margin: 0;">
+                                                    @csrf
+                                                    <button type="submit" class="action-dropdown-item">
+                                                        <span>{{ $k->is_published ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
+                                                    </button>
+                                                </form>
+                                                <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
+                                                <form action="{{ route('dashboard.policy.destroy', $k->id) }}" method="POST" style="margin: 0;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus naskah Policy Brief ini?')">
+                                                        <span>🗑️ Hapus Naskah</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
-                                </td>
+                                    </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -1148,12 +1228,12 @@
 
         <!-- TAB 4: KELOLA BANK INOVASI (PILAR 2) -->
         <div x-show="activeTab === 'innovations'" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
-                <div>
-                    <h3 style="font-size: 1.1rem; font-weight: 900; color: #0F172A;">💡 Kelola Bank Inovasi Teruji & Gagasan Ide (Pilar 2)</h3>
-                    <p style="font-size: 0.78125rem; color: #64748B;">Kelola portofolio inovasi teruji, inkubasi gagasan peserta, dan SOP pelaksanaan.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: nowrap; gap: 0.75rem;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #0F172A;">💡 Kelola Bank Inovasi Teruji & Gagasan Ide (Pilar 2)</h3>
+                    <p style="font-size: 0.75rem; color: #64748B;">Kelola portofolio inovasi teruji, inkubasi gagasan peserta, dan SOP pelaksanaan.</p>
                 </div>
-                <button style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1.125rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.2);" @click="isNewInnovationModalOpen = true">
+                <button style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.2); white-space: nowrap; flex-shrink: 0;" @click="isNewInnovationModalOpen = true">
                     + Tambah Inovasi Baru
                 </button>
             </div>
@@ -1163,11 +1243,11 @@
                     <table class="light-table">
                         <thead>
                             <tr>
-                                <th>NO. INOVASI</th>
+                                <th style="width: 155px;">NO. INOVASI</th>
                                 <th>JUDUL INOVASI & INOVATOR ORIGINAL</th>
-                                <th>GAGASAN ORIGINAL & SOP FINAL</th>
-                                <th style="text-align: center;">STATUS VAULT</th>
-                                <th style="text-align: right;">AKSI ADMIN</th>
+                                <th style="width: 215px;">GAGASAN ORIGINAL & SOP FINAL</th>
+                                <th style="width: 120px; text-align: center;">STATUS VAULT</th>
+                                <th style="width: 110px; text-align: right;">AKSI ADMIN</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1177,15 +1257,15 @@
                                 @endphp
                                 <tr>
                                     <td style="white-space: nowrap;">
-                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.84375rem; letter-spacing: -0.01em; white-space: nowrap;">{{ $inv->innovation_no }}</div>
-                                        <span style="display: inline-block; background: #E0F2FE; border: 1px solid #7DD3FC; color: #0369A1; font-size: 0.6875rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 6px; margin-top: 4px; white-space: nowrap;">
+                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.8125rem; letter-spacing: -0.01em; white-space: nowrap;">{{ $inv->innovation_no }}</div>
+                                        <span style="display: inline-block; background: #E0F2FE; border: 1px solid #7DD3FC; color: #0369A1; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 6px; margin-top: 3px; white-space: nowrap;">
                                             {{ $inv->category }}
                                         </span>
                                     </td>
-                                    <td style="min-width: 240px; max-width: 450px;">
-                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.875rem; line-height: 1.4; margin-bottom: 4px;">{{ $inv->title }}</div>
+                                    <td style="min-width: 220px; max-width: 420px;">
+                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.8125rem; line-height: 1.35; margin-bottom: 3px;">{{ $inv->title }}</div>
                                         @if($invProp)
-                                            <div style="font-size: 0.71875rem; color: #475569; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                                            <div style="font-size: 0.6875rem; color: #475569; font-weight: 700; display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
                                                 <span style="color: #0284C7; font-weight: 800; white-space: nowrap;">🎟️ {{ $invProp->ticket_no }}</span>
                                                 <span style="color: #CBD5E1;">•</span>
                                                 <span style="white-space: nowrap;">Inovator: <strong>{{ $inv->innovator_name ?? $invProp->name }}</strong></span>
@@ -1193,35 +1273,46 @@
                                         @endif
                                     </td>
                                     <td style="white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem;" @click="selectedSubmissionFullView = innovationProposalsMap[{{ $inv->id }}]">
+                                        <div style="display: flex; gap: 0.3rem; align-items: center; flex-wrap: nowrap;">
+                                            <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.71875rem; font-weight: 700; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;" @click="selectedSubmissionFullView = innovationProposalsMap[{{ $inv->id }}]">
                                                 📄 Gagasan Original
                                             </button>
-                                            <button type="button" style="background: #0284C7; color: #FFF; border: none; font-size: 0.75rem; font-weight: 800; padding: 0.45rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: 0 2px 6px rgba(2,132,199,0.2);" @click="previewPdfUrl = '{{ $inv->sop_file_path ?? '/documents/pb_01.pdf' }}'">
+                                            <button type="button" style="background: #0284C7; color: #FFF; border: none; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(2,132,199,0.2);" @click="previewPdfUrl = '{{ $inv->sop_file_path ?? '/documents/pb_01.pdf' }}'">
                                                 👁️ SOP Final PDF
                                             </button>
                                         </div>
                                     </td>
                                     <td style="text-align: center; white-space: nowrap;">
-                                        <form action="{{ route('dashboard.innovations.toggle_publish', $inv->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" style="background: {{ $inv->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $inv->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $inv->is_published ? '#047857' : '#B45309' }}; font-size: 0.71875rem; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 800; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                                {{ $inv->is_published ? '🟢 Terbit di Vault' : '🔒 Draft' }}
-                                            </button>
-                                        </form>
+                                        <span class="badge-light" style="background: {{ $inv->is_published ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $inv->is_published ? '#6EE7B7' : '#FCD34D' }}; color: {{ $inv->is_published ? '#047857' : '#B45309' }};">
+                                            {{ $inv->is_published ? '🟢 Terbit di Vault' : '🔒 Draft' }}
+                                        </span>
                                     </td>
                                     <td style="text-align: right; white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.4rem; justify-content: flex-end; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap;" @click="selectedInnovationEdit = innovationsMap[{{ $inv->id }}]">
-                                                ✏️ Edit
+                                        <div class="action-dropdown-container" @click.away="if (openDropdown === 'inv-{{ $inv->id }}') openDropdown = null">
+                                            <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'inv-{{ $inv->id }}' ? null : 'inv-{{ $inv->id }}')">
+                                                <span>⚙️ Kelola</span>
+                                                <span style="font-size: 0.6rem;">▼</span>
                                             </button>
-                                            <form action="{{ route('dashboard.innovations.destroy', $inv->id) }}" method="POST" style="margin: 0;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #991B1B; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap;" onclick="return confirm('Hapus data Inovasi ini?')">
-                                                    🗑️ Hapus
+
+                                            <div class="action-dropdown-menu" x-show="openDropdown === 'inv-{{ $inv->id }}'" style="display: none;" @click.stop>
+                                                <button type="button" class="action-dropdown-item" @click="selectedInnovationEdit = innovationsMap[{{ $inv->id }}]; openDropdown = null;">
+                                                    <span>✏️ Edit Inovasi</span>
                                                 </button>
-                                            </form>
+                                                <form action="{{ route('dashboard.innovations.toggle_publish', $inv->id) }}" method="POST" style="margin: 0;">
+                                                    @csrf
+                                                    <button type="submit" class="action-dropdown-item">
+                                                        <span>{{ $inv->is_published ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
+                                                    </button>
+                                                </form>
+                                                <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
+                                                <form action="{{ route('dashboard.innovations.destroy', $inv->id) }}" method="POST" style="margin: 0;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus data Inovasi ini?')">
+                                                        <span>🗑️ Hapus Inovasi</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -1234,12 +1325,12 @@
 
         <!-- TAB 5: KURIKULUM & VAULT MATERI (PILAR 3) -->
         <div x-show="activeTab === 'curriculums'" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
-                <div>
-                    <h3 style="font-size: 1.1rem; font-weight: 900; color: #0F172A;">📚 Vault Kurikulum & Arsip Materi Pembelajaran (Pilar 3)</h3>
-                    <div style="font-size: 0.78125rem; color: #64748B;">Kelola, pratinjau, edit naskah modul, dan verifikasi publikasi berkas kurikulum PPPJ 2026.</div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: nowrap; gap: 0.75rem;">
+                <div style="flex: 1;">
+                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #0F172A;">📚 Vault Kurikulum & Arsip Materi Pembelajaran (Pilar 3)</h3>
+                    <div style="font-size: 0.75rem; color: #64748B;">Kelola, pratinjau, edit naskah modul, dan verifikasi publikasi berkas kurikulum PPPJ 2026.</div>
                 </div>
-                <button style="background: #16A34A; color: #FFF; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1.125rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.2);" @click="isNewCurriculumModalOpen = true">
+                <button style="background: #16A34A; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(22,163,74,0.2); white-space: nowrap; flex-shrink: 0;" @click="isNewCurriculumModalOpen = true">
                     + Upload Modul (Admin Direct)
                 </button>
             </div>
@@ -1251,71 +1342,82 @@
 
             <!-- VAULT KURIKULUM TERVERIFIKASI -->
             <div class="content-card">
-                <h4 style="font-size: 1rem; font-weight: 900; color: #0F172A; margin-bottom: 1rem;">✅ Vault Kurikulum Terverifikasi (Aktif di Public)</h4>
+                <h4 style="font-size: 0.95rem; font-weight: 900; color: #0F172A; margin-bottom: 0.85rem;">✅ Vault Kurikulum Terverifikasi (Aktif di Public)</h4>
                 <div class="light-table-container">
                     <table class="light-table">
                         <thead>
                             <tr>
-                                <th>KODE & TIPE</th>
+                                <th style="width: 140px;">KODE & TIPE</th>
                                 <th>JUDUL MATERI & PENGUNGGAH DOKUMEN</th>
-                                <th>PRATINJAU & DOWNLOAD DOKUMEN</th>
-                                <th style="text-align: center;">STATUS VAULT</th>
-                                <th style="text-align: right;">AKSI ADMIN</th>
+                                <th style="width: 230px;">PRATINJAU & DOWNLOAD DOKUMEN</th>
+                                <th style="width: 120px; text-align: center;">STATUS VAULT</th>
+                                <th style="width: 110px; text-align: right;">AKSI ADMIN</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($verifiedCurriculums as $c)
                                 <tr>
                                     <td style="white-space: nowrap;">
-                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.84375rem; letter-spacing: -0.01em; white-space: nowrap;">CURR-{{ $c->id }}</div>
-                                        <span style="display: inline-block; background: #DCFCE7; border: 1px solid #86EFAC; color: #15803D; font-size: 0.6875rem; font-weight: 800; padding: 0.15rem 0.55rem; border-radius: 6px; margin-top: 4px; white-space: nowrap;">
+                                        <div style="font-weight: 900; color: #0F172A; font-size: 0.8125rem; letter-spacing: -0.01em; white-space: nowrap;">CURR-{{ $c->id }}</div>
+                                        <span style="display: inline-block; background: #DCFCE7; border: 1px solid #86EFAC; color: #15803D; font-size: 0.65rem; font-weight: 800; padding: 0.12rem 0.45rem; border-radius: 6px; margin-top: 3px; white-space: nowrap;">
                                             {{ $c->file_type }}
                                         </span>
                                     </td>
-                                    <td style="min-width: 240px; max-width: 450px;">
-                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.875rem; line-height: 1.4; margin-bottom: 4px;">{{ $c->title }}</div>
-                                        <div style="font-size: 0.71875rem; color: #334155; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.2rem 0.55rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; flex-wrap: wrap;">
+                                    <td style="min-width: 220px; max-width: 420px;">
+                                        <div style="color: #0F172A; font-weight: 800; font-size: 0.8125rem; line-height: 1.35; margin-bottom: 3px;">{{ $c->title }}</div>
+                                        <div style="font-size: 0.6875rem; color: #334155; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.15rem 0.45rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 700; flex-wrap: wrap;">
                                             <span>🎓 Bidang: <strong>{{ $c->subject_category }}</strong></span>
                                             <span>• Pengunggah: <strong>{{ $c->uploader_name ?? 'Admin' }}</strong></span>
                                         </div>
                                     </td>
                                     <td style="white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.4rem; align-items: center; flex-wrap: nowrap;">
+                                        <div style="display: flex; gap: 0.3rem; align-items: center; flex-wrap: nowrap;">
                                             @if($c->external_link)
-                                                <a href="{{ $c->external_link }}" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; font-size: 0.75rem; font-weight: 800; padding: 0.4rem 0.65rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: 0 2px 6px rgba(14,165,233,0.3); white-space: nowrap;">
-                                                    🔗 Google Drive Link
+                                                <a href="{{ $c->external_link }}" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(14,165,233,0.3); white-space: nowrap;">
+                                                    🔗 Drive Link
                                                 </a>
                                             @endif
                                             @if($c->file_path)
-                                                <button type="button" style="background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-size: 0.75rem; font-weight: 800; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem; box-shadow: 0 2px 6px rgba(7,39,24,0.18);" @click="previewPdfUrl = '{{ $c->file_path }}'">
-                                                    👁️ Pratinjau PDF
+                                                <button type="button" style="background: #072718; color: #D4AF37; border: 1.5px solid #C59B27; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem; box-shadow: 0 2px 6px rgba(7,39,24,0.18);" @click="previewPdfUrl = '{{ $c->file_path }}'">
+                                                    👁️ Pratinjau
                                                 </button>
-                                                <a href="{{ $c->file_path }}" download style="background: #E0F2FE; border: 1.5px solid #7DD3FC; color: #0369A1; font-size: 0.75rem; font-weight: 800; padding: 0.4rem 0.65rem; border-radius: 8px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                                    📥 Unduh Berkas
+                                                <a href="{{ $c->file_path }}" download style="background: #E0F2FE; border: 1.5px solid #7DD3FC; color: #0369A1; font-size: 0.71875rem; font-weight: 800; padding: 0.3rem 0.5rem; border-radius: 6px; text-decoration: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                                    📥 Unduh
                                                 </a>
                                             @endif
                                         </div>
                                     </td>
                                     <td style="text-align: center; white-space: nowrap;">
-                                        <form action="{{ route('dashboard.curriculums.toggle_publish', $c->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            <button type="submit" style="background: {{ $c->is_verified ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $c->is_verified ? '#6EE7B7' : '#FCD34D' }}; color: {{ $c->is_verified ? '#047857' : '#B45309' }}; font-size: 0.71875rem; padding: 0.3rem 0.75rem; border-radius: 9999px; font-weight: 800; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                                {{ $c->is_verified ? '🟢 Terbit di Vault' : '🔒 Draft' }}
-                                            </button>
-                                        </form>
+                                        <span class="badge-light" style="background: {{ $c->is_verified ? '#ECFDF5' : '#FFFBEB' }}; border: 1.5px solid {{ $c->is_verified ? '#6EE7B7' : '#FCD34D' }}; color: {{ $c->is_verified ? '#047857' : '#B45309' }};">
+                                            {{ $c->is_verified ? '🟢 Terbit di Vault' : '🔒 Draft' }}
+                                        </span>
                                     </td>
                                     <td style="text-align: right; white-space: nowrap;">
-                                        <div style="display: flex; gap: 0.4rem; justify-content: flex-end; flex-wrap: nowrap;">
-                                            <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap;" @click="selectedCurriculumEdit = curriculumsMap[{{ $c->id }}]">
-                                                ✏️ Edit
+                                        <div class="action-dropdown-container" @click.away="if (openDropdown === 'curr-{{ $c->id }}') openDropdown = null">
+                                            <button type="button" class="action-dropdown-btn" @click.stop="openDropdown = (openDropdown === 'curr-{{ $c->id }}' ? null : 'curr-{{ $c->id }}')">
+                                                <span>⚙️ Kelola</span>
+                                                <span style="font-size: 0.6rem;">▼</span>
                                             </button>
-                                            <form action="{{ route('dashboard.curriculums.destroy', $c->id) }}" method="POST" style="margin: 0;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #991B1B; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.65rem; border-radius: 8px; cursor: pointer; white-space: nowrap;" onclick="return confirm('Hapus materi kurikulum ini?')">
-                                                    🗑️ Hapus
+
+                                            <div class="action-dropdown-menu" x-show="openDropdown === 'curr-{{ $c->id }}'" style="display: none;" @click.stop>
+                                                <button type="button" class="action-dropdown-item" @click="selectedCurriculumEdit = curriculumsMap[{{ $c->id }}]; openDropdown = null;">
+                                                    <span>✏️ Edit Modul</span>
                                                 </button>
-                                            </form>
+                                                <form action="{{ route('dashboard.curriculums.toggle_publish', $c->id) }}" method="POST" style="margin: 0;">
+                                                    @csrf
+                                                    <button type="submit" class="action-dropdown-item">
+                                                        <span>{{ $c->is_verified ? '🔒 Set Sebagai Draft' : '🟢 Terbitkan ke Vault' }}</span>
+                                                    </button>
+                                                </form>
+                                                <div style="border-top: 1px solid #F1F5F9; margin: 0.25rem 0;"></div>
+                                                <form action="{{ route('dashboard.curriculums.destroy', $c->id) }}" method="POST" style="margin: 0;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="action-dropdown-item danger" onclick="return confirm('Hapus materi kurikulum ini?')">
+                                                        <span>🗑️ Hapus Materi</span>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
