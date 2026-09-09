@@ -2,14 +2,22 @@
 
 @section('content')
 <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #F8FAFC;
+  }
+
   .dashboard-layout {
     display: flex;
-    min-height: 100vh;
+    min-height: 122vh;
     background-color: #F8FAFC;
     color: #0F172A;
     font-family: 'Plus Jakarta Sans', sans-serif;
     width: 100%;
     box-sizing: border-box;
+    zoom: 0.82;
+    -webkit-zoom: 0.82;
   }
 
   /* SUB-TAB BUTTON STYLING (SLEEK PILL CONTROLS) */
@@ -173,7 +181,7 @@
     flex: 1;
     padding: 0.75rem 1rem;
     overflow-y: auto;
-    max-width: calc(100vw - 220px);
+    max-width: calc(100% - 220px);
     box-sizing: border-box;
   }
 
