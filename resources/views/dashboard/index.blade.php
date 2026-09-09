@@ -217,19 +217,24 @@
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(4, 20, 11, 0.72) !important;
+    background: rgba(4, 20, 11, 0.75) !important;
     backdrop-filter: blur(8px) !important;
     -webkit-backdrop-filter: blur(8px) !important;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    padding: 1.5rem;
+    padding: 1rem;
+    box-sizing: border-box;
   }
 
   .modal-card {
     animation: modalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
     box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45) !important;
+    max-height: calc(100vh - 2rem) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
   }
 
   /* CUSTOM EXECUTIVE SCROLLBARS */
@@ -1794,22 +1799,22 @@
 
     <!-- MODAL: INSPEKSI BERKAS & DISPOSISI USULAN (selectedProposalDisposition) -->
     <div x-show="selectedProposalDisposition !== null" class="modal-overlay" style="display: none;" @click="selectedProposalDisposition = null">
-        <div class="modal-card" style="max-width: 840px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);" @click.stop x-data="{ dispModalTab: 'summary', dispositionAction: 'accept', rejectionReasonText: '', acceptResponseText: 'Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan untuk penyusunan lebih lanjut.' }">
+        <div class="modal-card" style="max-width: 840px; width: 94%; max-height: calc(100vh - 2.5rem); display: flex; flex-direction: column; background: #FFF; border: 2px solid #072718; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);" @click.stop x-data="{ dispModalTab: 'summary', dispositionAction: 'accept', rejectionReasonText: '', acceptResponseText: 'Usulan telah disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan untuk penyusunan lebih lanjut.' }">
             
             <!-- HEADER (DARK GREEN + GOLD ACCENT) -->
-            <div style="padding: 1.25rem 1.75rem; background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); border-bottom: 2.5px solid #C59B27; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="padding: 0.95rem 1.5rem; background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); border-bottom: 2.5px solid #C59B27; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start; flex-shrink: 0;">
                 <div>
                     <div style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
-                        <span style="background: #C59B27; color: #072718; font-weight: 900; font-size: 0.75rem; padding: 0.2rem 0.75rem; border-radius: 9999px; letter-spacing: 0.05em;" x-text="selectedProposalDisposition ? selectedProposalDisposition.ticket_no : ''"></span>
-                        <span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #FFF; font-size: 0.71875rem; font-weight: 800; padding: 0.15rem 0.6rem; border-radius: 6px;" x-text="selectedProposalDisposition ? 'Kategori: ' + selectedProposalDisposition.category : ''"></span>
+                        <span style="background: #C59B27; color: #072718; font-weight: 900; font-size: 0.72rem; padding: 0.15rem 0.65rem; border-radius: 9999px; letter-spacing: 0.05em;" x-text="selectedProposalDisposition ? selectedProposalDisposition.ticket_no : ''"></span>
+                        <span style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #FFF; font-size: 0.7rem; font-weight: 800; padding: 0.12rem 0.55rem; border-radius: 6px;" x-text="selectedProposalDisposition ? 'Kategori: ' + selectedProposalDisposition.category : ''"></span>
                     </div>
-                    <h3 style="font-size: 1.2rem; font-weight: 900; color: #FFFFFF; line-height: 1.35; margin-top: 0.45rem;" x-text="selectedProposalDisposition ? selectedProposalDisposition.title : ''"></h3>
+                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF; line-height: 1.3; margin-top: 0.3rem;" x-text="selectedProposalDisposition ? selectedProposalDisposition.title : ''"></h3>
                 </div>
-                <button @click="selectedProposalDisposition = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFF; width: 34px; height: 34px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem; outline: none !important;">✕</button>
+                <button @click="selectedProposalDisposition = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFF; width: 30px; height: 30px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem; outline: none !important;">✕</button>
             </div>
 
             <!-- SUB-TAB BAR (CLEAN LIGHT UNDERLINE NAVIGATOR) -->
-            <div style="background: #F8FAFC; border-bottom: 1px solid #E2E8F0; padding: 0 1.75rem; display: flex; gap: 1.75rem;">
+            <div style="background: #F8FAFC; border-bottom: 1px solid #E2E8F0; padding: 0 1.5rem; display: flex; gap: 1.5rem; flex-shrink: 0;">
                 <button type="button" class="disp-tab-link" :class="{ 'active': dispModalTab === 'summary' }" @click="dispModalTab = 'summary'">
                     📄 Ringkasan & Berkas Pengusul
                 </button>
@@ -1818,7 +1823,7 @@
                 </button>
             </div>
 
-            <form :action="'/dashboard/disposition/' + (selectedProposalDisposition ? selectedProposalDisposition.id : '')" method="POST" enctype="multipart/form-data" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 72vh; overflow-y: auto;">
+            <form :action="'/dashboard/disposition/' + (selectedProposalDisposition ? selectedProposalDisposition.id : '')" method="POST" enctype="multipart/form-data" style="padding: 1.15rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; flex: 1; min-height: 0; overflow-y: auto;">
                 @csrf
 
                 <!-- ================= TAB 1: RINGKASAN USULAN & BERKAS ================= -->
@@ -2043,19 +2048,19 @@
 
     <!-- MODAL INSPEKSI DOKUMEN USULAN ORIGINAL PESERTA (selectedSubmissionFullView) -->
     <div x-show="selectedSubmissionFullView !== null" class="modal-overlay" style="display: none;" @click="selectedSubmissionFullView = null">
-        <div class="modal-card" style="max-width: 840px; width: 94%; background: #FFF; border: 2px solid #072718; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);" @click.stop>
-            <div style="padding: 1.25rem 1.75rem; background: linear-gradient(135deg, #051C12 0%, #072718 100%); border-bottom: 2px solid #D4AF37; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <div class="modal-card" style="max-width: 840px; width: 94%; max-height: calc(100vh - 2.5rem); display: flex; flex-direction: column; background: #FFF; border: 2px solid #072718; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);" @click.stop>
+            <div style="padding: 0.95rem 1.5rem; background: linear-gradient(135deg, #051C12 0%, #072718 100%); border-bottom: 2px solid #D4AF37; color: #FFF; display: flex; justify-content: space-between; align-items: flex-start; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
                 <div>
                     <div style="display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap;">
-                        <span style="background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #072718; font-weight: 900; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 9999px; letter-spacing: 0.05em; box-shadow: 0 2px 6px rgba(0,0,0,0.2);" x-text="selectedSubmissionFullView ? '🎟️ TIKET: ' + selectedSubmissionFullView.ticket_no : ''"></span>
-                        <span style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #F8FAFC; font-size: 0.71875rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 6px; backdrop-filter: blur(4px);" x-text="selectedSubmissionFullView ? 'Kategori: ' + selectedSubmissionFullView.category : ''"></span>
+                        <span style="background: linear-gradient(135deg, #D4AF37 0%, #C59B27 100%); color: #072718; font-weight: 900; font-size: 0.72rem; padding: 0.2rem 0.7rem; border-radius: 9999px; letter-spacing: 0.05em; box-shadow: 0 2px 6px rgba(0,0,0,0.2);" x-text="selectedSubmissionFullView ? '🎟️ TIKET: ' + selectedSubmissionFullView.ticket_no : ''"></span>
+                        <span style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #F8FAFC; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 6px; backdrop-filter: blur(4px);" x-text="selectedSubmissionFullView ? 'Kategori: ' + selectedSubmissionFullView.category : ''"></span>
                     </div>
-                    <h3 style="font-size: 1.2rem; font-weight: 900; color: #FFFFFF; line-height: 1.4; margin-top: 0.5rem; letter-spacing: -0.01em;" x-text="selectedSubmissionFullView ? selectedSubmissionFullView.title : ''"></h3>
+                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF; line-height: 1.35; margin-top: 0.35rem; letter-spacing: -0.01em;" x-text="selectedSubmissionFullView ? selectedSubmissionFullView.title : ''"></h3>
                 </div>
-                <button @click="selectedSubmissionFullView = null" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #FFF; width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.8)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">✕</button>
+                <button @click="selectedSubmissionFullView = null" style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #FFF; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; shrink: 0; margin-left: 1rem; transition: all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.8)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">✕</button>
             </div>
 
-            <div style="padding: 1.6rem; display: flex; flex-direction: column; gap: 1.25rem; max-height: 78vh; overflow-y: auto;">
+            <div style="padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; flex: 1; min-height: 0; overflow-y: auto;">
                 <!-- 2-COLUMN METADATA GRID -->
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem;">
                     <!-- CARD A: IDENTITAS -->
