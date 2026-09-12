@@ -595,37 +595,39 @@
                 </div>
             </div>
 
-            <!-- TAB 1: POLICY BRIEF GRID (WITH HEADER VISUAL BANNER) -->
+            <!-- TAB 1: POLICY BRIEF GRID -->
             <div x-show="activeMainTab === 'policy'" class="fresh-catalog-grid">
                 @foreach($policyBriefs as $brief)
-                    <div class="fresh-catalog-card" x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
-                        <div>
-                            <!-- VISUAL HEADER BANNER -->
-                            <div class="card-thumbnail-header">
-                                <span style="font-size: 0.72rem; font-weight: 900; color: var(--color-accent-gold); background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); padding: 0.25rem 0.65rem; border-radius: 6px; border: 1px solid var(--color-accent-gold);">
+                    <div class="fresh-catalog-card" style="border-top: 4px solid var(--color-emerald-dark);" x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
+                        <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <!-- TOP METADATA ROW -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.4rem;">
+                                <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.35rem 0.75rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
                                     📄 {{ $brief->category }}
                                 </span>
-                                <span style="font-size: 0.72rem; color: #EBF3EC; font-weight: 800; background: rgba(0,0,0,0.4); padding: 0.25rem 0.65rem; border-radius: 6px;">{{ $brief->doc_no }}</span>
+                                <span style="font-size: 0.75rem; font-weight: 800; color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.25rem 0.6rem; border-radius: 6px; font-family: monospace;">
+                                    {{ $brief->doc_no }}
+                                </span>
                             </div>
 
-                            <div style="padding: 1.35rem 1.25rem 0.5rem;">
-                                <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.5rem; line-height: 1.35;">
-                                    {{ $brief->title }}
-                                </h3>
+                            <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.6rem; line-height: 1.4;">
+                                {{ $brief->title }}
+                            </h3>
 
-                                <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1.25rem;">
-                                    {{ $brief->summary }}
-                                </p>
-                            </div>
+                            <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 1.25rem; flex: 1;">
+                                {{ $brief->summary }}
+                            </p>
                         </div>
 
-                        <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900;">🟢 QR Seal Verified</span>
+                        <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.35rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: #FAFDFB;">
+                            <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                🟢 QR Seal Verified
+                            </span>
                             <div style="display: flex; gap: 0.4rem;">
-                                <button type="button" style="background: var(--color-emerald-mint); border: 1px solid var(--color-emerald-medium); color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer;" @click="openPdfPreview(policyBriefs[{{ $loop->index }}].title, policyBriefs[{{ $loop->index }}].doc_no, policyBriefs[{{ $loop->index }}].file_path)">
+                                <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(policyBriefs[{{ $loop->index }}].title, policyBriefs[{{ $loop->index }}].doc_no, policyBriefs[{{ $loop->index }}].file_path)">
                                     👁️ Pratinjau
                                 </button>
-                                <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none;">
+                                <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(30,70,32,0.2);">
                                     📥 Download
                                 </a>
                             </div>
@@ -637,34 +639,42 @@
             <!-- TAB 2: INOVASI TERUJI GRID -->
             <div x-show="activeMainTab === 'innovation'" x-cloak class="fresh-catalog-grid">
                 @foreach($innovations as $inov)
-                    <div class="fresh-catalog-card" x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
-                        <div>
-                            <!-- VISUAL HEADER BANNER -->
-                            <div class="card-thumbnail-header" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);">
-                                <span style="font-size: 0.72rem; font-weight: 900; color: #FFF; background: rgba(0,0,0,0.3); padding: 0.25rem 0.65rem; border-radius: 6px;">
+                    <div class="fresh-catalog-card" style="border-top: 4px solid #0284C7;" x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
+                        <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <!-- TOP METADATA ROW -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.4rem;">
+                                <span style="font-size: 0.75rem; font-weight: 800; color: #075985; background: #F0F9FF; border: 1px solid #E0F2FE; padding: 0.35rem 0.75rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
                                     💡 {{ $inov->status }}
                                 </span>
-                                <span style="font-size: 0.72rem; color: #E0F2FE; font-weight: 800; background: rgba(0,0,0,0.3); padding: 0.25rem 0.65rem; border-radius: 6px;">{{ $inov->innovation_no }}</span>
+                                <span style="font-size: 0.75rem; font-weight: 800; color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.25rem 0.6rem; border-radius: 6px; font-family: monospace;">
+                                    {{ $inov->innovation_no }}
+                                </span>
                             </div>
 
-                            <div style="padding: 1.35rem 1.25rem 0.5rem;">
-                                <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.5rem; line-height: 1.35;">
-                                    {{ $inov->title }}
-                                </h3>
+                            <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.6rem; line-height: 1.4;">
+                                {{ $inov->title }}
+                            </h3>
 
-                                <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1.25rem;">
-                                    {{ $inov->summary }}
-                                </p>
-                            </div>
+                            <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 1.25rem; flex: 1;">
+                                {{ $inov->summary }}
+                            </p>
+
+                            @if($inov->impact_description)
+                                <div style="background: #F0F9FF; border-left: 3px solid #0284C7; padding: 0.5rem 0.75rem; border-radius: 0 8px 8px 0; font-size: 0.78rem; color: #0369A1; font-weight: 700; margin-bottom: 1rem;">
+                                    ✨ {{ $inov->impact_description }}
+                                </div>
+                            @endif
                         </div>
 
-                        <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="font-size: 0.72rem; color: #0284C7; font-weight: 800;">✨ {{ $inov->impact_description ?? 'Efisiensi Birokrasi' }}</span>
+                        <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.35rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: #F8FAFC;">
+                            <span style="font-size: 0.72rem; color: #0284C7; font-weight: 900; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                ⚡ Teruji Birokrasi
+                            </span>
                             <div style="display: flex; gap: 0.4rem;">
-                                <button type="button" style="background: #E0F2FE; border: 1px solid #7DD3FC; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer;" @click="openPdfPreview(innovations[{{ $loop->index }}].title, innovations[{{ $loop->index }}].innovation_no, innovations[{{ $loop->index }}].sop_file_path)">
+                                <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(innovations[{{ $loop->index }}].title, innovations[{{ $loop->index }}].innovation_no, innovations[{{ $loop->index }}].sop_file_path)">
                                     👁️ Pratinjau
                                 </button>
-                                <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" style="background: #0284C7; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none;">
+                                <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
                                     📥 SOP PDF
                                 </a>
                             </div>
@@ -676,29 +686,34 @@
             <!-- TAB 3: KURIKULUM & MATERI GRID -->
             <div x-show="activeMainTab === 'curriculum'" x-cloak class="fresh-catalog-grid">
                 @foreach($curriculums as $curr)
-                    <div class="fresh-catalog-card" x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
-                        <div>
-                            <!-- VISUAL HEADER BANNER -->
-                            <div class="card-thumbnail-header" style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);">
-                                <span style="font-size: 0.72rem; font-weight: 900; color: #FFF; background: rgba(0,0,0,0.3); padding: 0.25rem 0.65rem; border-radius: 6px;">
+                    <div class="fresh-catalog-card" style="border-top: 4px solid #16A34A;" x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
+                        <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
+                            <!-- TOP METADATA ROW -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.4rem;">
+                                <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.35rem 0.75rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
                                     📚 {{ $curr->file_type }}
                                 </span>
-                                <span style="font-size: 0.72rem; color: #DCFCE7; font-weight: 800; background: rgba(0,0,0,0.3); padding: 0.25rem 0.65rem; border-radius: 6px;">Bidang: {{ $curr->subject_category }}</span>
+                                <span style="font-size: 0.75rem; font-weight: 800; color: #92400E; background: #FEF3C7; border: 1px solid #FDE68A; padding: 0.25rem 0.65rem; border-radius: 6px;">
+                                    Bidang: {{ $curr->subject_category }}
+                                </span>
                             </div>
 
-                            <div style="padding: 1.35rem 1.25rem 0.5rem;">
-                                <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.5rem; line-height: 1.35;">
-                                    {{ $curr->title }}
-                                </h3>
+                            <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.6rem; line-height: 1.4;">
+                                {{ $curr->title }}
+                            </h3>
 
-                                <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1.25rem;">
-                                    Pengunggah: <strong>{{ $curr->uploader_name ?? 'Admin Litbang' }}</strong>
-                                </p>
-                            </div>
+                            <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 1.25rem; flex: 1;">
+                                Pengunggah: <strong style="color: var(--color-text-dark);">{{ $curr->uploader_name ?? 'Admin Litbang' }}</strong>
+                                @if($curr->description)
+                                    <span style="display: block; margin-top: 0.35rem; color: #64748B;">{{ $curr->description }}</span>
+                                @endif
+                            </p>
                         </div>
 
-                        <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900;">🎓 Terverifikasi</span>
+                        <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.35rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: #F8FAFC;">
+                            <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                🎓 Modul Terverifikasi
+                            </span>
                             <div style="display: flex; gap: 0.4rem;">
                                 @if($curr->external_link)
                                     <a href="{{ $curr->external_link }}" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none;">
@@ -706,10 +721,10 @@
                                     </a>
                                 @endif
                                 @if($curr->file_path)
-                                    <button type="button" style="background: #DCFCE7; border: 1px solid #86EFAC; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer;" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
+                                    <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
                                         👁️ Pratinjau
                                     </button>
-                                    <a href="{{ $curr->file_path }}" download style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none;">
+                                    <a href="{{ $curr->file_path }}" download style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
                                         📥 Unduh
                                     </a>
                                 @endif
