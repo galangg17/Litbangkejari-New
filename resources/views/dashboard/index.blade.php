@@ -116,7 +116,7 @@
 
   .sidebar-container {
     width: 220px;
-    background: #072718;
+    background: #1B4332;
     border-right: 1.5px solid rgba(197, 155, 39, 0.35);
     flex-shrink: 0;
     display: flex;
@@ -202,7 +202,7 @@
   }
 
   .welcome-banner {
-    background: linear-gradient(135deg, #072718 0%, #0B3C26 60%, #13543A 100%);
+    background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 60%, #4A7C59 100%);
     border: 1.5px solid #C59B27;
     border-radius: 16px;
     padding: 0.95rem 1.15rem;
