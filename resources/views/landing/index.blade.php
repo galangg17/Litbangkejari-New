@@ -26,11 +26,8 @@
     overflow-x: hidden;
   }
 
-  /* NATIVE 80% ZOOM SCALE FOR LANDING PAGE CONTENT ONLY */
+  /* NATIVE FULL WIDTH LANDING PAGE CONTAINER (NO CUTOFF) */
   .fresh-landing-root {
-    zoom: 0.80;
-    -webkit-zoom: 0.80;
-    transform-origin: top center;
     width: 100%;
     min-height: 100vh;
     box-sizing: border-box;
