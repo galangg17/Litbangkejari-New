@@ -307,6 +307,7 @@
     activeMainTab: 'policy',
     activeCategory: 'Semua',
     searchQuery: '{{ request('search', '') }}',
+    viewMode: 'grid',
     copyToast: false,
     policyBriefs: {{ json_encode($policyBriefs->values()) }},
     innovations: {{ json_encode($innovations->values()) }},
@@ -614,24 +615,36 @@
                     </div>
                 </div>
 
-                <!-- LIVE SEARCH BAR -->
+                <!-- LIVE SEARCH BAR & LAYOUT SWITCHER -->
                 <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 1.15rem 1.35rem; border-radius: 20px; margin-bottom: 1.85rem; display: flex; flex-direction: column; gap: 0.85rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
                     <div style="position: relative;">
                         <input type="text" x-model="searchQuery" placeholder="🔍 Cari judul naskah, inovasi, pengusul, atau modul secara instan..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.7rem 1rem; color: var(--color-text-dark); font-size: 0.875rem; outline: none;" />
                     </div>
 
-                    <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
-                        <span style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: 800; margin-right: 0.25rem;">Kategori Domain:</span>
-                        <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Semua' }" @click="activeCategory = 'Semua'">Semua</button>
-                        <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Pidana' }" @click="activeCategory = 'Pidana'">Pidana</button>
-                        <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Perdata' }" @click="activeCategory = 'Perdata'">Perdata</button>
-                        <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'TUN' }" @click="activeCategory = 'TUN'">TUN</button>
-                        <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'SPBE' }" @click="activeCategory = 'SPBE'">SPBE</button>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+                        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
+                            <span style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: 800; margin-right: 0.25rem;">Kategori Domain:</span>
+                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Semua' }" @click="activeCategory = 'Semua'">Semua</button>
+                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Pidana' }" @click="activeCategory = 'Pidana'">Pidana</button>
+                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Perdata' }" @click="activeCategory = 'Perdata'">Perdata</button>
+                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'TUN' }" @click="activeCategory = 'TUN'">TUN</button>
+                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'SPBE' }" @click="activeCategory = 'SPBE'">SPBE</button>
+                        </div>
+
+                        <!-- LAYOUT MODE TOGGLE (GRID VS TABLE) -->
+                        <div style="display: flex; gap: 0.3rem; background: #F1F5F9; border: 1.5px solid #CBD5E1; padding: 0.25rem; border-radius: 12px;">
+                            <button type="button" @click="viewMode = 'grid'" :style="viewMode === 'grid' ? 'background: #FFFFFF; color: var(--color-emerald-dark); font-weight: 900; box-shadow: 0 2px 8px rgba(0,0,0,0.1);' : 'background: transparent; color: #64748B; font-weight: 700;'" style="border: none; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78125rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;">
+                                🔲 Tampilan Kartu
+                            </button>
+                            <button type="button" @click="viewMode = 'list'" :style="viewMode === 'list' ? 'background: #FFFFFF; color: var(--color-emerald-dark); font-weight: 900; box-shadow: 0 2px 8px rgba(0,0,0,0.1);' : 'background: transparent; color: #64748B; font-weight: 700;'" style="border: none; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78125rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;">
+                                ☰ Tabel Ringkas (Koleksi Banyak)
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- TAB 1: POLICY BRIEF GRID -->
-                <div x-show="activeMainTab === 'policy'" class="fresh-catalog-grid">
+                <!-- TAB 1: POLICY BRIEF - GRID VIEW -->
+                <div x-show="activeMainTab === 'policy' && viewMode === 'grid'" class="fresh-catalog-grid">
                     @foreach($policyBriefs as $brief)
                         <div class="fresh-catalog-card" style="border-top: 4px solid var(--color-emerald-dark);" x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
                             <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
@@ -670,8 +683,56 @@
                     @endforeach
                 </div>
 
-                <!-- TAB 2: INOVASI TERUJI GRID -->
-                <div x-show="activeMainTab === 'innovation'" x-cloak class="fresh-catalog-grid">
+                <!-- TAB 1: POLICY BRIEF - TABLE VIEW (FOR LARGE COLLECTIONS) -->
+                <div x-show="activeMainTab === 'policy' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8125rem;">
+                            <thead>
+                                <tr style="background: var(--color-emerald-dark); color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; text-transform: uppercase;">
+                                    <th style="padding: 1rem 1.25rem;">No. Dokumen</th>
+                                    <th style="padding: 1rem 1.25rem;">Judul Naskah Kebijakan</th>
+                                    <th style="padding: 1rem 1.25rem;">Kategori Bidang</th>
+                                    <th style="padding: 1rem 1.25rem;">Status Verifikasi</th>
+                                    <th style="padding: 1rem 1.25rem; text-align: right;">Aksi Naskah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($policyBriefs as $brief)
+                                    <tr style="border-bottom: 1px solid #F1F5F9; transition: background 0.15s ease;" x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
+                                        <td style="padding: 1rem 1.25rem; font-family: monospace; font-weight: 800; color: var(--color-emerald-dark); white-space: nowrap;">
+                                            {{ $brief->doc_no }}
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem;">
+                                            <div style="font-weight: 900; color: var(--color-text-dark); font-size: 0.875rem;">{{ $brief->title }}</div>
+                                            <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ $brief->summary }}</div>
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
+                                            <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                                                {{ $brief->category }}
+                                            </span>
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
+                                            <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900;">🟢 QR Seal OK</span>
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
+                                            <div style="display: inline-flex; gap: 0.4rem;">
+                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(policyBriefs[{{ $loop->index }}].title, policyBriefs[{{ $loop->index }}].doc_no, policyBriefs[{{ $loop->index }}].file_path)">
+                                                    👁️ Pratinjau
+                                                </button>
+                                                <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                    📥 Download
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: INOVASI TERUJI - GRID VIEW -->
+                <div x-show="activeMainTab === 'innovation' && viewMode === 'grid'" x-cloak class="fresh-catalog-grid">
                     @foreach($innovations as $inov)
                         <div class="fresh-catalog-card" style="border-top: 4px solid #0284C7;" x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
                             <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
@@ -716,8 +777,56 @@
                     @endforeach
                 </div>
 
-                <!-- TAB 3: KURIKULUM & MATERI GRID -->
-                <div x-show="activeMainTab === 'curriculum'" x-cloak class="fresh-catalog-grid">
+                <!-- TAB 2: INOVASI TERUJI - TABLE VIEW -->
+                <div x-show="activeMainTab === 'innovation' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8125rem;">
+                            <thead>
+                                <tr style="background: #0284C7; color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; text-transform: uppercase;">
+                                    <th style="padding: 1rem 1.25rem;">No. Inovasi</th>
+                                    <th style="padding: 1rem 1.25rem;">Judul Inovasi Digital</th>
+                                    <th style="padding: 1rem 1.25rem;">Kategori / Status</th>
+                                    <th style="padding: 1rem 1.25rem;">Dampak Utama</th>
+                                    <th style="padding: 1rem 1.25rem; text-align: right;">Berkas SOP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($innovations as $inov)
+                                    <tr style="border-bottom: 1px solid #F1F5F9; transition: background 0.15s ease;" x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
+                                        <td style="padding: 1rem 1.25rem; font-family: monospace; font-weight: 800; color: #0284C7; white-space: nowrap;">
+                                            {{ $inov->innovation_no }}
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem;">
+                                            <div style="font-weight: 900; color: var(--color-text-dark); font-size: 0.875rem;">{{ $inov->title }}</div>
+                                            <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ $inov->summary }}</div>
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
+                                            <span style="font-size: 0.75rem; font-weight: 800; color: #075985; background: #F0F9FF; border: 1px solid #E0F2FE; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                                                {{ $inov->status }}
+                                            </span>
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; color: #0369A1; font-size: 0.78rem; font-weight: 700;">
+                                            {{ $inov->impact_description ?? '-' }}
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
+                                            <div style="display: inline-flex; gap: 0.4rem;">
+                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(innovations[{{ $loop->index }}].title, innovations[{{ $loop->index }}].innovation_no, innovations[{{ $loop->index }}].sop_file_path)">
+                                                    👁️ Pratinjau
+                                                </button>
+                                                <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" style="background: #0284C7; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                    📥 SOP PDF
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: KURIKULUM & MATERI - GRID VIEW -->
+                <div x-show="activeMainTab === 'curriculum' && viewMode === 'grid'" x-cloak class="fresh-catalog-grid">
                     @foreach($curriculums as $curr)
                         <div class="fresh-catalog-card" style="border-top: 4px solid #16A34A;" x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
                             <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
@@ -764,6 +873,65 @@
                             </div>
                         </div>
                     @endforeach
+                </div>
+
+                <!-- TAB 3: KURIKULUM & MATERI - TABLE VIEW -->
+                <div x-show="activeMainTab === 'curriculum' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8125rem;">
+                            <thead>
+                                <tr style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; text-transform: uppercase;">
+                                    <th style="padding: 1rem 1.25rem;">Tipe Modul</th>
+                                    <th style="padding: 1rem 1.25rem;">Judul Modul Pembelajaran</th>
+                                    <th style="padding: 1rem 1.25rem;">Bidang Materi</th>
+                                    <th style="padding: 1rem 1.25rem;">Pengunggah</th>
+                                    <th style="padding: 1rem 1.25rem; text-align: right;">Aksi Modul</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($curriculums as $curr)
+                                    <tr style="border-bottom: 1px solid #F1F5F9; transition: background 0.15s ease;" x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
+                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
+                                            <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                                                📚 {{ $curr->file_type }}
+                                            </span>
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem;">
+                                            <div style="font-weight: 900; color: var(--color-text-dark); font-size: 0.875rem;">{{ $curr->title }}</div>
+                                            @if($curr->description)
+                                                <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">{{ $curr->description }}</div>
+                                            @endif
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
+                                            <span style="font-size: 0.75rem; font-weight: 800; color: #92400E; background: #FEF3C7; border: 1px solid #FDE68A; padding: 0.25rem 0.65rem; border-radius: 6px;">
+                                                {{ $curr->subject_category }}
+                                            </span>
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; color: var(--color-text-muted); white-space: nowrap;">
+                                            {{ $curr->uploader_name ?? 'Admin Litbang' }}
+                                        </td>
+                                        <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
+                                            <div style="display: inline-flex; gap: 0.4rem;">
+                                                @if($curr->external_link)
+                                                    <a href="{{ $curr->external_link }}" target="_blank" rel="noopener noreferrer" style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                        🔗 Drive
+                                                    </a>
+                                                @endif
+                                                @if($curr->file_path)
+                                                    <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
+                                                        👁️ Pratinjau
+                                                    </button>
+                                                    <a href="{{ $curr->file_path }}" download style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                        📥 Unduh
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
