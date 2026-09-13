@@ -396,7 +396,6 @@
 
                 <nav class="resp-nav-links">
                     <a href="#katalog-hub">📄 Katalog 3 Pilar</a>
-                    <a href="#tentang-hub">🌱 Tentang Kami</a>
                     <a href="#lacak-tiket-hub">🎟️ Lacak Usulan</a>
                     <a href="#kontak-hub">📍 Kontak</a>
                     <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); cursor: pointer; box-shadow: 0 4px 14px rgba(27, 67, 50, 0.25);">
@@ -576,9 +575,9 @@
                 </div>
             </section>
 
-            <!-- 6. STATS & ABOUT SPLIT SECTION -->
-            <section class="fresh-split-section" id="tentang-hub">
-                <div class="fresh-stats-grid">
+            <!-- 6. HIGH IMPACT 4-COLUMN STATS COUNTER BAR -->
+            <section style="margin: 3.5rem 0 2rem;">
+                <div class="fresh-stats-grid" style="grid-template-columns: repeat(4, 1fr);">
                     <div class="fresh-stat-box box-white">
                         <div style="font-size: 2.35rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1;">500+</div>
                         <div style="font-size: 0.8125rem; font-weight: 900; color: var(--color-text-dark); margin-top: 6px;">Peserta Angkatan</div>
@@ -601,23 +600,6 @@
                         <div style="font-size: 2.35rem; font-weight: 900; color: #16A34A; line-height: 1;">100%</div>
                         <div style="font-size: 0.8125rem; font-weight: 900; color: var(--color-text-dark); margin-top: 6px;">Stempel QR Seal</div>
                         <div style="font-size: 0.71875rem; color: var(--color-text-muted); margin-top: 2px;">Autentik Digital</div>
-                    </div>
-                </div>
-
-                <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 24px; padding: 2.35rem; box-shadow: 0 10px 30px rgba(27,67,50,0.06);">
-                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: var(--color-emerald-mint); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-dark); text-transform: uppercase; margin-bottom: 1rem;">
-                        <span>🌱 TENTANG LITBANG GAJAH MADA ADHYAKSA</span>
-                    </div>
-                    <h2 style="font-size: 1.75rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1.25; margin-bottom: 1rem;">
-                        Mengabdi Melalui Formulasi Riset & Inovasi Penegakan Hukum
-                    </h2>
-                    <p style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 1.35rem;">
-                        Litbang Gajah Mada Adhyaksa merupakan wadah penelitian dan pengolahan pengetahuan resmi bagi Anggota PPPJ LXXXIII/II Tahun 2026. Kami berkomitmen menyusun formulasi naskah kebijakan, menginkubasi gagasan inovasi layanan publik, dan mengarsipkan modul kurikulum pembelajaran secara aman.
-                    </p>
-                    <div style="display: flex; gap: 0.75rem; align-items: center;">
-                        <a href="#katalog-hub" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.65rem 1.35rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-                            🌐 Jelajahi Repositori →
-                        </a>
                     </div>
                 </div>
             </section>
@@ -915,7 +897,6 @@
                 <div>
                     <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1rem;">Tautan Cepat</h4>
                     <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8125rem;">
-                        <a href="#tentang-hub" style="color: #CBD5E1; text-decoration: none;">🌱 Tentang Litbang</a>
                         <a href="#lacak-tiket-hub" style="color: #CBD5E1; text-decoration: none;">🎟️ Lacak Tiket Usulan</a>
                         <a href="{{ route('login') }}" style="color: #CBD5E1; text-decoration: none;">🔑 Masuk Admin</a>
                     </div>
