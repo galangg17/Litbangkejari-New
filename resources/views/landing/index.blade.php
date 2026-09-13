@@ -368,17 +368,6 @@
             ✨ Tautan Dokumen PDF Berhasil Disalin!
         </div>
 
-        <!-- 1. TOP UTILITY BAR -->
-        <div class="fresh-utility-bar">
-            <div style="display: flex; gap: 1.5rem; align-items: center;">
-                <span>📍 Gedung Kejaksaan Agung RI, Jakarta</span>
-                <span>✉️ litbang@kejaksaan.go.id</span>
-            </div>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <span>🏆 PPPJ LXXXIII/II TAHUN 2026</span>
-            </div>
-        </div>
-
         <!-- 2. TOP FLOATING OFF-WHITE NAVBAR -->
         <div style="position: sticky; top: 0.85rem; z-index: 50; padding: 0 0.85rem; margin: 0.85rem auto 0; width: 100%; max-width: 1240px; box-sizing: border-box;">
             <header class="fresh-navbar-header">
