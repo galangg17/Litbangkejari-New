@@ -462,6 +462,16 @@
             </header>
         </div>
 
+        <!-- LIVE ACTIVITY TICKER BAR -->
+        <div style="background: #0D2818; border-bottom: 1.5px solid rgba(212,175,55,0.35); color: #E2E8F0; padding: 0.45rem 1.25rem; font-size: 0.78125rem; display: flex; align-items: center; justify-content: center; gap: 1rem; overflow: hidden; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 0.65rem;">
+            <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(212, 175, 55, 0.2); color: var(--color-accent-gold); font-weight: 900; padding: 0.15rem 0.65rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); font-size: 0.6875rem; text-transform: uppercase; flex-shrink: 0;">
+                ⚡ AKTIVITAS TERBARU
+            </div>
+            <div style="font-weight: 700; color: #EBF3EC; overflow: hidden; text-overflow: ellipsis;">
+                <span>✨ Naskah Policy Brief <strong style="color: var(--color-accent-gold);">#PB-01 (Perampasan Aset Korupsi Lintas Negara)</strong> Resmi Diterbitkan di Vault Publik &nbsp;•&nbsp; ⚡ Inovasi Digital SOP SPBE Lulus Skrining Pokja &nbsp;•&nbsp; 📚 Modul Kurikulum Pembelajaran PPPJ LXXXIII/2026 Siap Diunduh</span>
+            </div>
+        </div>
+
         <!-- MAIN CONTENT CONTAINER -->
         <main class="resp-container" style="flex: 1; padding-top: 1.75rem; padding-bottom: 4rem;">
             
@@ -1108,6 +1118,67 @@
                 </div>
             </section>
 
+            <!-- 11. FAQ ACCORDION SECTION (PERTANYAAN SERING DIAJUKAN) -->
+            <section style="margin-bottom: 3.5rem;" x-data="{ activeFaq: null }">
+                <div style="text-align: center; max-width: 680px; margin: 0 auto 2rem;">
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: var(--color-emerald-mint); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-dark); text-transform: uppercase;">
+                        <span>❓ PERTANYAAN SERING DIAJUKAN (FAQ)</span>
+                    </div>
+                    <h2 style="font-size: 1.85rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 0.4rem;">
+                        Pusat Bantuan & Pertanyaan Layanan Angkatan
+                    </h2>
+                    <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">
+                        Temukan jawaban lengkap seputar alur pengajuan usulan riset, penggunaan PIN angkatan, serta penerbitan berkas akademis.
+                    </p>
+                </div>
+
+                <div style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.85rem;">
+                    <!-- FAQ Item 1 -->
+                    <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: all 0.2s ease;">
+                        <button type="button" @click="activeFaq = (activeFaq === 1 ? null : 1)" style="width: 100%; padding: 1.15rem 1.35rem; background: none; border: none; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); outline: none;">
+                            <span>⚡ Bagaimana cara mendaftarkan Usulan Riset atau Ide Inovasi?</span>
+                            <span style="font-size: 1.1rem; transition: transform 0.2s;" :style="activeFaq === 1 ? 'transform: rotate(180deg)' : ''">▼</span>
+                        </button>
+                        <div x-show="activeFaq === 1" x-collapse style="padding: 0 1.35rem 1.15rem; font-size: 0.84375rem; color: var(--color-text-muted); line-height: 1.65; border-top: 1px solid #F1F5F9;">
+                            Anda dapat menekan tombol <strong>⚡ Ajukan Usulan Riset</strong> di bagian atas atau bawah halaman, melengkapi formulir identitas pengusul, memilih kategori domain hukum, mengunggah berkas pendukung, serta memasukkan Kode PIN Akses Angkatan (<code>{{ $setting->batch_passcode }}</code>). Setelah dikirim, Anda akan mendapatkan Nomor Tiket Lacak resmi.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: all 0.2s ease;">
+                        <button type="button" @click="activeFaq = (activeFaq === 2 ? null : 2)" style="width: 100%; padding: 1.15rem 1.35rem; background: none; border: none; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); outline: none;">
+                            <span>🔑 Apa itu Kode PIN Akses Angkatan dan di mana saya mendapatkannya?</span>
+                            <span style="font-size: 1.1rem; transition: transform 0.2s;" :style="activeFaq === 2 ? 'transform: rotate(180deg)' : ''">▼</span>
+                        </button>
+                        <div x-show="activeFaq === 2" x-collapse style="padding: 0 1.35rem 1.15rem; font-size: 0.84375rem; color: var(--color-text-muted); line-height: 1.65; border-top: 1px solid #F1F5F9;">
+                            Kode PIN Angkatan (<code>{{ $setting->batch_passcode }}</code>) adalah sistem otentikasi internal yang disediakan untuk seluruh Peserta/Anggota PPPJ LXXXIII/2026 agar usulan naskah atau ide inovasi Anda dapat didaftarkan secara terverifikasi ke database Pokja Riset.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: all 0.2s ease;">
+                        <button type="button" @click="activeFaq = (activeFaq === 3 ? null : 3)" style="width: 100%; padding: 1.15rem 1.35rem; background: none; border: none; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); outline: none;">
+                            <span>⏳ Berapa lama proses skrining usulan oleh Tim Riset Pokja?</span>
+                            <span style="font-size: 1.1rem; transition: transform 0.2s;" :style="activeFaq === 3 ? 'transform: rotate(180deg)' : ''">▼</span>
+                        </button>
+                        <div x-show="activeFaq === 3" x-collapse style="padding: 0 1.35rem 1.15rem; font-size: 0.84375rem; color: var(--color-text-muted); line-height: 1.65; border-top: 1px solid #F1F5F9;">
+                            Skrining kelayakan awal dilakukan dalam kurun waktu 1x24 jam kerja oleh Sekretariat Admin. Usulan yang memenuhi kualifikasi akan langsung didisposisikan ke Tim Riset untuk penyusunan Naskah Policy Brief Studio atau inkubasi Bank Inovasi.
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: all 0.2s ease;">
+                        <button type="button" @click="activeFaq = (activeFaq === 4 ? null : 4)" style="width: 100%; padding: 1.15rem 1.35rem; background: none; border: none; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); outline: none;">
+                            <span>🎟️ Bagaimana cara melacak status penelaahan usulan saya?</span>
+                            <span style="font-size: 1.1rem; transition: transform 0.2s;" :style="activeFaq === 4 ? 'transform: rotate(180deg)' : ''">▼</span>
+                        </button>
+                        <div x-show="activeFaq === 4" x-collapse style="padding: 0 1.35rem 1.15rem; font-size: 0.84375rem; color: var(--color-text-muted); line-height: 1.65; border-top: 1px solid #F1F5F9;">
+                            Anda dapat memasukkan Nomor Tiket Lacak Anda (contoh: <code>PB-01/LITBANG-MADA/2026</code>) pada kotak pencarian <strong>🎟️ STATUS LACAK TIKET USULAN</strong> di halaman ini untuk melihat progres penelaahan dan tanggapan resmi Tim Riset.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
 
         <!-- 11. DARK ORGANIC GREEN FOOTER -->
@@ -1344,6 +1415,16 @@
                 </button>
             </div>
         </div>
+    </div>
+
+    <!-- FLOATING ACTION WIDGET (BACK TO TOP & QUICK TICKET) -->
+    <div style="position: fixed; bottom: 2rem; right: 2rem; z-index: 99; display: flex; flex-direction: column; gap: 0.65rem;">
+        <a href="#lacak-tiket-hub" title="Lacak Tiket Usulan" style="width: 46px; height: 46px; border-radius: 50%; background: var(--color-accent-gold); color: #04140B; font-weight: 900; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; text-decoration: none; box-shadow: 0 8px 24px rgba(0,0,0,0.3); border: 2px solid #FFFFFF; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            🎟️
+        </a>
+        <button type="button" @click="window.scrollTo({ top: 0, behavior: 'smooth' })" title="Kembali ke Atas" style="width: 46px; height: 46px; border-radius: 50%; background: var(--color-emerald-dark); color: var(--color-accent-gold); border: 2px solid var(--color-accent-gold); font-size: 1.1rem; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,0.3); transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            ⬆️
+        </button>
     </div>
 
 </div>
