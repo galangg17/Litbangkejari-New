@@ -979,4 +979,25 @@ class DashboardController extends Controller
         return redirect()->route('dashboard.index', ['tab' => 'settings'])
             ->with('toast', 'Pengaturan Sistem & Informasi Posko Sekretariat Berhasil Diperbarui!');
     }
+
+    public function resetTestingData(Request $request)
+    {
+        // Purge dummy testing data from all content tables
+        PublicProposal::query()->delete();
+        Kajian::query()->delete();
+        InnovationProposal::query()->delete();
+        Curriculum::query()->delete();
+        AuditLog::query()->delete();
+
+        // Create initial clean state log entry
+        AuditLog::create([
+            'user_name' => session('user_name', 'Admin Utama'),
+            'action' => 'RESET_TESTING_DATA',
+            'target_ticket' => 'CLEAN_DATABASE',
+            'details' => 'Mengosongkan seluruh data sampel uji coba. Database kini bersih dan siap untuk penggunaan produksi resmi angkatan.',
+        ]);
+
+        return redirect()->route('dashboard.index', ['tab' => 'settings'])
+            ->with('toast', '✨ Data Uji Coba Berhasil Direset! Database kini bersih dan siap untuk penggunaan resmi angkatan.');
+    }
 }

@@ -48,6 +48,7 @@ Route::middleware(['web'])->group(function () {
     Route::post('/dashboard/store-category', [DashboardController::class, 'storeCategory'])->name('dashboard.store_category');
     Route::delete('/dashboard/delete-category/{id}', [DashboardController::class, 'destroyCategory'])->name('dashboard.destroy_category');
     Route::post('/dashboard/settings', [DashboardController::class, 'updateSettings'])->name('dashboard.update_settings');
+    Route::post('/dashboard/reset-testing-data', [DashboardController::class, 'resetTestingData'])->name('dashboard.reset_testing_data');
 
     // User Management Routes
     Route::post('/dashboard/users/store', [DashboardController::class, 'storeUser'])->name('dashboard.users.store');

@@ -1610,6 +1610,39 @@
                         @endforeach
                     </tbody>
                 </table>
+            <!-- RESET & CLEANSING DATA UJI COBA (PURGE DUMMY TESTING DATA) -->
+            <div class="content-card" style="margin-top: 1.5rem; border-top: 4px solid #DC2626; background: #FFF5F5;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 1.0625rem; font-weight: 900; color: #991B1B;">🗑️ Reset & Cleansing Data Uji Coba (Purge Testing Data)</h3>
+                    <span style="font-size: 0.75rem; font-weight: 800; color: #991B1B; background: #FEE2E2; border: 1px solid #FCA5A5; padding: 0.25rem 0.65rem; border-radius: 9999px;">Zone Produksi</span>
+                </div>
+                <p style="font-size: 0.78125rem; color: #7F1D1D; margin-bottom: 1.25rem; line-height: 1.5;">
+                    Kosongkan seluruh data sampel/dummy uji coba (Policy Brief sampel, Inovasi sampel, Tiket Usulan uji coba, & Modul uji coba) agar aplikasi menjadi bersih (Clean State) dan siap digunakan secara resmi oleh tim/angkatan.
+                </p>
+
+                <div style="background: #FFFFFF; border: 1px solid #FECACA; border-radius: 12px; padding: 1rem; margin-bottom: 1.25rem;">
+                    <div style="font-size: 0.75rem; font-weight: 800; color: #991B1B; margin-bottom: 0.5rem;">⚠️ Data Uji Coba yang akan DIBERSIHKAN:</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.78125rem; color: #475569;">
+                        <div>❌ Seluruh Naskah Policy Brief Sampel</div>
+                        <div>❌ Seluruh Data Inovasi Sampel</div>
+                        <div>❌ Seluruh Tiket Usulan Uji Coba</div>
+                        <div>❌ Seluruh Berkas Kurikulum Sampel</div>
+                    </div>
+                    <div style="font-size: 0.75rem; font-weight: 800; color: #166534; margin-top: 0.75rem;">✅ Data Konfigurasi yang TETAP AMAN (Tidak Dihapus):</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.78125rem; color: #15803D;">
+                        <div>✔️ Akun Administrator & Password Login</div>
+                        <div>✔️ Pengaturan PIN Passcode & Informasi Posko</div>
+                        <div>✔️ Kategori Domain Hukum</div>
+                        <div>✔️ Form Builder Fields</div>
+                    </div>
+                </div>
+
+                <form action="{{ route('dashboard.reset_testing_data') }}" method="POST" onsubmit="return confirm('⚠️ PERINGATAN KRITIS!\n\nApakah Anda YAKIN ingin menghapus seluruh data sampel uji coba dan mengosongkan database untuk penggunaan resmi angkatan?\n\nTindakan ini TIDAK DAPAT DIBATALKAN!');">
+                    @csrf
+                    <button type="submit" style="background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%); color: #FFFFFF; font-weight: 900; font-size: 0.8125rem; padding: 0.75rem 1.5rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); display: inline-flex; align-items: center; gap: 0.5rem;">
+                        🗑️ Reset Data Uji Coba & Siapkan Untuk Produksi Resmi
+                    </button>
+                </form>
             </div>
             </div>
         </div>
