@@ -131,18 +131,19 @@
     color: var(--color-emerald-dark);
   }
 
-  /* HERO BANNER WITH GEDUNG KEJAKSAAN PHOTO BACKGROUND */
+  /* HERO BANNER WITH GEDUNG KEJAKSAAN PHOTO BACKGROUND (CENTERED LIKE GAMBAR 1) */
   .fresh-hero-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 2.25rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    background: linear-gradient(135deg, rgba(15, 35, 20, 0.88) 0%, rgba(27, 67, 50, 0.90) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}');
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(15, 35, 20, 0.86) 0%, rgba(27, 67, 50, 0.88) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}');
     background-size: cover;
     background-position: center;
     border: 2px solid var(--color-accent-gold);
     border-radius: 26px;
-    padding: 3rem 2.5rem;
+    padding: 4.5rem 2rem 6.5rem;
     position: relative;
     overflow: hidden;
     box-shadow: 0 18px 45px rgba(27, 67, 50, 0.22);
@@ -152,45 +153,49 @@
   .fresh-hero-grid::before {
     content: '';
     position: absolute;
-    top: -40%;
-    right: -20%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(0,0,0,0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(0,0,0,0) 70%);
     pointer-events: none;
   }
 
-  /* 4 FEATURE CARDS ROW */
+  /* 4 FEATURE CARDS ROW (OVERLAPPING BOTTOM EDGE OF HERO) */
   .fresh-feature-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.15rem;
-    margin-top: -2.25rem;
+    margin-top: -4rem;
     position: relative;
     z-index: 10;
+    align-items: end;
   }
 
   .fresh-feature-card {
     background: #FFFFFF;
     border: 1.5px solid #E2E8F0;
-    border-radius: 18px;
-    padding: 1.35rem 1.2rem;
-    box-shadow: 0 8px 24px rgba(27, 67, 50, 0.06);
+    border-radius: 20px;
+    padding: 1.25rem 1.15rem;
+    box-shadow: 0 10px 28px rgba(27, 67, 50, 0.08);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
   }
 
   .fresh-feature-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 32px rgba(27, 67, 50, 0.12);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(27, 67, 50, 0.15);
     border-color: var(--color-emerald-medium);
   }
 
   .fresh-feature-card.highlight {
     background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%);
     color: #FFFFFF;
-    border-color: var(--color-accent-gold);
-    box-shadow: 0 10px 28px rgba(27, 67, 50, 0.25);
+    border: 2px solid var(--color-accent-gold);
+    box-shadow: 0 14px 35px rgba(27, 67, 50, 0.3);
+    margin-top: -2.5rem;
+    padding-top: 1rem;
   }
 
   /* STAKEHOLDER & CLIENTS SECTION */
@@ -468,93 +473,85 @@
                 </div>
             @endif
 
-            <!-- 3. HERO SECTION WITH GEDUNG KEJAKSAAN AGUNG PHOTO BACKGROUND -->
-            <section class="fresh-hero-grid" style="margin-bottom: 2rem;">
-                <!-- Left Text Content -->
-                <div style="position: relative; z-index: 2;">
-                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid var(--color-accent-gold); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1.25rem; text-transform: uppercase;">
+            <!-- 3. HERO SECTION WITH GEDUNG KEJAKSAAN AGUNG PHOTO BACKGROUND (CENTERED LIKE GAMBAR 1) -->
+            <section class="fresh-hero-grid" style="margin-bottom: 0;">
+                <div style="position: relative; z-index: 2; max-width: 820px; margin: 0 auto;">
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid var(--color-accent-gold); border-radius: 9999px; font-size: 0.75rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
                         <span>🏛️ KEJAKSAAN REPUBLIK INDONESIA</span>
                     </div>
 
-                    <h1 style="font-size: clamp(2.1rem, 4vw, 3.2rem); font-weight: 900; line-height: 1.15; color: #FFFFFF; margin-bottom: 1.15rem; letter-spacing: -0.01em;">
+                    <h1 style="font-size: clamp(2.3rem, 4.5vw, 3.5rem); font-weight: 900; line-height: 1.15; color: #FFFFFF; margin-bottom: 1.25rem; letter-spacing: -0.01em;">
                         Transformasi Riset, Inovasi <br />
-                        <span style="color: var(--color-accent-gold); text-shadow: 0 4px 15px rgba(212,175,55,0.35);">
+                        <span style="color: var(--color-accent-gold); text-shadow: 0 4px 18px rgba(212,175,55,0.4);">
                             & Kurikulum Pembelajaran
                         </span>
                     </h1>
 
-                    <p style="font-size: 0.95rem; color: #EBF3EC; line-height: 1.65; margin-bottom: 2rem; max-width: 580px;">
+                    <p style="font-size: 1.05rem; color: #EBF3EC; line-height: 1.65; margin: 0 auto 2.25rem; max-width: 680px; font-weight: 500;">
                         Pusat repositori manajemen pengetahuan terpadu Angkatan Gajah Mada Adhyaksa (PPPJ LXXXIII/2026). Akses naskah akademis teruji, bank inovasi digital, dan modul pembelajaran.
                     </p>
 
-                    <!-- Hero Action Buttons -->
-                    <div style="display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center;">
-                        <a href="#katalog-hub" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.875rem; padding: 0.85rem 1.75rem; border-radius: 12px; text-decoration: none; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35); display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <!-- 2 Centered Hero CTA Buttons -->
+                    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+                        <a href="#katalog-hub" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 2.1rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4); display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">
                             🌐 Jelajahi Vault Naskah →
                         </a>
-                        <button @click="isProposalModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.85rem 1.5rem; border-radius: 12px; cursor: pointer; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 0.4rem;">
+                        <button @click="isProposalModalOpen = true" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.5); color: #FFFFFF; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 1.85rem; border-radius: 9999px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;">
                             📝 Ajukan Usulan
                         </button>
                     </div>
                 </div>
-
-                <!-- Right Floating Showcase Card -->
-                <div style="position: relative; z-index: 2;">
-                    <template x-if="policyBriefs && policyBriefs.length > 0">
-                        <div style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 24px; padding: 1.65rem; color: var(--color-text-dark); box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.875rem; flex-wrap: wrap; gap: 0.5rem;">
-                                <span style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.6875rem; padding: 0.25rem 0.65rem; border-radius: 9999px;" x-text="policyBriefs[0].category || 'POLICY BRIEF UTAMA'">
-                                </span>
-                                <span style="font-size: 0.72rem; color: var(--color-emerald-medium); font-weight: 800;" x-text="policyBriefs[0].doc_no"></span>
-                            </div>
-
-                            <h3 style="font-size: 1.15rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1.3; margin-bottom: 0.6rem;" x-text="policyBriefs[0].title"></h3>
-                            
-                            <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1.25rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;" x-text="policyBriefs[0].summary"></p>
-
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E2E8F0; padding-top: 0.85rem;">
-                                <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900;">🟢 QR Seal Verified</span>
-                                <button @click="openPdfPreview(policyBriefs[0].title, policyBriefs[0].doc_no, policyBriefs[0].file_path)" style="background: var(--color-emerald-mint); color: var(--color-emerald-dark); border: 1px solid var(--color-emerald-medium); font-weight: 800; font-size: 0.75rem; padding: 0.4rem 0.85rem; border-radius: 8px; cursor: pointer;">
-                                    👁️ Baca Naskah
-                                </button>
-                            </div>
-                        </div>
-                    </template>
-                </div>
             </section>
 
-            <!-- 4. 4 FEATURE CARDS ROW -->
+            <!-- 4. 4 FEATURE CARDS ROW (MATCHING REFERENCE MOCKUP GAMBAR 1) -->
             <section class="fresh-feature-row">
                 <div class="fresh-feature-card">
-                    <div style="width: 44px; height: 44px; border-radius: 14px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
-                        📄
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem;">
+                        <div style="width: 38px; height: 38px; border-radius: 12px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.15rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            📄
+                        </div>
+                        <h4 style="font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); margin: 0; line-height: 1.25;">Policy Brief Akademis</h4>
                     </div>
-                    <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Policy Brief Akademis</h4>
-                    <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Naskah kajian kebijakan hukum pidana, perdata & birokrasi teruji.</p>
+                    <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55; margin: 0;">Naskah kajian kebijakan hukum pidana, perdata & birokrasi teruji.</p>
                 </div>
 
                 <div class="fresh-feature-card">
-                    <div style="width: 44px; height: 44px; border-radius: 14px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
-                        💡
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem;">
+                        <div style="width: 38px; height: 38px; border-radius: 12px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.15rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            💡
+                        </div>
+                        <h4 style="font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); margin: 0; line-height: 1.25;">Bank Inovasi Digital</h4>
                     </div>
-                    <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Bank Inovasi Digital</h4>
-                    <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Repositori SOP digitalisasi layanan publik & efisiensi kerja institusi.</p>
+                    <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55; margin: 0;">Repositori SOP digitalisasi layanan publik & efisiensi kerja institusi.</p>
                 </div>
 
                 <div class="fresh-feature-card">
-                    <div style="width: 44px; height: 44px; border-radius: 14px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
-                        📚
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem;">
+                        <div style="width: 38px; height: 38px; border-radius: 12px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.15rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            📚
+                        </div>
+                        <h4 style="font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); margin: 0; line-height: 1.25;">Kurikulum PPPJ</h4>
                     </div>
-                    <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Kurikulum PPPJ</h4>
-                    <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Modul pembelajaran, slide presentasi, dan materi diklat angkatan.</p>
+                    <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55; margin: 0;">Modul pembelajaran, slide presentasi, dan materi diklat angkatan.</p>
                 </div>
 
+                <!-- Card 4: Green Highlight Media Card with Document Preview Thumbnail & Play Button (Matching Gambar 1) -->
                 <div class="fresh-feature-card highlight">
-                    <div style="width: 44px; height: 44px; border-radius: 14px; background: rgba(212,175,55,0.22); color: var(--color-accent-gold); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
-                        🏛️
+                    <!-- Media Preview Container on top of Card 4 -->
+                    <div style="position: relative; border-radius: 14px; overflow: hidden; margin-bottom: 0.85rem; height: 110px; background: url('{{ asset('gedung-kejaksaan.jpg') }}') center/cover no-repeat; border: 1.5px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center;">
+                        <div style="position: absolute; inset: 0; background: rgba(15, 35, 20, 0.45);"></div>
+                        <button @click="openPdfPreview(policyBriefs[0]?.title || 'Policy Brief Utama', policyBriefs[0]?.doc_no || 'PB-01/LITBANG-MADA/2026', policyBriefs[0]?.file_path || '/documents/pb_01.pdf')" style="position: relative; z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: var(--color-accent-gold); color: #04140B; border: 2px solid #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.4); transition: transform 0.2s ease;" title="Buka Pratinjau Document">
+                            ▶️
+                        </button>
                     </div>
-                    <h4 style="font-size: 0.95rem; font-weight: 900; color: #FFFFFF; margin-bottom: 0.35rem;">Pokja Gajah Mada</h4>
-                    <p style="font-size: 0.78125rem; color: #EBF3EC; line-height: 1.55;">Pusat komando penelitian dan formulasi kebijakan riset angkatan.</p>
+
+                    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem;">
+                        <div style="width: 32px; height: 32px; border-radius: 10px; background: rgba(212,175,55,0.25); color: var(--color-accent-gold); font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            🏛️
+                        </div>
+                        <h4 style="font-size: 0.9375rem; font-weight: 900; color: #FFFFFF; margin: 0; line-height: 1.25;">Pokja Gajah Mada</h4>
+                    </div>
+                    <p style="font-size: 0.78125rem; color: #EBF3EC; line-height: 1.5; margin: 0;">Pusat komando penelitian & pratinjau naskah kebijakan teruji.</p>
                 </div>
             </section>
 
