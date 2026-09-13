@@ -68,7 +68,7 @@
                     <div>
                         <label style="font-size: 0.8125rem; font-weight: 800; color: #E8F0E8; display: block; margin-bottom: 0.5rem;">Email atau Username</label>
                         <div style="position: relative; display: flex; align-items: center;">
-                            <input type="text" name="email" value="admin@mada-adhyaksa.go.id" required style="width: 100%; padding: 0.875rem 2.75rem 0.875rem 1.125rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.12); color: #FFFFFF; font-size: 0.9375rem; outline: none; transition: all 0.2s;" />
+                            <input type="text" name="email" value="{{ old('email') }}" placeholder="Masukkan Email atau Username" required style="width: 100%; padding: 0.875rem 2.75rem 0.875rem 1.125rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.12); color: #FFFFFF; font-size: 0.9375rem; outline: none; transition: all 0.2s;" />
                             <span style="position: absolute; right: 1rem; color: #E8F0E8; font-size: 1.125rem; pointer-events: none;">👤</span>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                     <div>
                         <label style="font-size: 0.8125rem; font-weight: 800; color: #E8F0E8; display: block; margin-bottom: 0.5rem;">Password</label>
                         <div style="position: relative; display: flex; align-items: center;">
-                            <input :type="showPass ? 'text' : 'password'" name="password" value="secret123" required style="width: 100%; padding: 0.875rem 2.75rem 0.875rem 1.125rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.12); color: #FFFFFF; font-size: 0.9375rem; outline: none; transition: all 0.2s;" />
+                            <input :type="showPass ? 'text' : 'password'" name="password" placeholder="Masukkan Password" required style="width: 100%; padding: 0.875rem 2.75rem 0.875rem 1.125rem; border-radius: 12px; border: 1.5px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.12); color: #FFFFFF; font-size: 0.9375rem; outline: none; transition: all 0.2s;" />
                             <button type="button" @click="showPass = !showPass" style="position: absolute; right: 0.75rem; background: none; border: none; color: #D4AF37; font-size: 1.125rem; cursor: pointer; padding: 0.25rem 0.5rem; display: flex; align-items: center;" title="Tampilkan / Sembunyikan Password">
                                 <span x-text="showPass ? '🙈' : '👁️'"></span>
                             </button>

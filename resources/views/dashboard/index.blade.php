@@ -1404,9 +1404,14 @@
         <!-- TAB 6: KELOLA USER & HAK AKSES -->
         <div x-show="activeTab === 'users'" style="display: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-                <h3 style="font-size: 1.1rem; font-weight: 900; color: #0F172A;">👥 Kelola Pengguna Internal & Role Akun</h3>
-                <button style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1.125rem; border-radius: 10px; border: none; cursor: pointer;" @click="isNewUserModalOpen = true">
-                    + Tambah Akun Admin Baru
+                <div>
+                    <h3 style="font-size: 1.1rem; font-weight: 900; color: #0F172A;">👥 Kelola Akun Administrator & Ganti Password</h3>
+                    <p style="font-size: 0.78125rem; color: #64748B; margin-top: 2px;">
+                        Ubah Username (Email), Nama, Role, dan Password login akun administrator di bawah ini.
+                    </p>
+                </div>
+                <button style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1.125rem; border-radius: 10px; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;" @click="isNewUserModalOpen = true">
+                    <span>+ Tambah Akun Admin Baru</span>
                 </button>
             </div>
 
@@ -1416,25 +1421,42 @@
                         <thead>
                             <tr>
                                 <th>Nama Administrator</th>
-                                <th>Email</th>
+                                <th>Email / Username Login</th>
                                 <th>Role Jabatan</th>
-                                <th style="text-align: right;">Aksi</th>
+                                <th style="text-align: right;">Aksi Management</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($users as $usr)
                                 <tr>
-                                    <td style="color: #0F172A; font-weight: 800; white-space: nowrap;">{{ $usr->name }}</td>
-                                    <td style="color: #475569;">{{ $usr->email }}</td>
+                                    <td style="color: #0F172A; font-weight: 800; white-space: nowrap;">
+                                        👤 {{ $usr->name }}
+                                        @if($usr->email === session('user_email', 'admin@mada-adhyaksa.go.id') || $loop->first)
+                                            <span style="font-size: 0.65rem; background: #DCFCE7; color: #166534; font-weight: 800; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.35rem;">Akun Anda</span>
+                                        @endif
+                                    </td>
+                                    <td style="color: #0F172A; font-weight: 700; font-family: monospace; font-size: 0.8125rem;">{{ $usr->email }}</td>
                                     <td style="white-space: nowrap;">
                                         <span class="badge-light" style="background: #FEF3C7; color: #92400E;">
                                             {{ $usr->role }}
                                         </span>
                                     </td>
                                     <td style="text-align: right; white-space: nowrap;">
-                                        <button style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #334155; font-size: 0.71875rem; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 700; cursor: pointer; white-space: nowrap;" @click="selectedUserEdit = usersMap[{{ $usr->id }}]">
-                                            ✏️ Edit User
-                                        </button>
+                                        <div style="display: flex; justify-content: flex-end; gap: 0.4rem;">
+                                            <button style="background: #072718; color: #D4AF37; border: 1px solid #C59B27; font-size: 0.71875rem; padding: 0.35rem 0.75rem; border-radius: 6px; font-weight: 800; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 0.35rem;" @click="selectedUserEdit = usersMap[{{ $usr->id }}]">
+                                                ✏️ Ubah Username & Password
+                                            </button>
+
+                                            @if(count($users) > 1)
+                                                <form action="{{ route('dashboard.users.destroy', $usr->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun admin {{ $usr->name }}?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" style="background: #FEF2F2; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.71875rem; padding: 0.35rem 0.65rem; border-radius: 6px; font-weight: 700; cursor: pointer;">
+                                                        🗑️ Hapus
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -2416,7 +2438,7 @@
     <div x-show="selectedUserEdit !== null" class="modal-overlay" style="display: none;" @click="selectedUserEdit = null">
         <div class="modal-card" style="max-width: 500px; background: #FFF; border: 2px solid #072718; color: #0F172A;" @click.stop>
             <div style="padding: 1rem 1.25rem; border-bottom: 1.5px solid #E2E8F0; background: #F8FAFC; display: flex; justify-content: space-between; align-items: center;">
-                <div style="font-weight: 900; color: #072718; font-size: 1rem;">✏️ Edit Data User Admin</div>
+                <div style="font-weight: 900; color: #072718; font-size: 1rem;">✏️ Ubah Username & Password Admin</div>
                 <button @click="selectedUserEdit = null" style="background: none; border: none; font-size: 1.25rem; cursor: pointer;">✕</button>
             </div>
             <form :action="'/dashboard/users/update/' + (selectedUserEdit ? selectedUserEdit.id : '')" method="POST" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.875rem;">
@@ -2426,7 +2448,7 @@
                     <input type="text" name="name" :value="selectedUserEdit ? selectedUserEdit.name : ''" required style="width: 100%; padding: 0.5rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A;" />
                 </div>
                 <div>
-                    <label style="font-size: 0.75rem; color: #475569; font-weight: 700;">Email Pengguna *</label>
+                    <label style="font-size: 0.75rem; color: #475569; font-weight: 700;">Email / Username Login *</label>
                     <input type="email" name="email" :value="selectedUserEdit ? selectedUserEdit.email : ''" required style="width: 100%; padding: 0.5rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A;" />
                 </div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
