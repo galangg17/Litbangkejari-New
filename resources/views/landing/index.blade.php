@@ -993,28 +993,28 @@
                         </div>
 
                         <h3 style="font-size: 1.5rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1.3; margin-bottom: 1rem;">
-                            Posko Penelitian & Riset Hukum Angkatan
+                            {{ $setting->office_title ?? 'Posko Penelitian & Riset Hukum Angkatan' }}
                         </h3>
 
                         <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.875rem; color: var(--color-text-dark); margin-bottom: 1.5rem;">
-                            <div>🏢 <strong>Badiklat Kejaksaan RI Kampus A</strong></div>
-                            <div>📍 Jl. Ragunan No. 6, Pasar Minggu, Jakarta Selatan</div>
-                            <div>📞 (021) 780-0012 / Ext. 832026</div>
-                            <div>✉️ litbang.mada@kejaksaan.go.id</div>
+                            <div>🏢 <strong>{{ $setting->office_name ?? 'Badiklat Kejaksaan RI Kampus A' }}</strong></div>
+                            <div>📍 {{ $setting->office_address ?? 'Jl. Ragunan No. 6, Pasar Minggu, Jakarta Selatan' }}</div>
+                            <div>📞 {{ $setting->office_phone ?? '(021) 780-0012 / Ext. 832026' }}</div>
+                            <div>✉️ {{ $setting->office_email ?? 'litbang.mada@kejaksaan.go.id' }}</div>
                         </div>
                     </div>
 
                     <div style="background: var(--color-emerald-mint); border: 1.5px solid var(--color-emerald-light); border-radius: 16px; padding: 1.15rem; display: flex; align-items: center; gap: 1rem;">
                         <div style="font-size: 2rem;">🏆</div>
                         <div>
-                            <div style="font-size: 1.25rem; font-weight: 900; color: var(--color-emerald-dark);">500+ Peserta</div>
-                            <div style="font-size: 0.75rem; color: var(--color-text-muted);">PPPJ LXXXIII/II Tahun 2026</div>
+                            <div style="font-size: 1.25rem; font-weight: 900; color: var(--color-emerald-dark);">{{ $setting->office_stat_badge ?? '500+ Peserta' }}</div>
+                            <div style="font-size: 0.75rem; color: var(--color-text-muted);">{{ $setting->office_stat_subtext ?? 'PPPJ LXXXIII/II Tahun 2026' }}</div>
                         </div>
                     </div>
                 </div>
 
                 <div style="background: #E2E8F0; border: 2px solid var(--color-accent-gold); border-radius: 24px; overflow: hidden; position: relative; min-height: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
-                    <iframe src="https://maps.google.com/maps?q=Badiklat+Kejaksaan+RI+Pasar+Minggu&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; min-height: 320px;" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe src="{{ $setting->office_map_url ?? 'https://maps.google.com/maps?q=Badiklat+Kejaksaan+RI+Pasar+Minggu&t=&z=15&ie=UTF8&iwloc=&output=embed' }}" width="100%" height="100%" style="border:0; min-height: 320px;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </section>
 

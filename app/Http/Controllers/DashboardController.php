@@ -940,9 +940,43 @@ class DashboardController extends Controller
         $setting->period = $request->input('period', '2025/2026');
         $setting->ketua_tim_riset = $request->input('ketua_tim_riset', 'Dr. Sdr. Pratama, S.H., M.H.');
         $setting->batch_passcode = $request->input('batch_passcode', 'GAJAHMADA2026');
+        
+        // Dynamic Sekretariat & Office Contact Settings
+        if ($request->has('office_title')) {
+            $setting->office_title = $request->input('office_title');
+        }
+        if ($request->has('office_name')) {
+            $setting->office_name = $request->input('office_name');
+        }
+        if ($request->has('office_address')) {
+            $setting->office_address = $request->input('office_address');
+        }
+        if ($request->has('office_phone')) {
+            $setting->office_phone = $request->input('office_phone');
+        }
+        if ($request->has('office_email')) {
+            $setting->office_email = $request->input('office_email');
+        }
+        if ($request->has('office_map_url')) {
+            $setting->office_map_url = $request->input('office_map_url');
+        }
+        if ($request->has('office_stat_badge')) {
+            $setting->office_stat_badge = $request->input('office_stat_badge');
+        }
+        if ($request->has('office_stat_subtext')) {
+            $setting->office_stat_subtext = $request->input('office_stat_subtext');
+        }
+
         $setting->save();
 
+        AuditLog::create([
+            'user_name' => session('user_name', 'Admin Sekretariat'),
+            'action' => 'UPDATE_SETTINGS',
+            'target_ticket' => 'SYSTEM_SETTINGS',
+            'details' => 'Memperbarui pengaturan sistem dan data Posko Sekretariat/Peta.',
+        ]);
+
         return redirect()->route('dashboard.index', ['tab' => 'settings'])
-            ->with('toast', 'Pengaturan Sistem Berhasil Diperbarui!');
+            ->with('toast', 'Pengaturan Sistem & Informasi Posko Sekretariat Berhasil Diperbarui!');
     }
 }

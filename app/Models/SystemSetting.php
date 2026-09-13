@@ -19,5 +19,13 @@ class SystemSetting extends Model
         'peneliti_cyber',
         'max_file_size_mb',
         'vault_encryption',
+        'office_title',
+        'office_name',
+        'office_address',
+        'office_phone',
+        'office_email',
+        'office_map_url',
+        'office_stat_badge',
+        'office_stat_subtext',
     ];
 }

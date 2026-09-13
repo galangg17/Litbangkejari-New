@@ -1508,6 +1508,69 @@
 
             </div>
 
+            <!-- PENGATURAN INFORMASI SEKRETARIAT POKJA & LOKASI PETA -->
+            <div class="content-card" style="margin-top: 1.5rem; border-top: 4px solid #16A34A;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <h3 style="font-size: 1.0625rem; font-weight: 900; color: #072718;">📍 Pengaturan Informasi Sekretariat Pokja & Lokasi Peta</h3>
+                    <span style="font-size: 0.75rem; font-weight: 800; color: #16A34A; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.25rem 0.65rem; border-radius: 9999px;">Tampil di Landing Page</span>
+                </div>
+                <p style="font-size: 0.78125rem; color: #64748B; margin-bottom: 1.25rem; line-height: 1.5;">
+                    Edit informasi kontak kantor Sekretariat Pokja, nomor telepon, email, teks stat peserta, serta URL embed Google Maps yang ditampilkan di halaman depan publik.
+                </p>
+
+                <form action="{{ route('dashboard.update_settings') }}" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+                    @csrf
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.25rem;">Judul Posko Sekretariat *</label>
+                            <input type="text" name="office_title" required value="{{ $setting->office_title ?? 'Posko Penelitian & Riset Hukum Angkatan' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.25rem;">Nama Gedung / Instansi *</label>
+                            <input type="text" name="office_name" required value="{{ $setting->office_name ?? 'Badiklat Kejaksaan RI Kampus A' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.25rem;">Alamat Lengkap Kantor *</label>
+                        <input type="text" name="office_address" required value="{{ $setting->office_address ?? 'Jl. Ragunan No. 6, Pasar Minggu, Jakarta Selatan' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.25rem;">Nomor Telepon / Ext *</label>
+                            <input type="text" name="office_phone" required value="{{ $setting->office_phone ?? '(021) 780-0012 / Ext. 832026' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.25rem;">Email Resmi Kontak *</label>
+                            <input type="email" name="office_email" required value="{{ $setting->office_email ?? 'litbang.mada@kejaksaan.go.id' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.25rem;">Jumlah Stat Peserta Badge (Contoh: 500+ Peserta) *</label>
+                            <input type="text" name="office_stat_badge" required value="{{ $setting->office_stat_badge ?? '500+ Peserta' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.25rem;">Subteks Stat Angkatan (Contoh: PPPJ LXXXIII/II Tahun 2026) *</label>
+                            <input type="text" name="office_stat_subtext" required value="{{ $setting->office_stat_subtext ?? 'PPPJ LXXXIII/II Tahun 2026' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.75rem; font-weight: 700; color: #0284C7; display: block; margin-bottom: 0.25rem;">🗺️ URL Embed Google Maps (iFrame Embed Source)</label>
+                        <input type="text" name="office_map_url" required value="{{ $setting->office_map_url ?? 'https://maps.google.com/maps?q=Badiklat+Kejaksaan+RI+Pasar+Minggu&t=&z=15&ie=UTF8&iwloc=&output=embed' }}" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #0284C7; background: #F0F9FF; color: #0F172A; font-family: monospace;" />
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+                        <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.8125rem; padding: 0.65rem 1.5rem; border-radius: 8px; border: 1.5px solid #C59B27; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.15);">
+                            💾 Simpan Pengaturan Sekretariat & Peta
+                        </button>
+                    </div>
+                </form>
+            </div>
+
             <!-- KELOLA KATEGORI DOMAIN HUKUM (PIDANA, PERDATA, TUN) -->
             <div class="content-card" style="margin-top: 1.5rem;">
                 <h3 style="font-size: 1.0625rem; font-weight: 900; color: #0F172A; margin-bottom: 0.5rem;">⚖️ Kelola Kategori Domain Hukum</h3>
