@@ -2,15 +2,15 @@
 
 @section('content')
 <style>
-  /* RESPONSIVE FRESH ORGANIC GREEN SYSTEM (80% SCALE MATCHING REFERENCE) */
+  /* RESPONSIVE FRESH ORGANIC GREEN SYSTEM (80% SCALE MATCHING REFERENCE media_1789266769896.png) */
   :root {
-    --color-emerald-dark: #1E4620;
-    --color-emerald-medium: #2E6F40;
-    --color-emerald-light: #4A8F54;
-    --color-emerald-mint: #EBF3EC;
+    --color-emerald-dark: #1B4332;
+    --color-emerald-medium: #2D6A4F;
+    --color-emerald-light: #52B788;
+    --color-emerald-mint: #E8F5E9;
     --color-emerald-soft: #F4F8F4;
     --color-accent-gold: #D4AF37;
-    --color-accent-gold-dark: #C59B27;
+    --color-accent-gold-dark: #B48A16;
     --color-accent-lime: #D4E157;
     --color-bg-light: #F7FAF7;
     --color-text-dark: #0F172A;
@@ -30,7 +30,7 @@
     zoom: 0.82;
     -webkit-zoom: 0.82;
     width: 100%;
-    min-height: 122vh;
+    min-height: 100vh;
     box-sizing: border-box;
   }
 
@@ -42,16 +42,30 @@
     box-sizing: border-box;
   }
 
-  /* CLEAN OFF-WHITE NAVBAR */
+  /* TOP UTILITY BAR */
+  .fresh-utility-bar {
+    background: #0D2818;
+    color: #A3E635;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(212,175,55,0.2);
+  }
+
+  /* CLEAN OFF-WHITE FLOATING NAVBAR */
   .fresh-navbar-header {
-    background: #FFFFFF;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
     border: 1.5px solid rgba(46, 111, 64, 0.15);
     border-radius: 9999px;
     padding: 0.65rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 10px 30px rgba(30, 70, 32, 0.06);
+    box-shadow: 0 10px 30px rgba(27, 67, 50, 0.08);
     gap: 1rem;
   }
 
@@ -67,7 +81,7 @@
     text-decoration: none;
     font-size: 0.8125rem;
     font-weight: 800;
-    padding: 0.5rem 1rem;
+    padding: 0.55rem 1.125rem;
     border-radius: 9999px;
     transition: all 0.2s ease;
   }
@@ -77,36 +91,36 @@
     color: var(--color-emerald-dark);
   }
 
-  /* HERO BANNER WITH GEDUNG KEJAKSAAN AGUNG PHOTO */
+  /* HERO BANNER WITH GEDUNG KEJAKSAAN PHOTO BACKGROUND */
   .fresh-hero-grid {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: 2.5rem;
     align-items: center;
-    background: linear-gradient(135deg, rgba(30, 70, 32, 0.90) 0%, rgba(46, 111, 64, 0.82) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}');
+    background: linear-gradient(135deg, rgba(15, 35, 20, 0.88) 0%, rgba(27, 67, 50, 0.90) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}');
     background-size: cover;
     background-position: center;
     border: 2px solid var(--color-accent-gold);
     border-radius: 28px;
-    padding: 3.25rem 2.75rem;
+    padding: 3.5rem 3rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 20px 50px rgba(30, 70, 32, 0.25);
+    box-shadow: 0 20px 50px rgba(27, 67, 50, 0.25);
     color: #FFFFFF;
   }
 
   .fresh-hero-grid::before {
     content: '';
     position: absolute;
-    top: -50%;
+    top: -40%;
     right: -20%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(0,0,0,0) 70%);
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(0,0,0,0) 70%);
     pointer-events: none;
   }
 
-  /* 4 FEATURE CARDS ROW (MATCHING REFERENCE IMAGE 4TH CARD ACCENT) */
+  /* 4 FEATURE CARDS ROW (MATCHING REFERENCE ROW OVERLAPPING HERO) */
   .fresh-feature-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -120,15 +134,15 @@
     background: #FFFFFF;
     border: 1.5px solid #E2E8F0;
     border-radius: 20px;
-    padding: 1.4rem 1.25rem;
-    box-shadow: 0 10px 30px rgba(30, 70, 32, 0.06);
+    padding: 1.5rem 1.35rem;
+    box-shadow: 0 10px 30px rgba(27, 67, 50, 0.06);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
   }
 
   .fresh-feature-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 18px 40px rgba(30, 70, 32, 0.12);
+    box-shadow: 0 18px 40px rgba(27, 67, 50, 0.12);
     border-color: var(--color-emerald-medium);
   }
 
@@ -137,7 +151,16 @@
     background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%);
     color: #FFFFFF;
     border-color: var(--color-accent-gold);
-    box-shadow: 0 12px 32px rgba(30, 70, 32, 0.25);
+    box-shadow: 0 12px 32px rgba(27, 67, 50, 0.25);
+  }
+
+  /* STAKEHOLDER & CLIENTS SECTION */
+  .fresh-client-section {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin: 4.5rem 0 3.5rem;
   }
 
   /* STATS & ABOUT SPLIT SECTION */
@@ -158,9 +181,9 @@
   /* 2X2 STATS BOXES WITH COLOR VARIATIONS MATCHING REFERENCE */
   .fresh-stat-box {
     border-radius: 22px;
-    padding: 1.6rem 1.25rem;
+    padding: 1.65rem 1.25rem;
     text-align: center;
-    box-shadow: 0 8px 24px rgba(30, 70, 32, 0.05);
+    box-shadow: 0 8px 24px rgba(27, 67, 50, 0.05);
     transition: all 0.2s ease;
     border: 1.5px solid #E2E8F0;
   }
@@ -184,7 +207,7 @@
     transform: translateY(-3px);
   }
 
-  /* SERVICE CARDS GRID (POLICY BRIEF & INOVASI) */
+  /* CATALOG GRID & CARD SYSTEM */
   .fresh-catalog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -196,7 +219,7 @@
     border: 1.5px solid #E2E8F0;
     border-radius: 22px;
     overflow: hidden;
-    box-shadow: 0 8px 24px rgba(30, 70, 32, 0.05);
+    box-shadow: 0 8px 24px rgba(27, 67, 50, 0.05);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
@@ -205,18 +228,35 @@
 
   .fresh-catalog-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 18px 40px rgba(30, 70, 32, 0.1);
+    box-shadow: 0 18px 40px rgba(27, 67, 50, 0.1);
     border-color: var(--color-emerald-medium);
   }
 
-  .card-thumbnail-header {
-    height: 120px;
-    background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%);
-    padding: 1.25rem;
+  /* CARD HEADER WITH SUBTLE IMAGE THUMBNAIL */
+  .card-thumbnail-bar {
+    height: 110px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    position: relative;
+  }
+
+  .card-thumbnail-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(15,35,20,0.6) 0%, rgba(15,35,20,0.85) 100%);
+  }
+
+  /* OFFICE & MAP SPLIT SECTION */
+  .fresh-office-map-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 2rem;
+    margin: 4rem 0;
+    align-items: stretch;
   }
 
   /* CURVED BANNER FOR FORM SUBMISSION */
@@ -224,12 +264,12 @@
     background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%);
     border: 2px solid var(--color-accent-gold);
     border-radius: 28px;
-    padding: 3.25rem 2.75rem;
+    padding: 3.5rem 3rem;
     color: #FFFFFF;
     margin: 4rem 0;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 20px 45px rgba(30, 70, 32, 0.2);
+    box-shadow: 0 20px 45px rgba(27, 67, 50, 0.2);
   }
 
   /* CATEGORY PILLS */
@@ -268,14 +308,16 @@
     background: var(--color-emerald-dark);
     color: var(--color-accent-gold);
     font-weight: 900;
-    box-shadow: 0 4px 12px rgba(30, 70, 32, 0.2);
+    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
   }
 
   /* MEDIA QUERIES */
   @media (max-width: 992px) {
     .fresh-hero-grid { grid-template-columns: 1fr !important; padding: 2rem 1.5rem !important; }
     .fresh-feature-row { grid-template-columns: repeat(2, 1fr) !important; margin-top: 1.5rem !important; }
+    .fresh-client-section { grid-template-columns: 1fr !important; }
     .fresh-split-section { grid-template-columns: 1fr !important; }
+    .fresh-office-map-grid { grid-template-columns: 1fr !important; }
     .fresh-navbar-header { flex-direction: column !important; align-items: stretch !important; border-radius: 20px !important; }
     .resp-nav-links { justify-content: center !important; }
   }
@@ -352,8 +394,19 @@
         ✨ Tautan Dokumen PDF Berhasil Disalin!
     </div>
 
-    <!-- TOP FLOATING OFF-WHITE NAVBAR (MATCHING REFERENCE HEADER STYLE) -->
-    <div style="position: sticky; top: 0.85rem; z-index: 50; padding: 0 0.85rem; margin: 0.85rem auto 0; width: 100%; max-width: 1240px; box-sizing: border-box;">
+    <!-- 1. TOP UTILITY BAR (MATCHING REFERENCE HEADER TOP BAR) -->
+    <div class="fresh-utility-bar">
+        <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span>📍 Gedung Kejaksaan Agung RI, Jakarta</span>
+            <span>✉️ litbang@kejaksaan.go.id</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <span>🏆 PPPJ LXXXIII/II TAHUN 2026</span>
+        </div>
+    </div>
+
+    <!-- 2. TOP FLOATING OFF-WHITE NAVBAR -->
+    <div style="position: sticky; top: 0.85rem; z-index: 50; padding: 0 0.85rem; margin: 0.85rem auto 0; width: 100%; max-width: 1280px; box-sizing: border-box;">
         <header class="fresh-navbar-header">
             <div style="display: flex; align-items: center; gap: 0.85rem; cursor: pointer;" onclick="window.location.href='{{ route('landing.index') }}'">
                 <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Emblem Adhyaksa" style="height: 44px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));" />
@@ -369,8 +422,10 @@
 
             <nav class="resp-nav-links">
                 <a href="#katalog-hub">📄 Katalog 3 Pilar</a>
+                <a href="#tentang-hub">🌱 Tentang Kami</a>
                 <a href="#lacak-tiket-hub">🎟️ Lacak Usulan</a>
-                <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); cursor: pointer; box-shadow: 0 4px 14px rgba(30, 70, 32, 0.25);">
+                <a href="#kontak-hub">📍 Kontak</a>
+                <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); cursor: pointer; box-shadow: 0 4px 14px rgba(27, 67, 50, 0.25);">
                     ⚡ Ajukan Usulan (PIN) →
                 </button>
 
@@ -409,7 +464,7 @@
             </div>
         @endif
 
-        <!-- HERO SECTION WITH GEDUNG KEJAKSAAN AGUNG PHOTO BACKGROUND -->
+        <!-- 3. HERO SECTION WITH GEDUNG KEJAKSAAN AGUNG PHOTO BACKGROUND -->
         <section class="fresh-hero-grid" style="margin-bottom: 2rem;">
             <!-- Left Text Content -->
             <div style="position: relative; z-index: 2;">
@@ -417,23 +472,23 @@
                     <span>🏛️ KEJAKSAAN REPUBLIK INDONESIA</span>
                 </div>
 
-                <h1 style="font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 900; line-height: 1.15; color: #FFFFFF; margin-bottom: 1rem; letter-spacing: -0.01em;">
+                <h1 style="font-size: clamp(2.1rem, 4vw, 3.2rem); font-weight: 900; line-height: 1.15; color: #FFFFFF; margin-bottom: 1.15rem; letter-spacing: -0.01em;">
                     Transformasi Riset, Inovasi <br />
                     <span style="color: var(--color-accent-gold); text-shadow: 0 4px 15px rgba(212,175,55,0.35);">
                         & Kurikulum Pembelajaran
                     </span>
                 </h1>
 
-                <p style="font-size: 0.95rem; color: #EBF3EC; line-height: 1.65; margin-bottom: 1.85rem; max-width: 580px;">
+                <p style="font-size: 0.95rem; color: #EBF3EC; line-height: 1.65; margin-bottom: 2rem; max-width: 580px;">
                     Pusat repositori manajemen pengetahuan terpadu Angkatan Gajah Mada Adhyaksa (PPPJ LXXXIII/2026). Akses naskah akademis teruji, bank inovasi digital, dan modul pembelajaran.
                 </p>
 
                 <!-- Hero Action Buttons -->
                 <div style="display: flex; gap: 0.85rem; flex-wrap: wrap; align-items: center;">
-                    <a href="#katalog-hub" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.875rem; padding: 0.8rem 1.65rem; border-radius: 12px; text-decoration: none; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35); display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <a href="#katalog-hub" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.875rem; padding: 0.85rem 1.75rem; border-radius: 12px; text-decoration: none; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35); display: inline-flex; align-items: center; gap: 0.4rem;">
                         🌐 Jelajahi Vault Naskah →
                     </a>
-                    <button @click="isProposalModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.8rem 1.4rem; border-radius: 12px; cursor: pointer; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <button @click="isProposalModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.85rem 1.5rem; border-radius: 12px; cursor: pointer; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 0.4rem;">
                         📥 Kirim Usulan (PIN)
                     </button>
                 </div>
@@ -449,53 +504,48 @@
                             <span style="font-size: 0.72rem; color: var(--color-emerald-medium); font-weight: 800;" x-text="policyBriefs[0].doc_no"></span>
                         </div>
 
-                        <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1.35; margin-bottom: 0.75rem;" x-text="policyBriefs[0].title"></h3>
+                        <h3 style="font-size: 1.15rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1.3; margin-bottom: 0.6rem;" x-text="policyBriefs[0].title"></h3>
+                        
+                        <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 1.25rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;" x-text="policyBriefs[0].summary"></p>
 
-                        <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.55; margin-bottom: 1.25rem;" x-text="policyBriefs[0].summary"></p>
-
-                        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; align-items: center;">
-                            <button style="background: var(--color-emerald-mint); border: 1px solid var(--color-emerald-medium); color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.3rem;" @click="openPdfPreview(policyBriefs[0].title, policyBriefs[0].doc_no, policyBriefs[0].file_path)">
-                                👁️ Pratinjau PDF
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E2E8F0; padding-top: 0.85rem;">
+                            <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900;">🟢 QR Seal Verified</span>
+                            <button @click="openPdfPreview(policyBriefs[0].title, policyBriefs[0].doc_no, policyBriefs[0].file_path)" style="background: var(--color-emerald-mint); color: var(--color-emerald-dark); border: 1px solid var(--color-emerald-medium); font-weight: 800; font-size: 0.75rem; padding: 0.4rem 0.85rem; border-radius: 8px; cursor: pointer;">
+                                👁️ Baca Naskah
                             </button>
-                            <a href="{{ route('catalog.download', ['kajian', $policyBriefs[0]->id ?? 1]) }}" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                📥 Download PDF
-                            </a>
                         </div>
                     </div>
                 </template>
             </div>
         </section>
 
-        <!-- 4 FEATURE CARDS ROW (WITH 4TH DARK GREEN ACCENT CARD MATCHING REFERENCE) -->
-        <section class="fresh-feature-row" style="margin-bottom: 4rem;">
-            <!-- CARD 1 -->
+        <!-- 4. 4 FEATURE CARDS ROW (MATCHING REFERENCE IMAGE 4TH CARD ACCENT) -->
+        <section class="fresh-feature-row">
             <div class="fresh-feature-card">
                 <div style="width: 44px; height: 44px; border-radius: 14px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
                     📄
                 </div>
-                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Policy Brief Studio</h4>
-                <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Naskah akademis teruji dengan pengesahan digital QR Seal resmi Kejaksaan RI.</p>
+                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Policy Brief Akademis</h4>
+                <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Naskah kajian kebijakan hukum pidana, perdata & birokrasi teruji.</p>
             </div>
 
-            <!-- CARD 2 -->
             <div class="fresh-feature-card">
-                <div style="width: 44px; height: 44px; border-radius: 14px; background: #E0F2FE; color: #0284C7; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
+                <div style="width: 44px; height: 44px; border-radius: 14px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
                     💡
                 </div>
-                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Bank Inovasi Teruji</h4>
-                <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Katalog inovasi digital & birokrasi pendukung efisiensi tata kelola penegakan hukum.</p>
+                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Bank Inovasi Digital</h4>
+                <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Repositori SOP digitalisasi layanan publik & efisiensi kerja institusi.</p>
             </div>
 
-            <!-- CARD 3 -->
             <div class="fresh-feature-card">
-                <div style="width: 44px; height: 44px; border-radius: 14px; background: #DCFCE7; color: #16A34A; font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
+                <div style="width: 44px; height: 44px; border-radius: 14px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
                     📚
                 </div>
-                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Vault Kurikulum PPPJ</h4>
-                <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Arsip modul, slide materi, dan juknis pembelajaran angkatan terverifikasi.</p>
+                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.35rem;">Kurikulum PPPJ</h4>
+                <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55;">Modul pembelajaran, slide presentasi, dan materi diklat angkatan.</p>
             </div>
 
-            <!-- CARD 4 (HIGHLIGHTED FULL DARK GREEN MATCHING REFERENCE) -->
+            <!-- 4TH CARD: SOLID DARK GREEN FILL LIKE REFERENCE IMAGE -->
             <div class="fresh-feature-card highlight">
                 <div style="width: 44px; height: 44px; border-radius: 14px; background: rgba(212,175,55,0.22); color: var(--color-accent-gold); font-size: 1.25rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0.95rem;">
                     🏛️
@@ -505,8 +555,58 @@
             </div>
         </section>
 
-        <!-- STATS & ABOUT SPLIT SECTION (WITH 2X2 COLOR VARIATION BOXES) -->
-        <section class="fresh-split-section">
+        <!-- 5. MITRA STRATEGIS & TESTIMONIAL SECTION ("OUR OUTSTANDING CLIENT" EQUIVALENT) -->
+        <section class="fresh-client-section">
+            <div>
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: var(--color-emerald-mint); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-dark); text-transform: uppercase; margin-bottom: 1rem;">
+                    <span>🤝 MITRA STRATEGIS & STAKEHOLDER</span>
+                </div>
+
+                <h2 style="font-size: 1.85rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1.25; margin-bottom: 1rem;">
+                    Sinergi Penegakan Hukum & Formulasi Kebijakan
+                </h2>
+
+                <p style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 1.5rem;">
+                    Litbang Gajah Mada Adhyaksa bekerja sama dengan unit kerja strategis Kejaksaan RI, Badiklat Kejaksaan, Persaja, serta jajaran Pokja Riset PPPJ LXXXIII/2026.
+                </p>
+
+                <!-- Partner Badges Grid -->
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <span style="background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 0.6rem 1.15rem; border-radius: 12px; font-size: 0.8125rem; font-weight: 800; color: var(--color-emerald-dark); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                        ⚖️ Kejaksaan Agung RI
+                    </span>
+                    <span style="background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 0.6rem 1.15rem; border-radius: 12px; font-size: 0.8125rem; font-weight: 800; color: var(--color-emerald-dark); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                        🎓 Badiklat Kejaksaan RI
+                    </span>
+                    <span style="background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 0.6rem 1.15rem; border-radius: 12px; font-size: 0.8125rem; font-weight: 800; color: var(--color-emerald-dark); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                        🏛️ PERSAJA
+                    </span>
+                    <span style="background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 0.6rem 1.15rem; border-radius: 12px; font-size: 0.8125rem; font-weight: 800; color: var(--color-emerald-dark); box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+                        ⭐️ PPPJ LXXXIII/2026
+                    </span>
+                </div>
+            </div>
+
+            <!-- Right Testimonial Highlight Card -->
+            <div style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); border-radius: 24px; padding: 2rem; color: #FFFFFF; position: relative; box-shadow: 0 15px 35px rgba(27,67,50,0.2);">
+                <div style="font-size: 2.5rem; color: var(--color-accent-gold); font-family: Georgia, serif; line-height: 1;">“</div>
+                <p style="font-size: 0.95rem; line-height: 1.65; color: #EBF3EC; margin-bottom: 1.35rem; font-style: italic;">
+                    Formulasi riset dan inovasi yang dihasilkan oleh Pokja Gajah Mada Adhyaksa menjadi pijakan penting dalam mewujudkan standar birokrasi penegakan hukum yang transparan, modern, dan berintegritas.
+                </p>
+                <div style="display: flex; align-items: center; gap: 0.85rem;">
+                    <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--color-accent-gold); color: #04140B; font-weight: 900; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                        ⚖️
+                    </div>
+                    <div>
+                        <div style="font-weight: 900; font-size: 0.875rem; color: var(--color-accent-gold);">Ketua Tim Riset Pokja Gajah Mada</div>
+                        <div style="font-size: 0.75rem; color: #D1E7DD;">PPPJ LXXXIII/II Tahun 2026</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. STATS & ABOUT SPLIT SECTION (WITH 2X2 COLOR VARIATION BOXES) -->
+        <section class="fresh-split-section" id="tentang-hub">
             <!-- LEFT 2X2 STATS GRID MATCHING REFERENCE COLOR SCHEME -->
             <div class="fresh-stats-grid">
                 <!-- BOX 1: WHITE -->
@@ -516,7 +616,7 @@
                     <div style="font-size: 0.71875rem; color: var(--color-text-muted); margin-top: 2px;">PPPJ LXXXIII/2026</div>
                 </div>
 
-                <!-- BOX 2: GOLD / LIME SOFT SOFT BACKGROUND -->
+                <!-- BOX 2: GOLD / LIME SOFT BACKGROUND -->
                 <div class="fresh-stat-box box-gold">
                     <div style="font-size: 2.35rem; font-weight: 900; color: var(--color-accent-gold-dark); line-height: 1;">40+</div>
                     <div style="font-size: 0.8125rem; font-weight: 900; color: #92400E; margin-top: 6px;">Policy Briefs Terbit</div>
@@ -538,8 +638,8 @@
                 </div>
             </div>
 
-            <!-- RIGHT ABOUT DESCRIPTION CARD -->
-            <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 24px; padding: 2.35rem; box-shadow: 0 10px 30px rgba(30,70,32,0.06);">
+            <!-- RIGHT ABOUT DESCRIPTION CARD WITH PHOTO THUMBNAILS -->
+            <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 24px; padding: 2.35rem; box-shadow: 0 10px 30px rgba(27,67,50,0.06);">
                 <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: var(--color-emerald-mint); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-dark); text-transform: uppercase; margin-bottom: 1rem;">
                     <span>🌱 TENTANG LITBANG GAJAH MADA ADHYAKSA</span>
                 </div>
@@ -547,17 +647,17 @@
                     Mengabdi Melalui Formulasi Riset & Inovasi Penegakan Hukum
                 </h2>
                 <p style="font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.7; margin-bottom: 1.35rem;">
-                    Litbang Gajah Mada Adhyaksa merupakan wadah penelitian dan pengolahan pengetahuan resmi bagi Anggota PPPJ LXXXIII/II Tahun 2026. Kami berkomitmen menyusun formulasi naskah kebijakan, menginkubasi gagasan inovasi layanan publik, dan mengarsipkan modul kurikulum pembelajaran secara aman dan terverifikasi.
+                    Litbang Gajah Mada Adhyaksa merupakan wadah penelitian dan pengolahan pengetahuan resmi bagi Anggota PPPJ LXXXIII/II Tahun 2026. Kami berkomitmen menyusun formulasi naskah kebijakan, menginkubasi gagasan inovasi layanan publik, dan mengarsipkan modul kurikulum pembelajaran secara aman.
                 </p>
                 <div style="display: flex; gap: 0.75rem; align-items: center;">
-                    <a href="#lacak-tiket-hub" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.65rem 1.35rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-                        🎟️ Lacak Tiket Usulan →
+                    <a href="#katalog-hub" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.65rem 1.35rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+                        🌐 Jelajahi Repositori →
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- MAIN CATALOG HUB (POLICY BRIEF, INOVASI, KURIKULUM) -->
+        <!-- 7. 3-PILLAR CATALOG HUB (POLICY BRIEF, INOVASI, KURIKULUM) -->
         <section id="katalog-hub" style="margin: 4rem 0;">
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;">
                 <div>
@@ -735,249 +835,329 @@
             </div>
         </section>
 
-        <!-- CURVED BANNER FOR QUICK SUBMISSION -->
+        <!-- 8. OFFICE & MAP SPLIT SECTION ("BEAUTIFUL GARDENS IN YOUR NEIGHBORHOOD" EQUIVALENT) -->
+        <section class="fresh-office-map-grid" id="kontak-hub">
+            <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 24px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: var(--color-emerald-mint); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-dark); text-transform: uppercase; margin-bottom: 1rem;">
+                        <span>📍 SEKRETARIAT POKJA</span>
+                    </div>
+
+                    <h3 style="font-size: 1.5rem; font-weight: 900; color: var(--color-emerald-dark); line-height: 1.3; margin-bottom: 1rem;">
+                        Posko Penelitian & Riset Hukum Angkatan
+                    </h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.875rem; color: var(--color-text-dark); margin-bottom: 1.5rem;">
+                        <div>🏢 <strong>Badiklat Kejaksaan RI Kampus A</strong></div>
+                        <div>📍 Jl. Ragunan No. 6, Pasar Minggu, Jakarta Selatan</div>
+                        <div>📞 (021) 780-0012 / Ext. 832026</div>
+                        <div>✉️ litbang.mada@kejaksaan.go.id</div>
+                    </div>
+                </div>
+
+                <div style="background: var(--color-emerald-mint); border: 1.5px solid var(--color-emerald-light); border-radius: 16px; padding: 1.15rem; display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-size: 2rem;">🏆</div>
+                    <div>
+                        <div style="font-size: 1.25rem; font-weight: 900; color: var(--color-emerald-dark);">500+ Peserta</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-muted);">PPPJ LXXXIII/II Tahun 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Styled Map View Container -->
+            <div style="background: #E2E8F0; border: 2px solid var(--color-accent-gold); border-radius: 24px; overflow: hidden; position: relative; min-height: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+                <iframe src="https://maps.google.com/maps?q=Badiklat+Kejaksaan+RI+Pasar+Minggu&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; min-height: 320px;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <!-- 9. CURVED BANNER FOR QUICK SUBMISSION -->
         <section class="fresh-banner-curved" id="lacak-tiket-hub">
             <div style="max-width: 720px; position: relative; z-index: 2;">
                 <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid var(--color-accent-gold); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-accent-gold); text-transform: uppercase; margin-bottom: 1.15rem;">
                     <span>📥 LAYANAN USULAN ANGKATAN</span>
                 </div>
 
-                <h2 style="font-size: 2rem; font-weight: 900; color: #FFFFFF; line-height: 1.25; margin-bottom: 1rem;">
-                    Mulai Kirimkan Usulan Riset atau Ide Inovasi Anda Now
+                <h2 style="font-size: 2.1rem; font-weight: 900; color: #FFFFFF; line-height: 1.25; margin-bottom: 1rem;">
+                    Mulai Kirimkan Usulan Riset atau Ide Inovasi Anda Sekarang
                 </h2>
-                <p style="font-size: 0.95rem; color: #EBF3EC; line-height: 1.65; margin-bottom: 1.85rem;">
+                <p style="font-size: 0.95rem; color: #EBF3EC; line-height: 1.65; margin-bottom: 2rem;">
                     Gunakan Kode PIN Angkatan (<strong style="color: var(--color-accent-gold);">{{ $setting->batch_passcode }}</strong>) untuk mendaftarkan naskah atau ide inovasi Anda secara langsung ke Pokja Riset.
                 </p>
 
                 <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
-                    <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.875rem; padding: 0.8rem 1.75rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);">
+                    <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.875rem; padding: 0.85rem 1.85rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);">
                         ⚡ Kirim Usulan Riset Baru (PIN) →
                     </button>
-                    <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.8rem 1.5rem; border-radius: 12px; cursor: pointer;">
+                    <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.85rem 1.5rem; border-radius: 12px; cursor: pointer;">
                         📚 Upload Berkas Kurikulum
                     </button>
                 </div>
             </div>
         </section>
 
+        <!-- 10. TICKET TRACKER LOOKUP BOX -->
+        <section style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 24px; padding: 2rem; margin-bottom: 3.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.03);">
+            <div style="max-width: 680px; margin: 0 auto; text-align: center;">
+                <span style="font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-medium); text-transform: uppercase;">🎟️ STATUS LACAK TIKET USULAN</span>
+                <h3 style="font-size: 1.5rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 0.25rem; margin-bottom: 1rem;">
+                    Cek Progres Penelaahan Usulan Anda
+                </h3>
+                <form action="{{ route('landing.index') }}" method="GET" style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <input type="text" name="ticket_no" value="{{ request('ticket_no') }}" placeholder="Masukkan Nomor Tiket (contoh: PB-01/LITBANG-MADA/2026)..." style="flex: 1; min-width: 260px; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0.75rem 1rem; color: var(--color-text-dark); font-size: 0.875rem; outline: none;" required />
+                    <button type="submit" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.875rem; padding: 0.75rem 1.5rem; border-radius: 12px; border: none; cursor: pointer;">
+                        🔎 Cari Tiket
+                    </button>
+                </form>
+
+                @if($trackedTicket)
+                    <div style="margin-top: 1.5rem; text-align: left; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 16px; padding: 1.25rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-weight: 900; color: #166534;">Tiket: {{ $trackedTicket->ticket_no }}</span>
+                            <span style="background: #DCFCE7; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                                {{ $trackedTicket->status }}
+                            </span>
+                        </div>
+                        <div style="font-size: 0.95rem; font-weight: 800; color: var(--color-emerald-dark);">{{ $trackedTicket->title }}</div>
+                        <div style="font-size: 0.8125rem; color: #475569; margin-top: 0.25rem;">Pengusul: {{ $trackedTicket->name }} ({{ $trackedTicket->institution }})</div>
+                        <div style="font-size: 0.8125rem; color: #15803D; margin-top: 0.5rem; font-weight: 700;">📌 Update Terakhir: {{ $trackedTicket->last_update_note }}</div>
+                    </div>
+                @endif
+            </div>
+        </section>
+
     </main>
 
-    <!-- FORMULIR PENGUSULAN INTERNAL MODAL -->
-    <div x-show="isProposalModalOpen" x-cloak class="modal-overlay" @click="isProposalModalOpen = false">
-        <div class="modal-card" style="max-width: 580px; border-radius: 24px; background: #FFFFFF; color: var(--color-text-dark); border: 2px solid var(--color-emerald-dark);" @click.stop>
-            <div style="padding: 1.25rem 1.5rem; background: var(--color-emerald-dark); color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--color-accent-gold);">
-                <div>
-                    <div style="font-size: 0.6875rem; font-weight: 900; color: var(--color-accent-gold); text-transform: uppercase;">FORMULIR PENGUSULAN ANGKATAN</div>
-                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF;">Pengajuan Policy Brief / Ide Inovasi</h3>
+    <!-- 11. DARK ORGANIC GREEN FOOTER -->
+    <footer style="background: #0A1C14; border-top: 3px solid var(--color-accent-gold); color: #E2E8F0; padding: 4rem 1.5rem 2rem;">
+        <div class="resp-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 2.5rem; margin-bottom: 3rem;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Emblem" style="height: 42px; width: auto;" />
+                    <div>
+                        <div style="font-weight: 900; font-size: 0.95rem; color: #FFFFFF;">LITBANG GAJAH MADA</div>
+                        <div style="font-size: 0.68rem; color: var(--color-accent-gold); font-weight: 800;">PPPJ LXXXIII/II TAHUN 2026</div>
+                    </div>
                 </div>
-                <button @click="isProposalModalOpen = false" style="background: none; border: none; color: #FFF; font-size: 1.25rem; cursor: pointer;">✕</button>
+                <p style="font-size: 0.8125rem; color: #94A3B8; line-height: 1.6;">
+                    Portal manajemen pengetahuan dan riset kebijakan terpadu Kejaksaan Republik Indonesia.
+                </p>
             </div>
 
-            <form action="{{ route('landing.submit_proposal') }}" method="POST" enctype="multipart/form-data" style="padding: 1.35rem; display: flex; flex-direction: column; gap: 0.875rem;">
-                @csrf
-
-                <!-- PIN PASSCODE AUTHENTICATION -->
-                <div style="background: var(--color-emerald-mint); border: 1.5px solid var(--color-emerald-medium); border-radius: 12px; padding: 0.875rem;">
-                    <label style="font-size: 0.75rem; font-weight: 900; color: var(--color-emerald-dark); display: block; margin-bottom: 0.25rem;">🔑 KODE PIN AKSES ANGKATAN *</label>
-                    <input type="password" name="batch_pin" required placeholder="Masukkan Kode PIN Angkatan (Contoh: {{ $setting->batch_passcode }})" style="width: 100%; padding: 0.55rem; font-size: 0.875rem; border-radius: 8px; border: 1.5px solid var(--color-emerald-medium); background: #FFFFFF; color: var(--color-emerald-dark); outline: none; font-weight: 800;" />
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Nama Pengusul *</label>
-                        <input type="text" name="name" required placeholder="Nama Lengkap" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Pilar Pengajuan *</label>
-                        <select name="type" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;">
-                            <option value="Policy Brief">📄 Policy Brief / Naskah Akademis</option>
-                            <option value="Ide Inovasi">💡 Gagasan Ide Inovasi</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Kategori Domain *</label>
-                        <select name="category" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;">
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat->name }}">{{ $cat->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Tingkat Urgensi</label>
-                        <select name="urgency" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;">
-                            <option value="Kritis">Kritis (Urgensi Kebijakan)</option>
-                            <option value="Tinggi">Tinggi (Sangat Mendesak)</option>
-                            <option value="Normal">Normal (Penguatan Regulasi)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Judul Usulan / Gagasan Inovasi *</label>
-                    <input type="text" name="title" required placeholder="Judul usulan..." style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
-                </div>
-
-                <div>
-                    <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Uraian Ringkasan Permasalahan / Konsep Inovasi *</label>
-                    <textarea name="description" rows="3" required placeholder="Uraikan secara ringkas..." style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;"></textarea>
-                </div>
-
-                <!-- DYNAMIC CUSTOM FORM FIELDS -->
-                @foreach($formFields as $field)
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">
-                            {{ $field->field_label }} {{ $field->is_required ? '*' : '' }}
-                        </label>
-                        @if($field->field_type === 'textarea')
-                            <textarea name="{{ $field->field_name }}" rows="2" {{ $field->is_required ? 'required' : '' }} style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;"></textarea>
-                        @elseif($field->field_type === 'select' && $field->options)
-                            <select name="{{ $field->field_name }}" {{ $field->is_required ? 'required' : '' }} style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;">
-                                @foreach($field->options as $opt)
-                                    <option value="{{ $opt }}">{{ $opt }}</option>
-                                @endforeach
-                            </select>
-                        @else
-                            <input type="text" name="{{ $field->field_name }}" {{ $field->is_required ? 'required' : '' }} style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
-                        @endif
-                    </div>
-                @endforeach
-
-                <div>
-                    <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Lampiran File Pendukung (PDF / Word / PPT)</label>
-                    <input type="file" name="attachment" style="width: 100%; padding: 0.4rem; font-size: 0.75rem; color: var(--color-text-muted);" />
-                </div>
-
-                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem;">
-                    <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #475569; font-weight: 800; border-radius: 10px; padding: 0.55rem 1.125rem; font-size: 0.78125rem; cursor: pointer;" @click="isProposalModalOpen = false">Batal</button>
-                    <button type="submit" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 10px; border: none; cursor: pointer;">📨 Kirim Usulan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- EMBEDDED PDF VIEWER MODAL -->
-    <div x-show="selectedPdf !== null" x-cloak class="modal-overlay" @click="selectedPdf = null">
-        <div class="modal-card" style="max-width: 1000px; width: 95%; height: 85vh; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; background: #FFFFFF; border: 2px solid var(--color-emerald-dark);" @click.stop>
-            <div style="padding: 0.85rem 1.35rem; background: var(--color-emerald-dark); color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--color-accent-gold); flex-wrap: wrap; gap: 0.5rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span style="font-size: 1.1rem;">📄</span>
-                    <div>
-                        <div style="font-size: 0.625rem; color: var(--color-accent-gold); font-weight: 900; text-transform: uppercase;">EXECUTIVE POLICY BRIEF PDF</div>
-                        <div style="font-size: 0.875rem; font-weight: 800; color: #FFFFFF;" x-text="selectedPdf ? selectedPdf.doc_no : ''"></div>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                    <a :href="selectedPdf ? (selectedPdf.file_path || '/documents/pb_01.pdf') : '#'" download style="background: var(--color-accent-gold); color: #04140B; font-size: 0.75rem; font-weight: 900; padding: 0.4rem 0.875rem; border-radius: 8px; text-decoration: none;">
-                        📥 Unduh PDF
-                    </a>
-                    <button style="padding: 0.4rem 0.875rem; font-size: 0.75rem; color: #FFF; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer;" @click="selectedPdf = null">
-                        Tutup
-                    </button>
+            <div>
+                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1rem;">Katalog 3 Pilar</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8125rem;">
+                    <a href="#katalog-hub" style="color: #CBD5E1; text-decoration: none;">📄 Policy Brief Akademis</a>
+                    <a href="#katalog-hub" style="color: #CBD5E1; text-decoration: none;">💡 Bank Inovasi Digital</a>
+                    <a href="#katalog-hub" style="color: #CBD5E1; text-decoration: none;">📚 Kurikulum PPPJ 2026</a>
                 </div>
             </div>
 
-            <div style="flex: 1; background-color: #525659; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-                <template x-if="selectedPdf !== null">
-                    <iframe :src="(selectedPdf && selectedPdf.file_path ? selectedPdf.file_path : '/documents/pb_01.pdf') + '#toolbar=1&navpanes=0'" style="width: 100%; height: 100%; border: none;"></iframe>
-                </template>
+            <div>
+                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1rem;">Tautan Cepat</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.8125rem;">
+                    <a href="#tentang-hub" style="color: #CBD5E1; text-decoration: none;">🌱 Tentang Litbang</a>
+                    <a href="#lacak-tiket-hub" style="color: #CBD5E1; text-decoration: none;">🎟️ Lacak Tiket Usulan</a>
+                    <a href="{{ route('login') }}" style="color: #CBD5E1; text-decoration: none;">🔑 Masuk Admin</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 style="font-size: 0.95rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1rem;">Sekretariat</h4>
+                <p style="font-size: 0.8125rem; color: #94A3B8; line-height: 1.6;">
+                    Badiklat Kejaksaan RI Kampus A<br />
+                    Jl. Ragunan No. 6, Pasar Minggu, Jakarta Selatan<br />
+                    Email: litbang@kejaksaan.go.id
+                </p>
             </div>
         </div>
-    </div>
 
-    <!-- MODAL: UNGGAH BERKAS MATERI KURIKULUM OLEH PESERTA -->
-    <div x-show="isCurriculumUploadModalOpen" x-cloak class="modal-overlay" @click="isCurriculumUploadModalOpen = false">
-        <div class="modal-card" style="max-width: 580px; border-radius: 24px; background: #FFFFFF; color: var(--color-text-dark); border: 2px solid #16A34A;" @click.stop>
-            <div style="padding: 1.25rem 1.5rem; background: #16A34A; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #86EFAC;">
-                <div>
-                    <div style="font-size: 0.6875rem; font-weight: 900; color: #DCFCE7; text-transform: uppercase;">UNGGAH BERKAS KURIKULUM ANGKATAN</div>
-                    <h3 style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF;">Unggah Modul, Slide PPT, atau Silabus Pembelajaran</h3>
-                </div>
-                <button @click="isCurriculumUploadModalOpen = false" style="background: none; border: none; color: #FFF; font-size: 1.25rem; cursor: pointer;">✕</button>
-            </div>
-
-            <form action="{{ route('landing.curriculums.upload') }}" method="POST" enctype="multipart/form-data" style="padding: 1.35rem; display: flex; flex-direction: column; gap: 0.875rem;">
-                @csrf
-
-                <!-- PIN PASSCODE AUTHENTICATION -->
-                <div style="background: #DCFCE7; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 0.875rem;">
-                    <label style="font-size: 0.75rem; font-weight: 900; color: #15803D; display: block; margin-bottom: 0.25rem;">🔑 KODE PIN AKSES ANGKATAN *</label>
-                    <input type="password" name="batch_pin" required placeholder="Masukkan Kode PIN Angkatan (Contoh: {{ $setting->batch_passcode }})" style="width: 100%; padding: 0.55rem; font-size: 0.875rem; border-radius: 8px; border: 1.5px solid #86EFAC; background: #FFFFFF; color: #15803D; outline: none; font-weight: 800;" />
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Nama Pengunggah / Peserta *</label>
-                        <input type="text" name="uploader_name" required placeholder="Nama & Gelar Peserta" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Bidang Hukum *</label>
-                        <select name="subject_category" required style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;">
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat->name }}">{{ $cat->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Judul Materi / Modul Pembelajaran *</label>
-                    <input type="text" name="title" required placeholder="Contoh: Slide Rangkuman Perkuliahan Pembuktian Pidana Khusus" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;" />
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Jenis Berkas *</label>
-                        <select name="file_type" required style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;">
-                            <option value="Modul PDF">Modul PDF</option>
-                            <option value="Slide PPT">Slide PPT</option>
-                            <option value="Silabus/Juknis">Silabus/Juknis</option>
-                            <option value="Link Google Drive / Cloud">Link Google Drive / Cloud</option>
-                            <option value="Video Pembelajaran">Video Pembelajaran</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">File Dokumen (PDF/PPT/Word)</label>
-                        <input type="file" name="attachment" style="width: 100%; padding: 0.4rem; font-size: 0.75rem; color: var(--color-text-muted);" />
-                    </div>
-                </div>
-
-                <div>
-                    <label style="font-size: 0.75rem; font-weight: 800; color: #0284C7; display: block; margin-bottom: 0.25rem;">🔗 Link External / Google Drive (Contoh: https://drive.google.com/...)</label>
-                    <input type="url" name="external_link" placeholder="Tautkan link Google Drive / OneDrive / Cloud (Opsional jika mengunggah file)" style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #7DD3FC; background: #F0F9FF; color: #0369A1; outline: none;" />
-                </div>
-
-                <div>
-                    <label style="font-size: 0.75rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.25rem;">Uraian Singkat / Catatan Materi</label>
-                    <textarea name="description" rows="2" placeholder="Jelaskan secara singkat isi materi / modul yang diunggah..." style="width: 100%; padding: 0.55rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF; color: #0F172A;"></textarea>
-                </div>
-
-                <div style="background: #F8FAFC; border: 1px dashed #CBD5E1; border-radius: 8px; padding: 0.6rem 0.875rem; font-size: 0.71875rem; color: var(--color-text-muted);">
-                    ℹ️ <em>Materi yang diunggah peserta akan diverifikasi terlebih dahulu oleh Tim Admin sebelum diterbitkan di Vault Publik.</em>
-                </div>
-
-                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem;">
-                    <button type="button" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #475569; font-weight: 800; border-radius: 10px; padding: 0.55rem 1.125rem; font-size: 0.78125rem; cursor: pointer;" @click="isCurriculumUploadModalOpen = false">Batal</button>
-                    <button type="submit" style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1.25rem; border-radius: 10px; border: none; cursor: pointer;">📤 Unggah untuk Verifikasi</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- FOOTER (FRESH EMERALD GREEN EDITION MATCHING REFERENCE) -->
-    <footer style="border-top: 2px solid var(--color-accent-gold); padding: 2.25rem 1rem; text-align: center; color: #EBF3EC; background: var(--color-emerald-dark);">
-        <div class="resp-container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-            <div style="display: flex; align-items: center; gap: 0.85rem;">
-                <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Adhyaksa" style="height: 40px; width: auto;" />
-                <div style="text-align: left;">
-                    <div style="font-weight: 900; color: var(--color-accent-gold); font-size: 0.9rem;">Portal Manajemen Pengetahuan — LITBANG 2026</div>
-                    <div style="font-size: 0.75rem; color: #CBD5E1;">Gajah Mada Adhyaksa (PPPJ LXXXIII/II Tahun 2026)</div>
-                </div>
-            </div>
-            <div style="font-size: 0.78125rem; color: #CBD5E1;">© 2026 Litbang Gajah Mada Adhyaksa. All Rights Reserved.</div>
+        <div style="border-top: 1px solid #1E293B; padding-top: 1.5rem; text-align: center; font-size: 0.75rem; color: #64748B;">
+            © 2026 Litbang Gajah Mada Adhyaksa (PPPJ LXXXIII/II). Hak Cipta Dilindungi Undang-Undang.
         </div>
     </footer>
+
+    <!-- FORMULIR PENGUSULAN INTERNAL MODAL (AJUKAN PIN) -->
+    <div x-show="isProposalModalOpen" x-cloak style="position: fixed; inset: 0; z-index: 100; background: rgba(15,23,42,0.65); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 1.5rem;" @keydown.escape.window="isProposalModalOpen = false">
+        <div @click.away="isProposalModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 28px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 2.25rem; box-shadow: 0 25px 50px rgba(0,0,0,0.3); color: var(--color-text-dark);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 1rem;">
+                <div>
+                    <span style="font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-medium); text-transform: uppercase;">FORMULIR KODE PIN ANGKATAN</span>
+                    <h3 style="font-size: 1.35rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 2px;">Ajukan Usulan Riset / Ide Inovasi Baru</h3>
+                </div>
+                <button type="button" @click="isProposalModalOpen = false" style="background: #F1F5F9; border: none; font-size: 1.25rem; color: #64748B; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;">✕</button>
+            </div>
+
+            <form action="{{ route('landing.submit_proposal') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.15rem;">
+                @csrf
+                <div style="background: var(--color-emerald-mint); border: 1.5px solid var(--color-emerald-light); padding: 0.85rem 1rem; border-radius: 12px; font-size: 0.8125rem; color: var(--color-emerald-dark); font-weight: 800;">
+                    🔑 Masukkan PIN Angkatan: <span style="color: var(--color-accent-gold-dark);">GAJAHMADA2026</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Kode PIN Akses *</label>
+                        <input type="password" name="batch_pin" value="GAJAHMADA2026" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;" />
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Jenis Usulan *</label>
+                        <select name="type" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;">
+                            <option value="Policy Brief">📄 Policy Brief / Naskah Kebijakan</option>
+                            <option value="Ide Inovasi">💡 Ide Inovasi Digital & Birokrasi</option>
+                            <option value="Kurikulum">📚 Kurikulum & Modul Pembelajaran</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Nama Pengusul *</label>
+                        <input type="text" name="name" required placeholder="Nama Lengkap & Gelar..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;" />
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Satuan Kerja / Asal *</label>
+                        <input type="text" name="institution" required placeholder="Kejari / Kejati / Badiklat..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;" />
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Kategori Bidang *</label>
+                        <select name="category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;">
+                            <option value="Hukum & Tata Kelola">Hukum & Tata Kelola</option>
+                            <option value="Pidana">Pidana Khusus / Umum</option>
+                            <option value="Perdata">Perdata & Tata Usaha Negara</option>
+                            <option value="SPBE">SPBE & Digitalisasi</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Tingkat Urgensi *</label>
+                        <select name="urgency" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;">
+                            <option value="Sangat Tinggi">🔴 Sangat Tinggi (Mendesak)</option>
+                            <option value="Tinggi">🟠 Tinggi</option>
+                            <option value="Sedang">🟢 Sedang</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Judul Usulan Naskah / Inovasi *</label>
+                    <input type="text" name="title" required placeholder="Judul lengkap usulan..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;" />
+                </div>
+
+                <div>
+                    <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Deskripsi Singkat / Latar Belakang *</label>
+                    <textarea name="description" rows="3" required placeholder="Jelaskan ringkasan masalah dan usulan solusi..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;"></textarea>
+                </div>
+
+                <div>
+                    <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Unggah Berkas Naskah / Draf (PDF/Docx)</label>
+                    <input type="file" name="attachment" style="width: 100%; font-size: 0.8125rem;" />
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem;">
+                    <button type="button" @click="isProposalModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 800; padding: 0.65rem 1.25rem; border-radius: 10px; cursor: pointer;">Batal</button>
+                    <button type="submit" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; padding: 0.65rem 1.5rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(27,67,50,0.25);">
+                        ⚡ Submit Usulan (PIN)
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL UPLOAD KURIKULUM -->
+    <div x-show="isCurriculumUploadModalOpen" x-cloak style="position: fixed; inset: 0; z-index: 100; background: rgba(15,23,42,0.65); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 1.5rem;" @keydown.escape.window="isCurriculumUploadModalOpen = false">
+        <div @click.away="isCurriculumUploadModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 28px; width: 100%; max-width: 600px; padding: 2.25rem; box-shadow: 0 25px 50px rgba(0,0,0,0.3); color: var(--color-text-dark);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 1rem;">
+                <div>
+                    <span style="font-size: 0.71875rem; font-weight: 900; color: #16A34A; text-transform: uppercase;">MODUL KURIKULUM PPPJ</span>
+                    <h3 style="font-size: 1.35rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 2px;">Upload Berkas Modul Pembelajaran</h3>
+                </div>
+                <button type="button" @click="isCurriculumUploadModalOpen = false" style="background: #F1F5F9; border: none; font-size: 1.25rem; color: #64748B; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;">✕</button>
+            </div>
+
+            <form action="{{ route('landing.curriculums.upload') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.15rem;">
+                @csrf
+                <input type="hidden" name="batch_pin" value="GAJAHMADA2026" />
+
+                <div>
+                    <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Nama Pengunggah *</label>
+                    <input type="text" name="uploader_name" required placeholder="Nama Lengkap..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;" />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Bidang Materi *</label>
+                        <select name="subject_category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;">
+                            <option value="Pidana">Hukum Pidana</option>
+                            <option value="Perdata">Hukum Perdata & TUN</option>
+                            <option value="Intelijen">Intelijen Kejaksaan</option>
+                            <option value="Manajemen">Manajemen Birokrasi</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Tipe Berkas *</label>
+                        <select name="file_type" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;">
+                            <option value="Modul PDF">Modul PDF</option>
+                            <option value="Slide PPT">Slide Presentasi (PPT)</option>
+                            <option value="Bahan Ajar">Bahan Ajar / Draf</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Judul Modul / Materi *</label>
+                    <input type="text" name="title" required placeholder="Judul Modul..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;" />
+                </div>
+
+                <div>
+                    <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Link External (Google Drive / OneDrive - Optional)</label>
+                    <input type="url" name="external_link" placeholder="https://drive.google.com/..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.65rem; font-size: 0.875rem; outline: none;" />
+                </div>
+
+                <div>
+                    <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.35rem;">Unggah Berkas PDF / PPT</label>
+                    <input type="file" name="attachment" style="width: 100%; font-size: 0.8125rem;" />
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem;">
+                    <button type="button" @click="isCurriculumUploadModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 800; padding: 0.65rem 1.25rem; border-radius: 10px; cursor: pointer;">Batal</button>
+                    <button type="submit" style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-weight: 900; padding: 0.65rem 1.5rem; border-radius: 10px; border: none; cursor: pointer;">
+                        📚 Upload Modul
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PRATINJAU DOKUMEN PDF INTERAKTIF -->
+    <div x-show="selectedPdf" x-cloak style="position: fixed; inset: 0; z-index: 100; background: rgba(15,23,42,0.75); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; padding: 1.5rem;" @keydown.escape.window="selectedPdf = null">
+        <div @click.away="selectedPdf = null" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 28px; width: 100%; max-width: 900px; height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.4);">
+            <div style="background: var(--color-emerald-dark); color: #FFFFFF; padding: 1.25rem 1.75rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-size: 0.72rem; color: var(--color-accent-gold); font-weight: 900;" x-text="selectedPdf ? selectedPdf.doc_no : ''"></span>
+                    <h3 style="font-size: 1.15rem; font-weight: 900; margin-top: 2px; color: #FFFFFF;" x-text="selectedPdf ? selectedPdf.title : ''"></h3>
+                </div>
+                <button type="button" @click="selectedPdf = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFFFFF; font-size: 1.25rem; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;">✕</button>
+            </div>
+
+            <div style="flex: 1; background: #525659; position: relative;">
+                <template x-if="selectedPdf && selectedPdf.file_path">
+                    <iframe :src="selectedPdf.file_path" style="width: 100%; height: 100%; border: none;"></iframe>
+                </template>
+            </div>
+
+            <div style="background: #FAFDFB; border-top: 1px solid #E2E8F0; padding: 1rem 1.75rem; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; color: #16A34A; font-weight: 900;">🟢 Stempel Digital Terverifikasi OK</span>
+                <button @click="selectedPdf = null" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.5rem 1.25rem; border-radius: 8px; border: none; cursor: pointer;">
+                    Tutup Pratinjau
+                </button>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
