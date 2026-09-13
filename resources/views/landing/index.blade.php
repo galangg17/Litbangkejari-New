@@ -399,7 +399,7 @@
                     <a href="#lacak-tiket-hub">🎟️ Lacak Usulan</a>
                     <a href="#kontak-hub">📍 Kontak</a>
                     <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); cursor: pointer; box-shadow: 0 4px 14px rgba(27, 67, 50, 0.25);">
-                        ⚡ Ajukan Usulan (PIN) →
+                        ⚡ Ajukan Usulan
                     </button>
 
                     @if(session('is_logged_in'))
@@ -462,7 +462,7 @@
                             🌐 Jelajahi Vault Naskah →
                         </a>
                         <button @click="isProposalModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.85rem 1.5rem; border-radius: 12px; cursor: pointer; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 0.4rem;">
-                            📥 Kirim Usulan (PIN)
+                            📝 Ajukan Usulan
                         </button>
                     </div>
                 </div>
@@ -828,7 +828,7 @@
 
                     <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
                         <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.875rem; padding: 0.85rem 1.75rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);">
-                            ⚡ Kirim Usulan Riset Baru (PIN) →
+                            ⚡ Ajukan Usulan Riset
                         </button>
                         <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.85rem 1.5rem; border-radius: 12px; cursor: pointer;">
                             📚 Upload Berkas Kurikulum
@@ -1006,7 +1006,7 @@
                 <div style="display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 0.4rem;">
                     <button type="button" @click="isProposalModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 800; padding: 0.5rem 1.15rem; border-radius: 8px; cursor: pointer; font-size: 0.8125rem;">Batal</button>
                     <button type="submit" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; padding: 0.5rem 1.35rem; border-radius: 8px; border: none; cursor: pointer; font-size: 0.8125rem; box-shadow: 0 4px 14px rgba(27,67,50,0.25);">
-                        ⚡ Submit Usulan (PIN)
+                        ⚡ Submit Usulan
                     </button>
                 </div>
             </form>
