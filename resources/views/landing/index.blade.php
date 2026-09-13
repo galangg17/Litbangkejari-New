@@ -167,10 +167,10 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.15rem;
-    margin-top: -4rem;
+    margin-top: -3.5rem;
     position: relative;
     z-index: 10;
-    align-items: end;
+    align-items: stretch;
   }
 
   .fresh-feature-card {
@@ -551,23 +551,14 @@
                     <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55; margin: 0;">Modul pembelajaran, slide presentasi, dan materi diklat angkatan.</p>
                 </div>
 
-                <!-- Card 4: Green Highlight Media Card with Document Preview Thumbnail & Play Button (Matching Gambar 1) -->
-                <div class="fresh-feature-card highlight">
-                    <!-- Media Preview Container on top of Card 4 -->
-                    <div style="position: relative; border-radius: 14px; overflow: hidden; margin-bottom: 0.85rem; height: 110px; background: url('{{ asset('gedung-kejaksaan.jpg') }}') center/cover no-repeat; border: 1.5px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center;">
-                        <div style="position: absolute; inset: 0; background: rgba(15, 35, 20, 0.45);"></div>
-                        <button @click="openPdfPreview(policyBriefs[0]?.title || 'Policy Brief Utama', policyBriefs[0]?.doc_no || 'PB-01/LITBANG-MADA/2026', policyBriefs[0]?.file_path || '/documents/pb_01.pdf')" style="position: relative; z-index: 2; width: 44px; height: 44px; border-radius: 50%; background: var(--color-accent-gold); color: #04140B; border: 2px solid #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,0.4); transition: transform 0.2s ease;" title="Buka Pratinjau Document">
-                            ▶️
-                        </button>
-                    </div>
-
-                    <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.4rem;">
-                        <div style="width: 32px; height: 32px; border-radius: 10px; background: rgba(212,175,55,0.25); color: var(--color-accent-gold); font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <div class="fresh-feature-card">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem;">
+                        <div style="width: 38px; height: 38px; border-radius: 12px; background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 1.15rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             🏛️
                         </div>
-                        <h4 style="font-size: 0.9375rem; font-weight: 900; color: #FFFFFF; margin: 0; line-height: 1.25;">Pokja Gajah Mada</h4>
+                        <h4 style="font-size: 0.9375rem; font-weight: 900; color: var(--color-emerald-dark); margin: 0; line-height: 1.25;">Pokja Gajah Mada</h4>
                     </div>
-                    <p style="font-size: 0.78125rem; color: #EBF3EC; line-height: 1.5; margin: 0;">Pusat komando penelitian & pratinjau naskah kebijakan teruji.</p>
+                    <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55; margin: 0;">Pusat komando penelitian & pratinjau naskah kebijakan teruji.</p>
                 </div>
             </section>
 
