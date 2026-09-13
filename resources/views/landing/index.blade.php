@@ -942,34 +942,34 @@
     </div>
     <!-- END SCALED LANDING PAGE CONTENT -->
 
-    <!-- CLEAN FIXED MODALS (100% STANDALONE OVERLAY OUTSIDE SCALED CONTAINER - PERFECTLY CENTERED) -->
+    <!-- CLEAN FIXED MODALS (100% STANDALONE OVERLAY OUTSIDE SCALED CONTAINER - PERFECTLY CENTERED & SCALED DOWN 80%) -->
 
     <!-- MODAL 1: FORMULIR PENGUSULAN INTERNAL (AJUKAN PIN) -->
     <div x-show="isProposalModalOpen" x-cloak style="position: fixed; inset: 0; z-index: 99999; background: rgba(15,23,42,0.75); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem;" @keydown.escape.window="isProposalModalOpen = false">
-        <div @click.away="isProposalModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; padding: 1.35rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 0.6rem;">
+        <div @click.away="isProposalModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 18px; width: 100%; max-width: 460px; max-height: 88vh; overflow-y: auto; padding: 1.1rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto; zoom: 0.82; -webkit-zoom: 0.82; transform-origin: center center;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 0.4rem;">
                 <div>
-                    <span style="font-size: 0.6875rem; font-weight: 900; color: var(--color-emerald-medium); text-transform: uppercase;">FORMULIR KODE PIN ANGKATAN</span>
-                    <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 2px;">Ajukan Usulan Riset / Ide Inovasi Baru</h3>
+                    <span style="font-size: 0.625rem; font-weight: 900; color: var(--color-emerald-medium); text-transform: uppercase;">FORMULIR KODE PIN ANGKATAN</span>
+                    <h3 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 1px;">Ajukan Usulan Riset / Ide Inovasi Baru</h3>
                 </div>
-                <button type="button" @click="isProposalModalOpen = false" style="background: #F1F5F9; border: none; font-size: 1rem; color: #64748B; width: 28px; height: 28px; border-radius: 50%; cursor: pointer;">✕</button>
+                <button type="button" @click="isProposalModalOpen = false" style="background: #F1F5F9; border: none; font-size: 0.9rem; color: #64748B; width: 26px; height: 26px; border-radius: 50%; cursor: pointer;">✕</button>
             </div>
 
-            <form action="{{ route('landing.submit_proposal') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <form action="{{ route('landing.submit_proposal') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 0.55rem;">
                 @csrf
-                <div style="background: var(--color-emerald-mint); border: 1.5px solid var(--color-emerald-light); padding: 0.55rem 0.75rem; border-radius: 8px; font-size: 0.75rem; color: var(--color-emerald-dark); font-weight: 800;">
+                <div style="background: var(--color-emerald-mint); border: 1.5px solid var(--color-emerald-light); padding: 0.45rem 0.65rem; border-radius: 7px; font-size: 0.7rem; color: var(--color-emerald-dark); font-weight: 800;">
                     🔑 Masukkan PIN Angkatan: <span style="color: var(--color-accent-gold-dark);">GAJAHMADA2026</span>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Kode PIN Akses *</label>
-                        <input type="password" name="batch_pin" value="GAJAHMADA2026" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;" />
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Kode PIN Akses *</label>
+                        <input type="password" name="batch_pin" value="GAJAHMADA2026" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;" />
                     </div>
 
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Jenis Usulan *</label>
-                        <select name="type" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;">
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Jenis Usulan *</label>
+                        <select name="type" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;">
                             <option value="Policy Brief">📄 Policy Brief / Naskah Kebijakan</option>
                             <option value="Ide Inovasi">💡 Ide Inovasi Digital & Birokrasi</option>
                             <option value="Kurikulum">📚 Kurikulum & Modul Pembelajaran</option>
@@ -977,22 +977,22 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Nama Pengusul *</label>
-                        <input type="text" name="name" required placeholder="Nama Lengkap & Gelar..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;" />
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Nama Pengusul *</label>
+                        <input type="text" name="name" required placeholder="Nama Lengkap & Gelar..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;" />
                     </div>
 
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Satuan Kerja / Asal *</label>
-                        <input type="text" name="institution" required placeholder="Kejari / Kejati / Badiklat..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;" />
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Satuan Kerja / Asal *</label>
+                        <input type="text" name="institution" required placeholder="Kejari / Kejati / Badiklat..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;" />
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Kategori Bidang *</label>
-                        <select name="category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;">
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Kategori Bidang *</label>
+                        <select name="category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;">
                             <option value="Hukum & Tata Kelola">Hukum & Tata Kelola</option>
                             <option value="Pidana">Pidana Khusus / Umum</option>
                             <option value="Perdata">Perdata & Tata Usaha Negara</option>
@@ -1001,8 +1001,8 @@
                     </div>
 
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Tingkat Urgensi *</label>
-                        <select name="urgency" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;">
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Tingkat Urgensi *</label>
+                        <select name="urgency" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;">
                             <option value="Sangat Tinggi">🔴 Sangat Tinggi (Mendesak)</option>
                             <option value="Tinggi">🟠 Tinggi</option>
                             <option value="Sedang">🟢 Sedang</option>
@@ -1011,23 +1011,23 @@
                 </div>
 
                 <div>
-                    <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Judul Usulan Naskah / Inovasi *</label>
-                    <input type="text" name="title" required placeholder="Judul lengkap usulan..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;" />
+                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Judul Usulan Naskah / Inovasi *</label>
+                    <input type="text" name="title" required placeholder="Judul lengkap usulan..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;" />
                 </div>
 
                 <div>
-                    <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Deskripsi Singkat / Latar Belakang *</label>
-                    <textarea name="description" rows="2" required placeholder="Jelaskan ringkasan masalah dan usulan solusi..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;"></textarea>
+                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Deskripsi Singkat / Latar Belakang *</label>
+                    <textarea name="description" rows="2" required placeholder="Jelaskan ringkasan masalah dan usulan solusi..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;"></textarea>
                 </div>
 
                 <div>
-                    <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Unggah Berkas Naskah / Draf (PDF/Docx)</label>
-                    <input type="file" name="attachment" style="width: 100%; font-size: 0.75rem;" />
+                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Unggah Berkas Naskah / Draf (PDF/Docx)</label>
+                    <input type="file" name="attachment" style="width: 100%; font-size: 0.7rem;" />
                 </div>
 
-                <div style="display: flex; justify-content: flex-end; gap: 0.55rem; margin-top: 0.3rem;">
-                    <button type="button" @click="isProposalModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 800; padding: 0.45rem 1rem; border-radius: 7px; cursor: pointer; font-size: 0.78125rem;">Batal</button>
-                    <button type="submit" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; padding: 0.45rem 1.25rem; border-radius: 7px; border: none; cursor: pointer; font-size: 0.78125rem; box-shadow: 0 4px 14px rgba(27,67,50,0.25);">
+                <div style="display: flex; justify-content: flex-end; gap: 0.45rem; margin-top: 0.2rem;">
+                    <button type="button" @click="isProposalModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 6px; cursor: pointer; font-size: 0.72rem;">Batal</button>
+                    <button type="submit" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; padding: 0.35rem 1.1rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.72rem; box-shadow: 0 4px 14px rgba(27,67,50,0.25);">
                         ⚡ Submit Usulan (PIN)
                     </button>
                 </div>
@@ -1037,28 +1037,28 @@
 
     <!-- MODAL 2: UPLOAD KURIKULUM -->
     <div x-show="isCurriculumUploadModalOpen" x-cloak style="position: fixed; inset: 0; z-index: 99999; background: rgba(15,23,42,0.75); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem;" @keydown.escape.window="isCurriculumUploadModalOpen = false">
-        <div @click.away="isCurriculumUploadModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto; padding: 1.35rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 0.6rem;">
+        <div @click.away="isCurriculumUploadModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 18px; width: 100%; max-width: 450px; max-height: 88vh; overflow-y: auto; padding: 1.1rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto; zoom: 0.82; -webkit-zoom: 0.82; transform-origin: center center;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 0.4rem;">
                 <div>
-                    <span style="font-size: 0.6875rem; font-weight: 900; color: #16A34A; text-transform: uppercase;">MODUL KURIKULUM PPPJ</span>
-                    <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 2px;">Upload Berkas Modul Pembelajaran</h3>
+                    <span style="font-size: 0.625rem; font-weight: 900; color: #16A34A; text-transform: uppercase;">MODUL KURIKULUM PPPJ</span>
+                    <h3 style="font-size: 0.95rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 1px;">Upload Berkas Modul Pembelajaran</h3>
                 </div>
-                <button type="button" @click="isCurriculumUploadModalOpen = false" style="background: #F1F5F9; border: none; font-size: 1rem; color: #64748B; width: 28px; height: 28px; border-radius: 50%; cursor: pointer;">✕</button>
+                <button type="button" @click="isCurriculumUploadModalOpen = false" style="background: #F1F5F9; border: none; font-size: 0.9rem; color: #64748B; width: 26px; height: 26px; border-radius: 50%; cursor: pointer;">✕</button>
             </div>
 
-            <form action="{{ route('landing.curriculums.upload') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <form action="{{ route('landing.curriculums.upload') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 0.55rem;">
                 @csrf
                 <input type="hidden" name="batch_pin" value="GAJAHMADA2026" />
 
                 <div>
-                    <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Nama Pengunggah *</label>
-                    <input type="text" name="uploader_name" required placeholder="Nama Lengkap..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;" />
+                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Nama Pengunggah *</label>
+                    <input type="text" name="uploader_name" required placeholder="Nama Lengkap..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;" />
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Bidang Materi *</label>
-                        <select name="subject_category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;">
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Bidang Materi *</label>
+                        <select name="subject_category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;">
                             <option value="Pidana">Hukum Pidana</option>
                             <option value="Perdata">Hukum Perdata & TUN</option>
                             <option value="Intelijen">Intelijen Kejaksaan</option>
@@ -1067,8 +1067,8 @@
                     </div>
 
                     <div>
-                        <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Tipe Berkas *</label>
-                        <select name="file_type" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;">
+                        <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Tipe Berkas *</label>
+                        <select name="file_type" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;">
                             <option value="Modul PDF">Modul PDF</option>
                             <option value="Slide PPT">Slide Presentasi (PPT)</option>
                             <option value="Bahan Ajar">Bahan Ajar / Draf</option>
@@ -1077,23 +1077,23 @@
                 </div>
 
                 <div>
-                    <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Judul Modul / Materi *</label>
-                    <input type="text" name="title" required placeholder="Judul Modul..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;" />
+                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Judul Modul / Materi *</label>
+                    <input type="text" name="title" required placeholder="Judul Modul..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;" />
                 </div>
 
                 <div>
-                    <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Link External (Google Drive / OneDrive - Optional)</label>
-                    <input type="url" name="external_link" placeholder="https://drive.google.com/..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 7px; padding: 0.45rem 0.65rem; font-size: 0.78125rem; outline: none;" />
+                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Link External (Google Drive / OneDrive - Optional)</label>
+                    <input type="url" name="external_link" placeholder="https://drive.google.com/..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 6px; padding: 0.35rem 0.55rem; font-size: 0.72rem; outline: none;" />
                 </div>
 
                 <div>
-                    <label style="font-size: 0.72rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Unggah Berkas PDF / PPT</label>
-                    <input type="file" name="attachment" style="width: 100%; font-size: 0.75rem;" />
+                    <label style="font-size: 0.68rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.15rem;">Unggah Berkas PDF / PPT</label>
+                    <input type="file" name="attachment" style="width: 100%; font-size: 0.7rem;" />
                 </div>
 
-                <div style="display: flex; justify-content: flex-end; gap: 0.55rem; margin-top: 0.3rem;">
-                    <button type="button" @click="isCurriculumUploadModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 800; padding: 0.45rem 1rem; border-radius: 7px; cursor: pointer; font-size: 0.78125rem;">Batal</button>
-                    <button type="submit" style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-weight: 900; padding: 0.45rem 1.25rem; border-radius: 7px; border: none; cursor: pointer; font-size: 0.78125rem;">
+                <div style="display: flex; justify-content: flex-end; gap: 0.45rem; margin-top: 0.2rem;">
+                    <button type="button" @click="isCurriculumUploadModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 800; padding: 0.35rem 0.85rem; border-radius: 6px; cursor: pointer; font-size: 0.72rem;">Batal</button>
+                    <button type="submit" style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-weight: 900; padding: 0.35rem 1.1rem; border-radius: 6px; border: none; cursor: pointer; font-size: 0.72rem;">
                         📚 Upload Modul
                     </button>
                 </div>
@@ -1103,13 +1103,13 @@
 
     <!-- MODAL 3: PRATINJAU DOKUMEN PDF INTERAKTIF -->
     <div x-show="selectedPdf" x-cloak style="position: fixed; inset: 0; z-index: 99999; background: rgba(15,23,42,0.8); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem;" @keydown.escape.window="selectedPdf = null">
-        <div @click.away="selectedPdf = null" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 820px; height: 80vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin: auto;">
-            <div style="background: var(--color-emerald-dark); color: #FFFFFF; padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center;">
+        <div @click.away="selectedPdf = null" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 18px; width: 100%; max-width: 780px; height: 80vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin: auto; zoom: 0.85; -webkit-zoom: 0.85; transform-origin: center center;">
+            <div style="background: var(--color-emerald-dark); color: #FFFFFF; padding: 0.75rem 1.1rem; display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <span style="font-size: 0.6875rem; color: var(--color-accent-gold); font-weight: 900;" x-text="selectedPdf ? selectedPdf.doc_no : ''"></span>
-                    <h3 style="font-size: 1rem; font-weight: 900; margin-top: 1px; color: #FFFFFF;" x-text="selectedPdf ? selectedPdf.title : ''"></h3>
+                    <span style="font-size: 0.65rem; color: var(--color-accent-gold); font-weight: 900;" x-text="selectedPdf ? selectedPdf.doc_no : ''"></span>
+                    <h3 style="font-size: 0.95rem; font-weight: 900; margin-top: 1px; color: #FFFFFF;" x-text="selectedPdf ? selectedPdf.title : ''"></h3>
                 </div>
-                <button type="button" @click="selectedPdf = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFFFFF; font-size: 1rem; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">✕</button>
+                <button type="button" @click="selectedPdf = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFFFFF; font-size: 0.9rem; width: 28px; height: 28px; border-radius: 50%; cursor: pointer;">✕</button>
             </div>
 
             <div style="flex: 1; background: #525659; position: relative;">
@@ -1118,9 +1118,9 @@
                 </template>
             </div>
 
-            <div style="background: #FAFDFB; border-top: 1px solid #E2E8F0; padding: 0.75rem 1.25rem; display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900;">🟢 Stempel Digital Terverifikasi OK</span>
-                <button @click="selectedPdf = null" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.78125rem; padding: 0.4rem 1rem; border-radius: 7px; border: none; cursor: pointer;">
+            <div style="background: #FAFDFB; border-top: 1px solid #E2E8F0; padding: 0.65rem 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.7rem; color: #16A34A; font-weight: 900;">🟢 Stempel Digital Terverifikasi OK</span>
+                <button @click="selectedPdf = null" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.9rem; border-radius: 6px; border: none; cursor: pointer;">
                     Tutup Pratinjau
                 </button>
             </div>
