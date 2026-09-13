@@ -426,42 +426,76 @@
             ✨ Tautan Dokumen PDF Berhasil Disalin!
         </div>
 
-        <!-- 2. TOP FLOATING OFF-WHITE NAVBAR -->
-        <div style="position: sticky; top: 0.85rem; z-index: 50; padding: 0 0.85rem; margin: 0.85rem auto 0; width: 100%; max-width: 1240px; box-sizing: border-box;">
-            <header class="fresh-navbar-header">
-                <div style="display: flex; align-items: center; gap: 0.85rem; cursor: pointer;" onclick="window.location.href='{{ route('landing.index') }}'">
-                    <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Emblem Adhyaksa" style="height: 42px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));" />
-                    <div>
-                        <div style="font-weight: 900; font-size: 0.95rem; color: var(--color-emerald-dark); line-height: 1.1;">
-                            LITBANG GAJAH MADA ADHYAKSA
-                        </div>
-                        <div style="font-size: 0.65rem; color: var(--color-accent-gold-dark); font-weight: 900; text-transform: uppercase; margin-top: 1px;">
-                            PORTAL PENELITIAN DAN PENGEMBANGAN 2026
+        <!-- 2. FULL-BLEED SEAMLESS HERO & NAVBAR HEADER WRAPPER -->
+        <div style="width: 100%; background: linear-gradient(135deg, rgba(11, 30, 18, 0.90) 0%, rgba(27, 67, 50, 0.88) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}'); background-size: cover; background-position: center; border-bottom: 2.5px solid var(--color-accent-gold); position: relative; overflow: hidden; padding-bottom: 6.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+            
+            <!-- Glowing Background Radial Light -->
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 850px; height: 850px; background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
+
+            <!-- TOP FLOATING GLASSMORPHISM NAVBAR -->
+            <div style="position: sticky; top: 0.85rem; z-index: 50; padding: 0 0.85rem; margin: 0.85rem auto 0; width: 100%; max-width: 1240px; box-sizing: border-box;">
+                <header class="fresh-navbar-header" style="background: rgba(13, 40, 24, 0.82); border: 1.5px solid rgba(212, 175, 55, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 12px 32px rgba(0,0,0,0.4);">
+                    <div style="display: flex; align-items: center; gap: 0.85rem; cursor: pointer;" onclick="window.location.href='{{ route('landing.index') }}'">
+                        <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Emblem Adhyaksa" style="height: 42px; width: auto; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4));" />
+                        <div>
+                            <div style="font-weight: 900; font-size: 0.95rem; color: #FFFFFF; line-height: 1.1;">
+                                LITBANG GAJAH MADA ADHYAKSA
+                            </div>
+                            <div style="font-size: 0.65rem; color: var(--color-accent-gold); font-weight: 900; text-transform: uppercase; margin-top: 1px;">
+                                PORTAL PENELITIAN DAN PENGEMBANGAN 2026
+                            </div>
                         </div>
                     </div>
+
+                    <nav class="resp-nav-links">
+                        <a href="#katalog-hub" style="color: #E8F0E8;">📄 Katalog 3 Pilar</a>
+                        <a href="#lacak-tiket-hub" style="color: #E8F0E8;">🎟️ Lacak Usulan</a>
+                        <a href="#kontak-hub" style="color: #E8F0E8;">📍 Kontak</a>
+                        <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);">
+                            ⚡ Ajukan Usulan
+                        </button>
+
+                        @if(session('is_logged_in'))
+                            <a href="{{ route('dashboard.index') }}" style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.3);">
+                                📊 Dashboard Admin
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.3);">
+                                🔑 Masuk Admin
+                            </a>
+                        @endif
+                    </nav>
+                </header>
+            </div>
+
+            <!-- HERO CENTERED CONTENT -->
+            <div style="position: relative; z-index: 2; max-width: 860px; margin: 0 auto; padding: 3.75rem 1.5rem 1rem; text-align: center;">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid var(--color-accent-gold); border-radius: 9999px; font-size: 0.75rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+                    <span>🏛️ KEJAKSAAN REPUBLIK INDONESIA</span>
                 </div>
 
-                <nav class="resp-nav-links">
-                    <a href="#katalog-hub">📄 Katalog 3 Pilar</a>
-                    <a href="#lacak-tiket-hub">🎟️ Lacak Usulan</a>
-                    <a href="#kontak-hub">📍 Kontak</a>
-                    <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); cursor: pointer; box-shadow: 0 4px 14px rgba(27, 67, 50, 0.25);">
-                        ⚡ Ajukan Usulan
+                <h1 style="font-size: clamp(2.3rem, 4.5vw, 3.5rem); font-weight: 900; line-height: 1.15; color: #FFFFFF; margin-bottom: 1.25rem; letter-spacing: -0.01em;">
+                    Transformasi Riset, Inovasi <br />
+                    <span style="color: var(--color-accent-gold); text-shadow: 0 4px 18px rgba(212,175,55,0.4);">
+                        & Kurikulum Pembelajaran
+                    </span>
+                </h1>
+
+                <p style="font-size: 1.05rem; color: #EBF3EC; line-height: 1.65; margin: 0 auto 2.25rem; max-width: 680px; font-weight: 500;">
+                    Pusat repositori manajemen pengetahuan terpadu Angkatan Gajah Mada Adhyaksa (PPPJ LXXXIII/2026). Akses naskah akademis teruji, bank inovasi digital, dan modul pembelajaran.
+                </p>
+
+                <!-- 2 Centered Hero CTA Buttons -->
+                <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 2.1rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4); display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">
+                        ⚡ Ajukan Usulan Riset
                     </button>
-
-                    @if(session('is_logged_in'))
-                        <a href="{{ route('dashboard.index') }}" style="background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 9999px; border: 1.5px solid var(--color-emerald-medium);">
-                            📊 Dashboard Admin
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" style="background: var(--color-emerald-mint); color: var(--color-emerald-dark); font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 9999px; border: 1.5px solid var(--color-emerald-medium);">
-                            🔑 Masuk Admin
-                        </a>
-                    @endif
-                </nav>
-            </header>
+                    <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.5); color: #FFFFFF; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 1.85rem; border-radius: 9999px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;">
+                        📚 Upload Berkas Kurikulum
+                    </button>
+                </div>
+            </div>
         </div>
-
 
         <!-- MAIN CONTENT CONTAINER -->
         <main class="resp-container" style="flex: 1; padding-top: 1.75rem; padding-bottom: 4rem;">
@@ -484,36 +518,6 @@
                     <button onclick="this.parentElement.remove()" style="background: none; border: none; color: #047857; font-size: 1.25rem; cursor: pointer;">✕</button>
                 </div>
             @endif
-
-            <!-- 3. HERO SECTION WITH GEDUNG KEJAKSAAN AGUNG PHOTO BACKGROUND (CENTERED LIKE GAMBAR 1) -->
-            <section class="fresh-hero-grid" style="margin-bottom: 0;">
-                <div style="position: relative; z-index: 2; max-width: 820px; margin: 0 auto;">
-                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid var(--color-accent-gold); border-radius: 9999px; font-size: 0.75rem; font-weight: 900; color: var(--color-accent-gold); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
-                        <span>🏛️ KEJAKSAAN REPUBLIK INDONESIA</span>
-                    </div>
-
-                    <h1 style="font-size: clamp(2.3rem, 4.5vw, 3.5rem); font-weight: 900; line-height: 1.15; color: #FFFFFF; margin-bottom: 1.25rem; letter-spacing: -0.01em;">
-                        Transformasi Riset, Inovasi <br />
-                        <span style="color: var(--color-accent-gold); text-shadow: 0 4px 18px rgba(212,175,55,0.4);">
-                            & Kurikulum Pembelajaran
-                        </span>
-                    </h1>
-
-                    <p style="font-size: 1.05rem; color: #EBF3EC; line-height: 1.65; margin: 0 auto 2.25rem; max-width: 680px; font-weight: 500;">
-                        Pusat repositori manajemen pengetahuan terpadu Angkatan Gajah Mada Adhyaksa (PPPJ LXXXIII/2026). Akses naskah akademis teruji, bank inovasi digital, dan modul pembelajaran.
-                    </p>
-
-                    <!-- 2 Centered Hero CTA Buttons -->
-                    <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
-                        <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 2.1rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4); display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">
-                            ⚡ Ajukan Usulan Riset
-                        </button>
-                        <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.5); color: #FFFFFF; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 1.85rem; border-radius: 9999px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;">
-                            📚 Upload Berkas Kurikulum
-                        </button>
-                    </div>
-                </div>
-            </section>
 
             <!-- 4. 4 FEATURE CARDS ROW (MATCHING REFERENCE MOCKUP GAMBAR 1) -->
             <section class="fresh-feature-row">
