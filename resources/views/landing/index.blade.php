@@ -462,15 +462,6 @@
             </header>
         </div>
 
-        <!-- LIVE ACTIVITY TICKER BAR -->
-        <div style="background: #0D2818; border-bottom: 1.5px solid rgba(212,175,55,0.35); color: #E2E8F0; padding: 0.45rem 1.25rem; font-size: 0.78125rem; display: flex; align-items: center; justify-content: center; gap: 1rem; overflow: hidden; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 0.65rem;">
-            <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(212, 175, 55, 0.2); color: var(--color-accent-gold); font-weight: 900; padding: 0.15rem 0.65rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); font-size: 0.6875rem; text-transform: uppercase; flex-shrink: 0;">
-                ⚡ AKTIVITAS TERBARU
-            </div>
-            <div style="font-weight: 700; color: #EBF3EC; overflow: hidden; text-overflow: ellipsis;">
-                <span>✨ Naskah Policy Brief <strong style="color: var(--color-accent-gold);">#PB-01 (Perampasan Aset Korupsi Lintas Negara)</strong> Resmi Diterbitkan di Vault Publik &nbsp;•&nbsp; ⚡ Inovasi Digital SOP SPBE Lulus Skrining Pokja &nbsp;•&nbsp; 📚 Modul Kurikulum Pembelajaran PPPJ LXXXIII/2026 Siap Diunduh</span>
-            </div>
-        </div>
 
         <!-- MAIN CONTENT CONTAINER -->
         <main class="resp-container" style="flex: 1; padding-top: 1.75rem; padding-bottom: 4rem;">
