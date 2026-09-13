@@ -33,6 +33,47 @@
     box-sizing: border-box;
   }
 
+  /* LAYOUT TOGGLE SEGMENTED CONTROL */
+  .layout-toggle-container {
+    display: inline-flex;
+    align-items: center;
+    background: #E2E8F0;
+    padding: 3px;
+    border-radius: 9999px;
+    border: 1px solid #CBD5E1;
+  }
+
+  .layout-toggle-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none !important;
+    outline: none !important;
+    background: transparent;
+    color: #64748B;
+    font-size: 0.78125rem;
+    font-weight: 800;
+    padding: 0.4rem 0.95rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    line-height: 1;
+    box-sizing: border-box;
+  }
+
+  .layout-toggle-btn.active {
+    background: var(--color-emerald-dark) !important;
+    color: var(--color-accent-gold) !important;
+    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.3) !important;
+  }
+
+  .layout-toggle-btn:hover:not(.active) {
+    color: var(--color-emerald-dark);
+    background: rgba(255, 255, 255, 0.6);
+  }
+
   .resp-container {
     width: 100%;
     max-width: 1240px;
@@ -632,12 +673,12 @@
                         </div>
 
                         <!-- LAYOUT MODE TOGGLE (GRID VS TABLE) -->
-                        <div style="display: flex; gap: 0.3rem; background: #F1F5F9; border: 1.5px solid #CBD5E1; padding: 0.25rem; border-radius: 12px;">
-                            <button type="button" @click="viewMode = 'grid'" :style="viewMode === 'grid' ? 'background: #FFFFFF; color: var(--color-emerald-dark); font-weight: 900; box-shadow: 0 2px 8px rgba(0,0,0,0.1);' : 'background: transparent; color: #64748B; font-weight: 700;'" style="border: none; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78125rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;">
-                                🔲 Tampilan Kartu
+                        <div class="layout-toggle-container">
+                            <button type="button" class="layout-toggle-btn" :class="{ 'active': viewMode === 'grid' }" @click="viewMode = 'grid'">
+                                ▦ Mode Kartu
                             </button>
-                            <button type="button" @click="viewMode = 'list'" :style="viewMode === 'list' ? 'background: #FFFFFF; color: var(--color-emerald-dark); font-weight: 900; box-shadow: 0 2px 8px rgba(0,0,0,0.1);' : 'background: transparent; color: #64748B; font-weight: 700;'" style="border: none; padding: 0.4rem 0.85rem; border-radius: 8px; font-size: 0.78125rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;">
-                                ☰ Tabel Ringkas (Koleksi Banyak)
+                            <button type="button" class="layout-toggle-btn" :class="{ 'active': viewMode === 'list' }" @click="viewMode = 'list'">
+                                ☰ Mode Tabel
                             </button>
                         </div>
                     </div>
