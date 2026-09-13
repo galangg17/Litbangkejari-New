@@ -277,15 +277,26 @@
 
   /* CURVED BANNER FOR FORM SUBMISSION */
   .fresh-banner-curved {
-    background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%);
+    background: linear-gradient(135deg, #0F2D21 0%, var(--color-emerald-dark) 55%, var(--color-emerald-medium) 100%);
     border: 2px solid var(--color-accent-gold);
     border-radius: 26px;
-    padding: 3rem 2.5rem;
+    padding: 3.25rem 2.5rem;
     color: #FFFFFF;
     margin: 3.75rem 0;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 18px 42px rgba(27, 67, 50, 0.2);
+    box-shadow: 0 20px 48px rgba(27, 67, 50, 0.25);
+  }
+
+  .fresh-banner-curved::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(0,0,0,0) 70%);
+    pointer-events: none;
   }
 
   /* CATEGORY PILLS */
@@ -493,11 +504,11 @@
 
                     <!-- 2 Centered Hero CTA Buttons -->
                     <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
-                        <a href="#katalog-hub" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 2.1rem; border-radius: 9999px; text-decoration: none; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4); display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">
-                            🌐 Jelajahi Vault Naskah →
-                        </a>
-                        <button @click="isProposalModalOpen = true" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.5); color: #FFFFFF; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 1.85rem; border-radius: 9999px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;">
-                            📝 Ajukan Usulan
+                        <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 2.1rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4); display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.2s ease;">
+                            ⚡ Ajukan Usulan Riset
+                        </button>
+                        <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.5); color: #FFFFFF; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 1.85rem; border-radius: 9999px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease;">
+                            📚 Upload Berkas Kurikulum
                         </button>
                     </div>
                 </div>
@@ -1007,27 +1018,62 @@
                 </div>
             </section>
 
-            <!-- 9. CURVED BANNER FOR QUICK SUBMISSION -->
+            <!-- 9. CURVED BANNER FOR QUICK SUBMISSION (REDESIGNED 2-COLUMN PREMIUM LAYOUT) -->
             <section class="fresh-banner-curved" id="lacak-tiket-hub">
-                <div style="max-width: 720px; position: relative; z-index: 2;">
-                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid var(--color-accent-gold); border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: var(--color-accent-gold); text-transform: uppercase; margin-bottom: 1.15rem;">
-                        <span>📥 LAYANAN USULAN ANGKATAN</span>
+                <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 2.5rem; align-items: center; position: relative; z-index: 2;">
+                    <!-- Left Side: Call to Action -->
+                    <div>
+                        <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid var(--color-accent-gold); border-radius: 9999px; font-size: 0.75rem; font-weight: 900; color: var(--color-accent-gold); text-transform: uppercase; margin-bottom: 1.25rem; letter-spacing: 0.04em;">
+                            <span>📥 LAYANAN USULAN ANGKATAN</span>
+                        </div>
+
+                        <h2 style="font-size: clamp(1.8rem, 3.2vw, 2.3rem); font-weight: 900; color: #FFFFFF; line-height: 1.25; margin-bottom: 1.15rem;">
+                            Mulai Kirimkan Usulan Riset atau Ide Inovasi Anda Sekarang
+                        </h2>
+
+                        <p style="font-size: 0.95rem; color: #EBF3EC; line-height: 1.7; margin-bottom: 2rem; max-width: 600px;">
+                            Gunakan Kode PIN Angkatan (<strong style="color: var(--color-accent-gold);">{{ $setting->batch_passcode }}</strong>) untuk mendaftarkan naskah kebijakan atau modul kurikulum Anda secara langsung ke Pokja Riset.
+                        </p>
+
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                            <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.9375rem; padding: 0.85rem 1.85rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35); display: inline-flex; align-items: center; gap: 0.4rem; transition: transform 0.2s ease;">
+                                ⚡ Ajukan Usulan Riset
+                            </button>
+                            <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.45); color: #FFFFFF; font-weight: 800; font-size: 0.9375rem; padding: 0.85rem 1.65rem; border-radius: 9999px; cursor: pointer; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 0.4rem;">
+                                📚 Upload Berkas Kurikulum
+                            </button>
+                        </div>
                     </div>
 
-                    <h2 style="font-size: 2.1rem; font-weight: 900; color: #FFFFFF; line-height: 1.25; margin-bottom: 1rem;">
-                        Mulai Kirimkan Usulan Riset atau Ide Inovasi Anda Sekarang
-                    </h2>
-                    <p style="font-size: 0.95rem; color: #EBF3EC; line-height: 1.65; margin-bottom: 2rem;">
-                        Gunakan Kode PIN Angkatan (<strong style="color: var(--color-accent-gold);">{{ $setting->batch_passcode }}</strong>) untuk mendaftarkan naskah atau ide inovasi Anda secara langsung ke Pokja Riset.
-                    </p>
+                    <!-- Right Side: Passcode & Direct Access Badge Card -->
+                    <div style="background: rgba(255, 255, 255, 0.07); border: 1.5px solid rgba(212, 175, 55, 0.45); backdrop-filter: blur(14px); border-radius: 24px; padding: 1.85rem 1.65rem; color: #FFFFFF; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.5rem;">
+                            <span style="font-size: 0.72rem; font-weight: 900; color: var(--color-accent-gold); background: rgba(212,175,55,0.2); padding: 0.3rem 0.75rem; border-radius: 9999px; border: 1px solid var(--color-accent-gold); letter-spacing: 0.05em;">
+                                🔑 ACCESS PASSCODE
+                            </span>
+                            <span style="font-size: 0.72rem; color: #86EFAC; font-weight: 800; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                🟢 SYSTEM READY
+                            </span>
+                        </div>
 
-                    <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
-                        <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.875rem; padding: 0.85rem 1.75rem; border-radius: 12px; border: none; cursor: pointer; box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);">
-                            ⚡ Ajukan Usulan Riset
-                        </button>
-                        <button @click="isCurriculumUploadModalOpen = true" style="background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; padding: 0.85rem 1.5rem; border-radius: 12px; cursor: pointer;">
-                            📚 Upload Berkas Kurikulum
-                        </button>
+                        <div style="background: rgba(0, 0, 0, 0.3); border: 1px dashed var(--color-accent-gold); border-radius: 16px; padding: 1.15rem; text-align: center; margin-bottom: 1.35rem;">
+                            <div style="font-size: 0.71875rem; color: #D1E7DD; text-transform: uppercase; font-weight: 800; letter-spacing: 0.05em;">PIN Otentikasi Angkatan</div>
+                            <div style="font-size: 1.85rem; font-weight: 900; color: var(--color-accent-gold); letter-spacing: 0.12em; font-family: 'JetBrains Mono', monospace; margin-top: 0.25rem;">
+                                {{ $setting->batch_passcode }}
+                            </div>
+                        </div>
+
+                        <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.8125rem; color: #EBF3EC;">
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="color: var(--color-accent-gold); font-weight: 900;">✓</span> Langsung Masuk ke Database Pokja Riset
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="color: var(--color-accent-gold); font-weight: 900;">✓</span> Autentikasi Stempel QR Seal Digital
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <span style="color: var(--color-accent-gold); font-weight: 900;">✓</span> Pencatatan Tiket Lacak Real-time
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
