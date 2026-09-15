@@ -554,6 +554,7 @@
         }
         if (!prop) {
             prop = {
+                id: 1,
                 ticket_no: 'USUL-2026-101',
                 name: 'Dr. Hendra Wijaya, S.H.',
                 institution: 'Kejaksaan Negeri',
@@ -565,7 +566,12 @@
                 file_path: '/documents/pb_01.pdf'
             };
         }
-        this.selectedSubmissionFullView = prop;
+        const clonedProp = JSON.parse(JSON.stringify(prop));
+        if (clonedProp.id) {
+            clonedProp.file_path = '/proposal/stream/' + clonedProp.id;
+            clonedProp.download_url = '/proposal/download/' + clonedProp.id;
+        }
+        this.selectedSubmissionFullView = clonedProp;
     },
     policyBriefsMap: {{ json_encode($kajianList->keyBy('id')) }},
     innovationsMap: {{ json_encode($innovations->keyBy('id')) }},
@@ -969,7 +975,7 @@
                                 </div>
                                 <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
                                     @if($prop->file_path)
-                                        <a href="{{ $prop->file_path }}" target="_blank" class="file-chip">
+                                        <a href="{{ route('proposal.download', $prop->id) }}" target="_blank" class="file-chip">
                                             📄 Berkas PDF Pengusul
                                         </a>
                                     @else
@@ -1005,7 +1011,7 @@
                                 </div>
                                 <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
                                     @if($prop->file_path)
-                                        <a href="{{ $prop->file_path }}" target="_blank" class="file-chip">
+                                        <a href="{{ route('proposal.download', $prop->id) }}" target="_blank" class="file-chip">
                                             📄 Concept Note PDF
                                         </a>
                                     @else
@@ -1041,7 +1047,7 @@
                                 </div>
                                 <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
                                     @if($prop->admin_file_path)
-                                        <a href="{{ $prop->admin_file_path }}" target="_blank" class="file-chip" style="background: #DCFCE7; color: #15803D; border-color: #86EFAC;">
+                                        <a href="{{ route('proposal.download', $prop->id) }}" target="_blank" class="file-chip" style="background: #DCFCE7; color: #15803D; border-color: #86EFAC;">
                                             📥 PDF Hasil Admin
                                         </a>
                                     @else
@@ -1077,7 +1083,7 @@
                                 </div>
                                 <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
                                     @if($prop->file_path)
-                                        <a href="{{ $prop->file_path }}" target="_blank" class="file-chip">
+                                        <a href="{{ route('proposal.download', $prop->id) }}" target="_blank" class="file-chip">
                                             📄 PDF Original
                                         </a>
                                     @else
@@ -1132,7 +1138,7 @@
                                         </a>
                                     @endif
                                     @if($c->file_path)
-                                        <button type="button" class="file-chip" style="background: #0284C7; color: #FFF; border-color: #0284C7;" @click="previewPdfUrl = '{{ $c->file_path }}'">
+                                        <button type="button" class="file-chip" style="background: #0284C7; color: #FFF; border-color: #0284C7;" @click="previewPdfUrl = '/catalog/stream/curriculum/{{ $c->id }}'">
                                             👁️ Pratinjau Modul
                                         </button>
                                     @endif
@@ -1218,7 +1224,7 @@
                                 <button type="button" class="file-chip" @click="selectedSubmissionFullView = kajianProposalsMap[{{ $k->id }}]">
                                     📄 Usulan Original
                                 </button>
-                                <button type="button" class="file-chip" style="background: #072718; color: #D4AF37; border-color: #C59B27;" @click="previewPdfUrl = '{{ $k->file_path ?? '/documents/pb_01.pdf' }}'">
+                                <button type="button" class="file-chip" style="background: #072718; color: #D4AF37; border-color: #C59B27;" @click="previewPdfUrl = '/catalog/stream/kajian/{{ $k->id }}'">
                                     👁️ Naskah Final PDF
                                 </button>
                             </div>
@@ -1300,7 +1306,7 @@
                                 <button type="button" class="file-chip" @click="selectedSubmissionFullView = innovationProposalsMap[{{ $inv->id }}]">
                                     📄 Gagasan Original
                                 </button>
-                                <button type="button" class="file-chip" style="background: #0284C7; color: #FFF; border-color: #0284C7;" @click="previewPdfUrl = '{{ $inv->sop_file_path ?? '/documents/pb_01.pdf' }}'">
+                                <button type="button" class="file-chip" style="background: #0284C7; color: #FFF; border-color: #0284C7;" @click="previewPdfUrl = '/catalog/stream/innovation/{{ $inv->id }}'">
                                     👁️ SOP Final PDF
                                 </button>
                             </div>
@@ -1387,10 +1393,10 @@
                                     </a>
                                 @endif
                                 @if($c->file_path)
-                                    <button type="button" class="file-chip" style="background: #072718; color: #D4AF37; border-color: #C59B27;" @click="previewPdfUrl = '{{ $c->file_path }}'">
+                                    <button type="button" class="file-chip" style="background: #072718; color: #D4AF37; border-color: #C59B27;" @click="previewPdfUrl = '/catalog/stream/curriculum/{{ $c->id }}'">
                                         👁️ Pratinjau Modul
                                     </button>
-                                    <a href="{{ $c->file_path }}" download class="file-chip" style="background: #E0F2FE; border-color: #7DD3FC; color: #0369A1;">
+                                    <a href="{{ route('catalog.download', ['curriculum', $c->id]) }}" class="file-chip" style="background: #E0F2FE; border-color: #7DD3FC; color: #0369A1;">
                                         📥 Unduh PDF
                                     </a>
                                 @endif
@@ -2067,10 +2073,10 @@
                             </div>
                             <template x-if="selectedProposalDisposition && selectedProposalDisposition.file_path">
                                 <div style="display: flex; gap: 0.5rem;">
-                                    <button type="button" style="background: #0284C7; color: #FFFFFF; font-size: 0.78125rem; font-weight: 800; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 2px 4px rgba(2,132,199,0.25); outline: none !important;" @click="previewPdfUrl = selectedProposalDisposition.file_path">
+                                    <button type="button" style="background: #0284C7; color: #FFFFFF; font-size: 0.78125rem; font-weight: 800; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 2px 4px rgba(2,132,199,0.25); outline: none !important;" @click="previewPdfUrl = selectedProposalDisposition && selectedProposalDisposition.id ? ('/proposal/stream/' + selectedProposalDisposition.id) : selectedProposalDisposition.file_path">
                                         👁️ Pratinjau Fullscreen PDF
                                     </button>
-                                    <a :href="selectedProposalDisposition ? selectedProposalDisposition.file_path : '#'" target="_blank" style="background: #072718; color: #D4AF37; font-size: 0.78125rem; font-weight: 900; padding: 0.45rem 0.875rem; border-radius: 8px; text-decoration: none; border: 1px solid #C59B27; outline: none !important;">
+                                    <a :href="selectedProposalDisposition && selectedProposalDisposition.id ? ('/proposal/download/' + selectedProposalDisposition.id) : (selectedProposalDisposition ? selectedProposalDisposition.file_path : '#')" target="_blank" style="background: #072718; color: #D4AF37; font-size: 0.78125rem; font-weight: 900; padding: 0.45rem 0.875rem; border-radius: 8px; text-decoration: none; border: 1px solid #C59B27; outline: none !important;">
                                         📥 Download PDF Original
                                     </a>
                                 </div>
@@ -2233,10 +2239,10 @@
                             </div>
                         </div>
                         <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                            <button type="button" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.25); display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" @click="previewPdfUrl = (selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf'); selectedSubmissionFullView = null;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <button type="button" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2,132,199,0.25); display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s;" @click="previewPdfUrl = (selectedSubmissionFullView && selectedSubmissionFullView.id ? ('/proposal/stream/' + selectedSubmissionFullView.id) : (selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf')); selectedSubmissionFullView = null;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                                 👁️ Pratinjau Fullscreen PDF
                             </button>
-                            <a :href="selectedSubmissionFullView && selectedSubmissionFullView.file_path ? selectedSubmissionFullView.file_path : '/documents/pb_01.pdf'" target="_blank" style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; border: 1.5px solid #C59B27; box-shadow: 0 4px 12px rgba(7,39,24,0.25); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <a :href="selectedSubmissionFullView && selectedSubmissionFullView.download_url ? selectedSubmissionFullView.download_url : (selectedSubmissionFullView && selectedSubmissionFullView.id ? ('/proposal/download/' + selectedSubmissionFullView.id) : '/documents/pb_01.pdf')" target="_blank" style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); color: #D4AF37; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; border: 1.5px solid #C59B27; box-shadow: 0 4px 12px rgba(7,39,24,0.25); display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
                                 📥 Download PDF Original
                             </a>
                         </div>

@@ -10,6 +10,9 @@ Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::post('/submit-proposal', [LandingController::class, 'submitProposal'])->name('landing.submit_proposal');
 Route::post('/upload-curriculum', [LandingController::class, 'uploadCurriculum'])->name('landing.curriculums.upload');
 Route::get('/catalog/download/{type}/{id}', [LandingController::class, 'downloadDocument'])->name('catalog.download');
+Route::get('/catalog/stream/{type}/{id}', [LandingController::class, 'streamDocument'])->name('catalog.stream');
+Route::get('/proposal/download/{id}', [LandingController::class, 'downloadProposal'])->name('proposal.download');
+Route::get('/proposal/stream/{id}', [LandingController::class, 'streamProposal'])->name('proposal.stream');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

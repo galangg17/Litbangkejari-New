@@ -195,6 +195,47 @@ class LandingController extends Controller
         ]);
     }
 
+    private function resolveFile($filePath)
+    {
+        if (empty($filePath)) {
+            return $this->getFallbackSamplePath();
+        }
+
+        $relPath = preg_replace('/^\/?storage\//', '', $filePath);
+
+        $paths = [
+            storage_path('app/public/' . $relPath),
+            public_path(ltrim($filePath, '/')),
+            base_path('../public_html' . $filePath),
+            base_path('../public_html/storage/' . $relPath),
+        ];
+
+        foreach ($paths as $p) {
+            if (file_exists($p) && is_readable($p) && !is_dir($p)) {
+                return $p;
+            }
+        }
+
+        return $this->getFallbackSamplePath();
+    }
+
+    private function getFallbackSamplePath()
+    {
+        $samplePaths = [
+            public_path('documents/pb_01.pdf'),
+            storage_path('app/public/documents/pb_01.pdf'),
+            base_path('../public_html/documents/pb_01.pdf'),
+        ];
+
+        foreach ($samplePaths as $sp) {
+            if (file_exists($sp) && is_readable($sp)) {
+                return $sp;
+            }
+        }
+
+        return null;
+    }
+
     public function downloadDocument($type, $id)
     {
         $filePath = null;
@@ -220,45 +261,89 @@ class LandingController extends Controller
             $item = Curriculum::find($id);
             if ($item) {
                 $filePath = $item->file_path;
-                $cleanTitle = preg_replace('/[^A-Za-z0-9_\-]/', '_', Str::slug(substr($item->title ?? 'Kurikulum', 0, 35), '_'));
+                $cleanTitle = preg_replace('/[^A-Za-z0-9_\-]/', '_', substr($item->title ?? 'Kurikulum', 0, 35));
                 $fileName = 'Modul_' . ($cleanTitle ?: 'Kurikulum');
             }
         }
 
-        if ($filePath) {
-            $relPath = preg_replace('/^\/?storage\//', '', $filePath);
-            
-            // Check 3 path resolutions for maximum compatibility across local and shared hosting:
-            $storagePath = storage_path('app/public/' . $relPath);
-            $publicPath = public_path(ltrim($filePath, '/'));
-            $basePublicPath = base_path('../public_html' . $filePath);
-
-            $targetFile = null;
-            if (file_exists($storagePath) && is_readable($storagePath)) {
-                $targetFile = $storagePath;
-            } elseif (file_exists($publicPath) && is_readable($publicPath)) {
-                $targetFile = $publicPath;
-            } elseif (file_exists($basePublicPath) && is_readable($basePublicPath)) {
-                $targetFile = $basePublicPath;
-            }
-
-            if ($targetFile) {
-                $ext = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-                $finalName = $fileName . ($ext ? '.' . $ext : '.pdf');
-                return response()->download($targetFile, $finalName);
-            }
-        }
-
-        // Fallback sample file
-        $samplePath = public_path('documents/pb_01.pdf');
-        if (!file_exists($samplePath)) {
-            $samplePath = storage_path('app/public/documents/pb_01.pdf');
-        }
-
-        if (file_exists($samplePath) && is_readable($samplePath)) {
-            return response()->download($samplePath, $fileName . '.pdf');
+        $targetFile = $this->resolveFile($filePath);
+        if ($targetFile) {
+            $ext = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+            $finalName = $fileName . ($ext ? '.' . $ext : '.pdf');
+            return response()->download($targetFile, $finalName);
         }
 
         return redirect()->back()->with('error', 'Berkas dokumen tidak ditemukan pada server.');
+    }
+
+    public function streamDocument($type, $id)
+    {
+        $filePath = null;
+        if ($type === 'kajian') {
+            $item = Kajian::find($id);
+            $filePath = $item ? $item->file_path : null;
+        } elseif ($type === 'innovation') {
+            $item = InnovationProposal::find($id);
+            $filePath = $item ? $item->sop_file_path : null;
+        } elseif ($type === 'curriculum') {
+            $item = Curriculum::find($id);
+            $filePath = $item ? $item->file_path : null;
+        }
+
+        $targetFile = $this->resolveFile($filePath);
+        if ($targetFile) {
+            $ext = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+            $mime = 'application/pdf';
+            if ($ext === 'pptx') $mime = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+            elseif ($ext === 'ppt') $mime = 'application/vnd.ms-powerpoint';
+            elseif ($ext === 'docx') $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+            elseif ($ext === 'doc') $mime = 'application/msword';
+            elseif (in_array($ext, ['png', 'jpg', 'jpeg'])) $mime = 'image/' . $ext;
+
+            return response()->file($targetFile, ['Content-Type' => $mime]);
+        }
+
+        return redirect()->back()->with('error', 'Pratinjau dokumen tidak tersedia.');
+    }
+
+    public function downloadProposal($id)
+    {
+        $proposal = PublicProposal::find($id);
+        if ($proposal) {
+            $targetFile = $this->resolveFile($proposal->file_path);
+            if ($targetFile) {
+                $ext = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                $fileName = 'Usulan_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $proposal->ticket_no ?? 'Original') . ($ext ? '.' . $ext : '.pdf');
+                return response()->download($targetFile, $fileName);
+            }
+        }
+
+        $fallback = $this->getFallbackSamplePath();
+        if ($fallback) {
+            return response()->download($fallback, 'Usulan_Original.pdf');
+        }
+
+        return redirect()->back()->with('error', 'Berkas usulan tidak ditemukan.');
+    }
+
+    public function streamProposal($id)
+    {
+        $proposal = PublicProposal::find($id);
+        $filePath = $proposal ? $proposal->file_path : null;
+
+        $targetFile = $this->resolveFile($filePath);
+        if ($targetFile) {
+            $ext = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+            $mime = 'application/pdf';
+            if ($ext === 'pptx') $mime = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+            elseif ($ext === 'ppt') $mime = 'application/vnd.ms-powerpoint';
+            elseif ($ext === 'docx') $mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+            elseif ($ext === 'doc') $mime = 'application/msword';
+            elseif (in_array($ext, ['png', 'jpg', 'jpeg'])) $mime = 'image/' . $ext;
+
+            return response()->file($targetFile, ['Content-Type' => $mime]);
+        }
+
+        return redirect()->back()->with('error', 'Pratinjau berkas usulan tidak tersedia.');
     }
 }

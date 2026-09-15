@@ -397,13 +397,14 @@
         }
     },
     openPdfPreview(title, docNo, filePath, id, type) {
+        const streamUrl = (id && type) ? `/catalog/stream/${type}/${id}` : (filePath || '/documents/pb_01.pdf');
         const path = filePath || '/documents/pb_01.pdf';
         const isOffice = path.toLowerCase().endsWith('.pptx') || path.toLowerCase().endsWith('.ppt') || path.toLowerCase().endsWith('.docx') || path.toLowerCase().endsWith('.doc');
         this.selectedPdf = {
             id: id || 1,
             title: title || 'Naskah Policy Brief Resmi',
             doc_no: docNo || 'PB-01/LITBANG-MADA/2026',
-            file_path: path,
+            file_path: streamUrl,
             external_link: null,
             is_office: isOffice,
             type: type || 'kajian'
@@ -412,12 +413,13 @@
     previewCurriculum(curr) {
         if (!curr) return;
         const path = curr.file_path || '/documents/pb_01.pdf';
+        const streamUrl = curr.id ? `/catalog/stream/curriculum/${curr.id}` : path;
         const isOffice = path.toLowerCase().endsWith('.pptx') || path.toLowerCase().endsWith('.ppt') || path.toLowerCase().endsWith('.docx') || path.toLowerCase().endsWith('.doc') || (curr.file_type && (curr.file_type.includes('PPT') || curr.file_type.includes('Slide')));
         this.selectedPdf = {
             id: curr.id,
             title: curr.title || 'Modul Kurikulum Pembelajaran',
             doc_no: curr.file_type || 'MODUL-PPPJ-2026',
-            file_path: path,
+            file_path: streamUrl,
             external_link: curr.external_link || null,
             is_office: isOffice,
             type: 'curriculum'
@@ -728,7 +730,7 @@
                                     🟢 QR Seal Verified
                                 </span>
                                 <div style="display: flex; gap: 0.4rem;">
-                                    <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(policyBriefs[{{ $loop->index }}].title, policyBriefs[{{ $loop->index }}].doc_no, policyBriefs[{{ $loop->index }}].file_path)">
+                                    <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(brief.title, brief.doc_no, brief.file_path, brief.id, 'kajian')">
                                         👁️ Pratinjau
                                     </button>
                                     <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(30,70,32,0.2);">
@@ -773,7 +775,7 @@
                                         </td>
                                         <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
                                             <div style="display: inline-flex; gap: 0.4rem;">
-                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(policyBriefs[{{ $loop->index }}].title, policyBriefs[{{ $loop->index }}].doc_no, policyBriefs[{{ $loop->index }}].file_path)">
+                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(brief.title, brief.doc_no, brief.file_path, brief.id, 'kajian')">
                                                     👁️ Pratinjau
                                                 </button>
                                                 <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
@@ -822,7 +824,7 @@
                                     ⚡ Teruji Birokrasi
                                 </span>
                                 <div style="display: flex; gap: 0.4rem;">
-                                    <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(innovations[{{ $loop->index }}].title, innovations[{{ $loop->index }}].innovation_no, innovations[{{ $loop->index }}].sop_file_path)">
+                                    <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(inov.title, inov.innovation_no, inov.sop_file_path, inov.id, 'innovation')">
                                         👁️ Pratinjau
                                     </button>
                                     <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
@@ -867,7 +869,7 @@
                                         </td>
                                         <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
                                             <div style="display: inline-flex; gap: 0.4rem;">
-                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(innovations[{{ $loop->index }}].title, innovations[{{ $loop->index }}].innovation_no, innovations[{{ $loop->index }}].sop_file_path)">
+                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(inov.title, inov.innovation_no, inov.sop_file_path, inov.id, 'innovation')">
                                                     👁️ Pratinjau
                                                 </button>
                                                 <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" style="background: #0284C7; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
