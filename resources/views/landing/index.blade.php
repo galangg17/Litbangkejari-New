@@ -396,19 +396,31 @@
             };
         }
     },
-    openPdfPreview(title, docNo, filePath) {
+    openPdfPreview(title, docNo, filePath, id, type) {
+        const path = filePath || '/documents/pb_01.pdf';
+        const isOffice = path.toLowerCase().endsWith('.pptx') || path.toLowerCase().endsWith('.ppt') || path.toLowerCase().endsWith('.docx') || path.toLowerCase().endsWith('.doc');
         this.selectedPdf = {
+            id: id || 1,
             title: title || 'Naskah Policy Brief Resmi',
             doc_no: docNo || 'PB-01/LITBANG-MADA/2026',
-            file_path: filePath || '/documents/pb_01.pdf'
+            file_path: path,
+            external_link: null,
+            is_office: isOffice,
+            type: type || 'kajian'
         };
     },
     previewCurriculum(curr) {
         if (!curr) return;
+        const path = curr.file_path || '/documents/pb_01.pdf';
+        const isOffice = path.toLowerCase().endsWith('.pptx') || path.toLowerCase().endsWith('.ppt') || path.toLowerCase().endsWith('.docx') || path.toLowerCase().endsWith('.doc') || (curr.file_type && (curr.file_type.includes('PPT') || curr.file_type.includes('Slide')));
         this.selectedPdf = {
+            id: curr.id,
             title: curr.title || 'Modul Kurikulum Pembelajaran',
             doc_no: curr.file_type || 'MODUL-PPPJ-2026',
-            file_path: curr.file_path || '/documents/pb_01.pdf'
+            file_path: path,
+            external_link: curr.external_link || null,
+            is_office: isOffice,
+            type: 'curriculum'
         };
     },
     copyLink(docNo) {
@@ -910,7 +922,7 @@
                                         <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
                                             👁️ Pratinjau
                                         </button>
-                                        <a href="{{ $curr->file_path }}" download style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
+                                        <a href="{{ route('catalog.download', ['curriculum', $curr->id]) }}" style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
                                             📥 Unduh
                                         </a>
                                     @endif
@@ -966,7 +978,7 @@
                                                     <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
                                                         👁️ Pratinjau
                                                     </button>
-                                                    <a href="{{ $curr->file_path }}" download style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                    <a href="{{ route('catalog.download', ['curriculum', $curr->id]) }}" style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
                                                         📥 Unduh
                                                     </a>
                                                 @endif
@@ -1377,9 +1389,9 @@
         </div>
     </div>
 
-    <!-- MODAL 3: PRATINJAU DOKUMEN PDF INTERAKTIF -->
+    <!-- MODAL 3: PRATINJAU DOKUMEN & MODAL INTERAKTIF -->
     <div x-show="selectedPdf" x-cloak style="position: fixed; inset: 0; z-index: 99999; background: rgba(15,23,42,0.8); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem;" @keydown.escape.window="selectedPdf = null">
-        <div @click.away="selectedPdf = null" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 860px; height: 82vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin: auto;">
+        <div @click.away="selectedPdf = null" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 880px; height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin: auto;">
             <div style="background: var(--color-emerald-dark); color: #FFFFFF; padding: 0.85rem 1.25rem; display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <span style="font-size: 0.72rem; color: var(--color-accent-gold); font-weight: 900;" x-text="selectedPdf ? selectedPdf.doc_no : ''"></span>
@@ -1388,17 +1400,47 @@
                 <button type="button" @click="selectedPdf = null" style="background: rgba(255,255,255,0.15); border: none; color: #FFFFFF; font-size: 1rem; width: 32px; height: 32px; border-radius: 50%; cursor: pointer;">✕</button>
             </div>
 
-            <div style="flex: 1; background: #525659; position: relative;">
-                <template x-if="selectedPdf && selectedPdf.file_path">
+            <div style="flex: 1; background: #F8FAFC; position: relative; overflow-y: auto; display: flex; flex-direction: column;">
+                <template x-if="selectedPdf && selectedPdf.is_office">
+                    <div style="padding: 2.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%;">
+                        <div style="font-size: 3.5rem; margin-bottom: 0.75rem;">📊</div>
+                        <h4 style="font-size: 1.2rem; font-weight: 900; color: #0F172A; margin-bottom: 0.5rem;" x-text="selectedPdf.title"></h4>
+                        <p style="font-size: 0.875rem; color: #64748B; max-width: 520px; margin-bottom: 1.75rem; line-height: 1.6;">
+                            Dokumen paparan PowerPoint / Modul Pembelajaran (.pptx / .docx) siap diunduh langsung atau dibuka melalui tautan cloud.
+                        </p>
+                        
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+                            <template x-if="selectedPdf.id">
+                                <a :href="'/catalog/download/' + selectedPdf.type + '/' + selectedPdf.id" style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFF; font-weight: 900; font-size: 0.875rem; padding: 0.75rem 1.5rem; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(22,163,74,0.3); display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    📥 Download File PowerPoint / Modul Original
+                                </a>
+                            </template>
+                            <template x-if="selectedPdf.external_link">
+                                <a :href="selectedPdf.external_link" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; font-weight: 900; font-size: 0.875rem; padding: 0.75rem 1.5rem; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 14px rgba(14,165,233,0.3); display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    🔗 Buka Tautan External (Google Drive)
+                                </a>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <template x-if="selectedPdf && !selectedPdf.is_office">
                     <iframe :src="selectedPdf.file_path" style="width: 100%; height: 100%; border: none;"></iframe>
                 </template>
             </div>
 
             <div style="background: #FAFDFB; border-top: 1px solid #E2E8F0; padding: 0.75rem 1.25rem; display: flex; justify-content: space-between; align-items: center;">
                 <span style="font-size: 0.78125rem; color: #16A34A; font-weight: 900;">🟢 Stempel Digital Terverifikasi OK</span>
-                <button @click="selectedPdf = null" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.45rem 1.15rem; border-radius: 8px; border: none; cursor: pointer;">
-                    Tutup Pratinjau
-                </button>
+                <div style="display: flex; gap: 0.5rem;">
+                    <template x-if="selectedPdf && selectedPdf.id">
+                        <a :href="'/catalog/download/' + selectedPdf.type + '/' + selectedPdf.id" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.8125rem; padding: 0.45rem 1.15rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                            📥 Download File
+                        </a>
+                    </template>
+                    <button @click="selectedPdf = null" style="background: #F1F5F9; color: #475569; font-weight: 800; font-size: 0.8125rem; padding: 0.45rem 1.15rem; border-radius: 8px; border: 1px solid #CBD5E1; cursor: pointer;">
+                        Tutup
+                    </button>
+                </div>
             </div>
         </div>
     </div>

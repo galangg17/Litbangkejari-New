@@ -198,7 +198,7 @@ class LandingController extends Controller
     public function downloadDocument($type, $id)
     {
         $filePath = null;
-        $fileName = 'Dokumen_Litbang.pdf';
+        $fileName = 'Dokumen_Litbang';
 
         if ($type === 'kajian') {
             $item = Kajian::find($id);
@@ -207,35 +207,56 @@ class LandingController extends Controller
                 $item->downloads_count = ($current + 1) . ' Download';
                 $item->save();
                 $filePath = $item->file_path;
-                $fileName = 'Policy_Brief_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $item->doc_no ?? 'Dokumen') . '.pdf';
+                $fileName = 'Policy_Brief_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $item->doc_no ?? 'Dokumen');
             }
         } elseif ($type === 'innovation') {
             $item = InnovationProposal::find($id);
             if ($item) {
                 $item->increment('downloads_count');
                 $filePath = $item->sop_file_path;
-                $fileName = 'SOP_Inovasi_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $item->innovation_no ?? 'Dokumen') . '.pdf';
+                $fileName = 'SOP_Inovasi_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', $item->innovation_no ?? 'Dokumen');
             }
         } elseif ($type === 'curriculum') {
             $item = Curriculum::find($id);
             if ($item) {
                 $filePath = $item->file_path;
-                $fileName = 'Modul_' . preg_replace('/[^A-Za-z0-9_\-]/', '_', substr($item->title ?? 'Kurikulum', 0, 30)) . '.pdf';
+                $cleanTitle = preg_replace('/[^A-Za-z0-9_\-]/', '_', Str::slug(substr($item->title ?? 'Kurikulum', 0, 35), '_'));
+                $fileName = 'Modul_' . ($cleanTitle ?: 'Kurikulum');
             }
         }
 
-        // Try downloading target file directly via PHP stream
         if ($filePath) {
-            $fullPath = public_path(ltrim($filePath, '/'));
-            if (file_exists($fullPath) && is_readable($fullPath)) {
-                return response()->download($fullPath, $fileName);
+            $relPath = preg_replace('/^\/?storage\//', '', $filePath);
+            
+            // Check 3 path resolutions for maximum compatibility across local and shared hosting:
+            $storagePath = storage_path('app/public/' . $relPath);
+            $publicPath = public_path(ltrim($filePath, '/'));
+            $basePublicPath = base_path('../public_html' . $filePath);
+
+            $targetFile = null;
+            if (file_exists($storagePath) && is_readable($storagePath)) {
+                $targetFile = $storagePath;
+            } elseif (file_exists($publicPath) && is_readable($publicPath)) {
+                $targetFile = $publicPath;
+            } elseif (file_exists($basePublicPath) && is_readable($basePublicPath)) {
+                $targetFile = $basePublicPath;
+            }
+
+            if ($targetFile) {
+                $ext = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+                $finalName = $fileName . ($ext ? '.' . $ext : '.pdf');
+                return response()->download($targetFile, $finalName);
             }
         }
 
-        // Fallback to sample document pb_01.pdf streamed via PHP
+        // Fallback sample file
         $samplePath = public_path('documents/pb_01.pdf');
+        if (!file_exists($samplePath)) {
+            $samplePath = storage_path('app/public/documents/pb_01.pdf');
+        }
+
         if (file_exists($samplePath) && is_readable($samplePath)) {
-            return response()->download($samplePath, $fileName);
+            return response()->download($samplePath, $fileName . '.pdf');
         }
 
         return redirect()->back()->with('error', 'Berkas dokumen tidak ditemukan pada server.');
