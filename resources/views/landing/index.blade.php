@@ -138,7 +138,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(135deg, rgba(15, 35, 20, 0.86) 0%, rgba(27, 67, 50, 0.88) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}');
+    background: linear-gradient(135deg, rgba(15, 35, 20, 0.86) 0%, rgba(27, 67, 50, 0.88) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=2');
     background-size: cover;
     background-position: center;
     border: 2px solid var(--color-accent-gold);
@@ -441,7 +441,7 @@
         </div>
 
         <!-- 2. FULL-BLEED SEAMLESS HERO & NAVBAR HEADER WRAPPER -->
-        <div style="width: 100%; background: linear-gradient(135deg, rgba(11, 30, 18, 0.90) 0%, rgba(27, 67, 50, 0.88) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}'); background-size: cover; background-position: center; border-bottom: 2.5px solid var(--color-accent-gold); position: relative; overflow: hidden; padding-bottom: 6.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+        <div style="width: 100%; background: linear-gradient(135deg, rgba(11, 30, 18, 0.90) 0%, rgba(27, 67, 50, 0.88) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=2'); background-size: cover; background-position: center; border-bottom: 2.5px solid var(--color-accent-gold); position: relative; overflow: hidden; padding-bottom: 6.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
             
             <!-- Glowing Background Radial Light -->
             <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 850px; height: 850px; background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
