@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(27, 67, 50, 0.88) 0%, rgba(45, 106, 79, 0.82) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}'); background-size: cover; background-position: center; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; padding: 2rem; position: relative; overflow: hidden;">
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(15, 35, 20, 0.55) 0%, rgba(27, 67, 50, 0.65) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=3'); background-size: cover; background-position: center; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; padding: 2rem; position: relative; overflow: hidden;">
 
     <!-- Glowing Background Orbs -->
     <div style="position: absolute; top: -120px; left: -120px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
