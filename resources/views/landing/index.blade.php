@@ -514,25 +514,6 @@
         <!-- MAIN CONTENT CONTAINER -->
         <main class="resp-container" style="flex: 1; padding-top: 1.75rem; padding-bottom: 4rem;">
             
-            <!-- ALERTS -->
-            @if(session('error_passcode'))
-                <div style="background: #FEF2F2; border: 1.5px solid #EF4444; color: #991B1B; padding: 1rem 1.25rem; border-radius: 16px; margin-bottom: 1.5rem; font-weight: 800; font-size: 0.875rem;">
-                    ⚠️ {{ session('error_passcode') }}
-                </div>
-            @endif
-
-            @if(session('success_ticket'))
-                <div style="background: #ECFDF5; border: 1.5px solid #10B981; padding: 1rem 1.25rem; border-radius: 16px; margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 8px 24px rgba(16,185,129,0.15);">
-                    <div>
-                        <div style="font-size: 0.71875rem; font-weight: 900; color: #047857; text-transform: uppercase;">✅ USULAN BERHASIL TERDAFTAR</div>
-                        <div style="font-size: 1rem; font-weight: 900; color: #065F46; margin-top: 2px;">
-                            Nomor Tiket: <span style="color: #047857; background: #D1FAE5; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ session('success_ticket.ticket_no') }}</span>
-                        </div>
-                    </div>
-                    <button onclick="this.parentElement.remove()" style="background: none; border: none; color: #047857; font-size: 1.25rem; cursor: pointer;">✕</button>
-                </div>
-            @endif
-
             <!-- 4. 4 FEATURE CARDS ROW (MATCHING REFERENCE MOCKUP GAMBAR 1) -->
             <section class="fresh-feature-row">
                 <div class="fresh-feature-card">
@@ -575,6 +556,47 @@
                     <p style="font-size: 0.78125rem; color: var(--color-text-muted); line-height: 1.55; margin: 0;">Pusat komando penelitian & pratinjau naskah kebijakan teruji.</p>
                 </div>
             </section>
+
+            <!-- ALERTS NOTIFICATION (PLACED AFTER FEATURE CARDS TO PREVENT OVERLAP) -->
+            @if(session('error_passcode'))
+                <div style="background: #FEF2F2; border: 2px solid #EF4444; color: #991B1B; padding: 1.15rem 1.5rem; border-radius: 18px; margin-top: 1.75rem; margin-bottom: 1.5rem; font-weight: 800; font-size: 0.875rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 25px rgba(239,68,68,0.15);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.35rem;">⚠️</span>
+                        <span>{{ session('error_passcode') }}</span>
+                    </div>
+                    <button onclick="this.parentElement.remove()" style="background: none; border: none; color: #991B1B; font-size: 1.1rem; cursor: pointer;">✕</button>
+                </div>
+            @endif
+
+            @if(session('success_ticket'))
+                <div style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border: 2px solid #10B981; border-radius: 20px; padding: 1.35rem 1.75rem; margin-top: 1.85rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 14px 36px rgba(16,185,129,0.22); flex-wrap: wrap; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 280px;">
+                        <div style="width: 52px; height: 52px; border-radius: 16px; background: #10B981; color: #FFFFFF; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 6px 16px rgba(16,185,129,0.35);">
+                            ✅
+                        </div>
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 900; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">USULAN BERHASIL TERDAFTAR RESMI</div>
+                            <div style="font-size: 1.15rem; font-weight: 900; color: #065F46; margin-top: 3px; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                                <span>Nomor Tiket:</span>
+                                <span style="color: #047857; background: #FFFFFF; border: 2px solid #10B981; padding: 0.25rem 0.85rem; border-radius: 10px; font-family: monospace; font-size: 1.2rem; letter-spacing: 0.03em; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">{{ session('success_ticket.ticket_no') }}</span>
+                            </div>
+                            <div style="font-size: 0.8125rem; color: #047857; margin-top: 5px; font-weight: 700;">
+                                📌 Simpan nomor tiket ini untuk melacak status skrining & disposisi oleh Tim Riset Pokja.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
+                        <button type="button" onclick="navigator.clipboard.writeText('{{ session('success_ticket.ticket_no') }}'); alert('Nomor Tiket {{ session('success_ticket.ticket_no') }} Berhasil Disalin!');" style="background: #FFFFFF; border: 1.5px solid #10B981; color: #047857; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            📋 Salin Tiket
+                        </button>
+                        <a href="#lacak-tiket-hub" style="background: #047857; color: #FFFFFF; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 4px 12px rgba(4,120,87,0.25);">
+                            🎟️ Lacak Usulan
+                        </a>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background: rgba(16,185,129,0.18); border: none; color: #047857; font-size: 1.1rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Tutup Notifikasi">✕</button>
+                    </div>
+                </div>
+            @endif
 
             <!-- 5. MITRA STRATEGIS & TESTIMONIAL SECTION -->
             <section class="fresh-client-section">
