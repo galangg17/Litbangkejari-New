@@ -568,32 +568,70 @@
                 </div>
             @endif
 
+            <!-- SUCCESS TICKET MODAL POPUP (FLOATING OVERLAY WITH BACKDROP BLUR) -->
             @if(session('success_ticket'))
-                <div style="background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%); border: 2px solid #10B981; border-radius: 20px; padding: 1.35rem 1.75rem; margin-top: 1.85rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 14px 36px rgba(16,185,129,0.22); flex-wrap: wrap; gap: 1rem;">
-                    <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 280px;">
-                        <div style="width: 52px; height: 52px; border-radius: 16px; background: #10B981; color: #FFFFFF; font-size: 1.6rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 6px 16px rgba(16,185,129,0.35);">
-                            ✅
-                        </div>
-                        <div>
-                            <div style="font-size: 0.75rem; font-weight: 900; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">USULAN BERHASIL TERDAFTAR RESMI</div>
-                            <div style="font-size: 1.15rem; font-weight: 900; color: #065F46; margin-top: 3px; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
-                                <span>Nomor Tiket:</span>
-                                <span style="color: #047857; background: #FFFFFF; border: 2px solid #10B981; padding: 0.25rem 0.85rem; border-radius: 10px; font-family: monospace; font-size: 1.2rem; letter-spacing: 0.03em; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">{{ session('success_ticket.ticket_no') }}</span>
-                            </div>
-                            <div style="font-size: 0.8125rem; color: #047857; margin-top: 5px; font-weight: 700;">
-                                📌 Simpan nomor tiket ini untuk melacak status skrining & disposisi oleh Tim Riset Pokja.
-                            </div>
-                        </div>
-                    </div>
+                <style>
+                    @keyframes modalPopUp {
+                        0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+                        100% { opacity: 1; transform: scale(1) translateY(0); }
+                    }
+                </style>
+                <div x-data="{ showSuccessModal: true, copied: false }"
+                     x-show="showSuccessModal"
+                     x-cloak
+                     style="position: fixed; inset: 0; z-index: 999999; display: flex; align-items: center; justify-content: center; padding: 1.25rem; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+                     @keydown.escape.window="showSuccessModal = false">
+                    
+                    <div @click.away="showSuccessModal = false"
+                         style="background: #FFFFFF; width: 100%; max-width: 520px; border-radius: 26px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45); overflow: hidden; position: relative; border: 2px solid rgba(16, 185, 129, 0.35); animation: modalPopUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);">
+                        
+                        <!-- Header Banner -->
+                        <div style="background: linear-gradient(135deg, #047857 0%, #065F46 100%); padding: 2.25rem 1.75rem 1.75rem; text-align: center; color: #FFFFFF; position: relative;">
+                            <button type="button" @click="showSuccessModal = false" style="position: absolute; top: 1rem; right: 1rem; background: rgba(255, 255, 255, 0.18); border: none; color: #FFFFFF; font-size: 1.25rem; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); transition: background 0.2s;" title="Tutup">✕</button>
 
-                    <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
-                        <button type="button" onclick="navigator.clipboard.writeText('{{ session('success_ticket.ticket_no') }}'); alert('Nomor Tiket {{ session('success_ticket.ticket_no') }} Berhasil Disalin!');" style="background: #FFFFFF; border: 1.5px solid #10B981; color: #047857; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1.15rem; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                            📋 Salin Tiket
-                        </button>
-                        <a href="#lacak-tiket-hub" style="background: #047857; color: #FFFFFF; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; box-shadow: 0 4px 12px rgba(4,120,87,0.25);">
-                            🎟️ Lacak Usulan
-                        </a>
-                        <button onclick="this.parentElement.parentElement.remove()" style="background: rgba(16,185,129,0.18); border: none; color: #047857; font-size: 1.1rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Tutup Notifikasi">✕</button>
+                            <div style="width: 70px; height: 70px; margin: 0 auto 1.15rem; border-radius: 22px; background: #10B981; color: #FFFFFF; font-size: 2.3rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.45); border: 3px solid rgba(255,255,255,0.35);">
+                                ✅
+                            </div>
+
+                            <div style="font-size: 0.75rem; font-weight: 900; color: #A7F3D0; text-transform: uppercase; letter-spacing: 0.08em;">LITBANG GAJAH MADA ADHYAKSA</div>
+                            <h3 style="font-size: 1.5rem; font-weight: 900; color: #FFFFFF; margin-top: 0.35rem; margin-bottom: 0; line-height: 1.2;">USULAN BERHASIL TERDAFTAR!</h3>
+                        </div>
+
+                        <!-- Body Content -->
+                        <div style="padding: 1.85rem 1.65rem; text-align: center;">
+                            <p style="font-size: 0.90625rem; color: #475569; margin: 0 0 1.35rem; line-height: 1.55; font-weight: 600;">
+                                Naskah/Ide usulan Anda telah resmi masuk ke database Pokja Riset. Harap simpan Nomor Tiket Lacak berikut:
+                            </p>
+
+                            <!-- Ticket Number Card -->
+                            <div style="background: #ECFDF5; border: 2px dashed #10B981; border-radius: 18px; padding: 1.25rem 1rem; margin-bottom: 1.65rem; position: relative;">
+                                <div style="font-size: 0.71875rem; font-weight: 900; color: #047857; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem;">NOMOR TIKET RESMI ANDA</div>
+                                <div style="font-size: 1.35rem; font-weight: 900; color: #065F46; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; word-break: break-all;">
+                                    {{ session('success_ticket.ticket_no') }}
+                                </div>
+                            </div>
+
+                            <!-- Buttons Stack -->
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <button type="button" 
+                                        @click="navigator.clipboard.writeText('{{ session('success_ticket.ticket_no') }}'); copied = true; setTimeout(() => copied = false, 3500);" 
+                                        style="background: #10B981; color: #FFFFFF; font-size: 0.9375rem; font-weight: 900; padding: 0.9rem 1.25rem; border-radius: 14px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35); transition: all 0.2s ease;">
+                                    <span x-text="copied ? '✅ Nomor Tiket Berhasil Disalin!' : '📋 Salin Nomor Tiket'">📋 Salin Nomor Tiket</span>
+                                </button>
+
+                                <button type="button" 
+                                        @click="showSuccessModal = false; const inputEl = document.getElementById('trackerTicketInput'); if(inputEl) { inputEl.value = '{{ session('success_ticket.ticket_no') }}'; } setTimeout(() => document.getElementById('lacak-tiket-hub')?.scrollIntoView({ behavior: 'smooth' }), 100);"
+                                        style="background: #F8FAFC; color: #0F172A; font-size: 0.875rem; font-weight: 800; padding: 0.8rem 1.25rem; border-radius: 14px; border: 1.5px solid #CBD5E1; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    🎟️ Lacak Status Usulan Ini
+                                </button>
+                            </div>
+
+                            <div style="margin-top: 1.35rem; border-top: 1px solid #F1F5F9; padding-top: 0.9rem;">
+                                <button type="button" @click="showSuccessModal = false" style="background: none; border: none; color: #64748B; font-size: 0.8125rem; font-weight: 800; cursor: pointer; text-decoration: underline;">
+                                    Tutup & Lanjutkan ke Beranda
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             @endif
@@ -1118,7 +1156,7 @@
                         Cek Progres Penelaahan Usulan Anda
                     </h3>
                     <form action="{{ route('landing.index') }}" method="GET" style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-                        <input type="text" name="ticket_no" value="{{ request('ticket_no') }}" placeholder="Masukkan Nomor Tiket (contoh: PB-01/LITBANG-MADA/2026)..." style="flex: 1; min-width: 260px; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0.75rem 1rem; color: var(--color-text-dark); font-size: 0.875rem; outline: none;" required />
+                        <input type="text" id="trackerTicketInput" name="ticket_no" value="{{ request('ticket_no') }}" placeholder="Masukkan Nomor Tiket (contoh: PB-01/LITBANG-MADA/2026)..." style="flex: 1; min-width: 260px; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0.75rem 1rem; color: var(--color-text-dark); font-size: 0.875rem; outline: none;" required />
                         <button type="submit" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.875rem; padding: 0.75rem 1.5rem; border-radius: 12px; border: none; cursor: pointer;">
                             🔎 Cari Tiket
                         </button>
