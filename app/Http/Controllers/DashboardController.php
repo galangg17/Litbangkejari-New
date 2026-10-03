@@ -32,15 +32,37 @@ class DashboardController extends Controller
         $kajianList = Kajian::with('proposal')->orderBy('id', 'desc')->get();
         $pendingProposals = PublicProposal::orderBy('id', 'desc')->get();
         
-        // Categorized Sub-Tab Collections for Inbox Skrining & Disposisi
-        $newProposals = PublicProposal::where('timeline_step', 1)
+        // -----------------------------------------------------------------
+        // PIPELINE 3-PINTU VERIFIKASI RESMI COLLECTIONS
+        // -----------------------------------------------------------------
+        // Pintu 1: Skrining Administrasi & Berkas (Admin Pokja)
+        $pintu1Proposals = PublicProposal::where('timeline_step', 1)
             ->orWhere('status', 'like', 'Pengajuan%')
+            ->orWhere('status', 'like', '%Skrining%')
             ->orderBy('id', 'desc')->get();
 
-        $activeStudyProposals = PublicProposal::whereIn('timeline_step', [2, 3])
+        // Pintu 2: Penelaahan Subtansi Kebijakan (Tim Penelaah)
+        $pintu2Proposals = PublicProposal::where('timeline_step', 2)
+            ->orWhere('status', 'like', '%Subtansi%')
+            ->orWhere('status', 'like', '%Penelaahan%')
             ->orWhere('status', 'like', 'Diterima%')
+            ->orderBy('id', 'desc')->get();
+
+        // Pintu 3: Pengesahan Pimpinan (Pimpinan / Badiklat / Ketua Pokja)
+        $pintu3Proposals = PublicProposal::where('timeline_step', 3)
+            ->orWhere('status', 'like', '%Pengesahan%')
+            ->orWhere('status', 'like', '%Pimpinan%')
             ->orWhere('status', 'like', 'Penyusunan%')
             ->orderBy('id', 'desc')->get();
+
+        // Vault Publik Terbit (Selesai 3-Pintu & QR Seal Verified)
+        $publishedVaultProposals = PublicProposal::where('timeline_step', 4)
+            ->orWhere('status', 'like', '%Terbit%')
+            ->orWhere('status', 'like', '%Vault%')
+            ->orderBy('id', 'desc')->get();
+
+        $newProposals = $pintu1Proposals;
+        $activeStudyProposals = PublicProposal::whereIn('timeline_step', [2, 3])->orderBy('id', 'desc')->get();
 
         $policyProposals = PublicProposal::where(function($q){
             $q->where('type', 'Policy Brief')->orWhereNull('type');
@@ -58,9 +80,17 @@ class DashboardController extends Controller
         $users = User::orderBy('id', 'desc')->get();
         $auditLogs = AuditLog::orderBy('id', 'desc')->take(10)->get();
 
+        // -----------------------------------------------------------------
+        // EXECUTIVE COMMAND CENTER ANALYTICS METRICS
+        // -----------------------------------------------------------------
+        $totalProposals = PublicProposal::count();
         $metrics = [
-            'ingestionInbox' => PublicProposal::where('timeline_step', 1)->count() + Curriculum::where('is_verified', false)->count(),
-            'activeStudyCount' => PublicProposal::whereIn('timeline_step', [2, 3])->count(),
+            'ingestionInbox' => $pintu1Proposals->count() + Curriculum::where('is_verified', false)->count(),
+            'pintu1Count' => $pintu1Proposals->count(),
+            'pintu2Count' => $pintu2Proposals->count(),
+            'pintu3Count' => $pintu3Proposals->count(),
+            'publishedVaultCount' => Kajian::where('is_published', true)->count() + InnovationProposal::where('is_published', true)->count() + Curriculum::where('is_verified', true)->count(),
+            'totalProposals' => $totalProposals,
             'policyCount' => Kajian::count(),
             'innovationCount' => InnovationProposal::count(),
             'curriculumCount' => Curriculum::count(),
@@ -68,11 +98,22 @@ class DashboardController extends Controller
         ];
 
         $pipelineStages = [
-            ['label' => '1. PENGAJUAN', 'count' => PublicProposal::where('timeline_step', 1)->count()],
-            ['label' => '2. SKRINING & DISPOSISI', 'count' => PublicProposal::where('timeline_step', 2)->count()],
-            ['label' => '3. PENYUSUNAN & REVIEW', 'count' => PublicProposal::where('timeline_step', 3)->count()],
-            ['label' => '4. TERBIT VAULT PUBLIK', 'count' => Kajian::where('is_published', true)->count() + InnovationProposal::where('is_published', true)->count()],
+            ['label' => 'PINTU 1: SKRINING ADMIN', 'count' => $pintu1Proposals->count(), 'color' => '#EAB308'],
+            ['label' => 'PINTU 2: PENELAAHAN SUBTANSI', 'count' => $pintu2Proposals->count(), 'color' => '#3B82F6'],
+            ['label' => 'PINTU 3: PENGESAHAN PIMPINAN', 'count' => $pintu3Proposals->count(), 'color' => '#A855F7'],
+            ['label' => 'TERBIT VAULT PUBLIK (QR SEAL)', 'count' => $publishedVaultProposals->count(), 'color' => '#10B981'],
         ];
+
+        // Category Distribution Breakdown for Executive Analytics Chart
+        $categoryBreakdown = [];
+        foreach ($categories as $cat) {
+            $catCount = PublicProposal::where('category', $cat->name)->count();
+            $categoryBreakdown[] = [
+                'name' => $cat->name,
+                'count' => $catCount,
+                'percentage' => $totalProposals > 0 ? round(($catCount / $totalProposals) * 100) : 0
+            ];
+        }
 
         $rejectedProposals = PublicProposal::where('timeline_step', 0)->orWhere('status', 'like', 'Ditolak%')->orderBy('id', 'desc')->get();
 
@@ -125,6 +166,7 @@ class DashboardController extends Controller
 
         return view('dashboard.index', compact(
             'setting', 'activeTab', 'kajianList', 'pendingProposals', 
+            'pintu1Proposals', 'pintu2Proposals', 'pintu3Proposals', 'publishedVaultProposals', 'categoryBreakdown',
             'newProposals', 'activeStudyProposals', 'policyProposals', 'innovationProposals', 'rejectedProposals', 
             'pendingCurriculums', 'verifiedCurriculums', 'innovations', 'curriculums', 
             'formFields', 'metrics', 'pipelineStages', 'categories', 'users', 'auditLogs',
@@ -631,18 +673,32 @@ class DashboardController extends Controller
                 ->with('toast', 'Usulan Berhasil Ditolak dengan Alasan Resmi. 📨 Notifikasi Email & WA Gateway Otomatis Dikirim ke ' . $proposal->name . ' (' . $proposal->ticket_no . ')');
         }
 
-        // SCENARIO 2: ACCEPT & DISPOSE TO 3 PILLARS MANAGEMENT SYSTEM (STAGE 2)
-        if ($action === 'accept') {
+        // SCENARIO 2: PIPELINE 3-PINTU VERIFIKASI DISPOSITION WORKFLOW
+        if (in_array($action, ['accept', 'pintu1_pass', 'pintu2_pass', 'pintu3_publish'])) {
             $dispositionTeam = $request->input('disposition_team', 'Tim Riset Pokja Litbang');
-            $officialResponse = $request->input('official_response', 'Usulan disetujui dan diteruskan ke 3 Pilar Manajemen Pengetahuan.');
+            $officialResponse = $request->input('official_response', 'Usulan telah diproses melalui Pipeline 3-Pintu Verifikasi Resmi.');
+
+            if ($action === 'pintu1_pass' || $action === 'accept') {
+                $targetStep = 2;
+                $statusMsg = 'Pintu 1: Lolos Skrining (Diteruskan ke Penelaah Subtansi)';
+                $updateNote = 'Berkas & administrasi dinyatakan LENGKAP & LOLOS SKRINING (Pintu 1). Diteruskan ke Tim Penelaah Subtansi.';
+            } elseif ($action === 'pintu2_pass') {
+                $targetStep = 3;
+                $statusMsg = 'Pintu 2: Rekomendasi Subtansi (Menunggu Pengesahan Pimpinan)';
+                $updateNote = 'Penelaahan subtansi & formularium kebijakan SELESAI (Pintu 2). Direkomendasikan untuk Pengesahan Pimpinan.';
+            } elseif ($action === 'pintu3_publish') {
+                $targetStep = 4;
+                $statusMsg = 'Pintu 3: Disahkan & Terbit Vault (QR Seal Verified)';
+                $updateNote = 'Disahkan oleh Pimpinan & Ketua Pokja. Resmi terbit di Vault Publik dengan Stempel QR Seal Digital Kejaksaan RI.';
+            }
 
             $proposal->update([
-                'status' => 'Diterima & Didisposisikan ke ' . $dispositionTeam,
+                'status' => $statusMsg,
                 'disposition_team' => $dispositionTeam,
                 'official_response' => '💬 TANGGAPAN RESMI TIM RISET: ' . $officialResponse,
                 'admin_file_path' => $adminFilePath,
-                'timeline_step' => 2,
-                'last_update_note' => 'Usulan diterima & diteruskan ke 3 Pilar Manajemen Pengetahuan (' . $dispositionTeam . ')',
+                'timeline_step' => $targetStep,
+                'last_update_note' => $updateNote,
             ]);
 
             // AUTO-CREATE ENTRY IN 3 PILLARS BASED ON PROPOSAL TYPE

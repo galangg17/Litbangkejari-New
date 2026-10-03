@@ -2099,10 +2099,16 @@
                         ⚙️ SEKSI KEPUTUSAN & TANGGAPAN RESMI ADMIN
                     </div>
 
-                    <!-- ACTION TOGGLE CARDS -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-                        <button type="button" class="disp-action-card" :class="{ 'active-accept': dispositionAction === 'accept' }" @click="dispositionAction = 'accept'">
-                            ✅ Terima & Teruskan ke 3 Pilar
+                    <!-- ACTION TOGGLE CARDS (3-PINTU VERIFIKASI PIPELINE) -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem;">
+                        <button type="button" class="disp-action-card" :class="{ 'active-accept': dispositionAction === 'pintu1_pass' || dispositionAction === 'accept' }" @click="dispositionAction = 'pintu1_pass'">
+                            ⚡ Lolos Skrining (Pintu 1)
+                        </button>
+                        <button type="button" class="disp-action-card" :class="{ 'active-accept': dispositionAction === 'pintu2_pass' }" @click="dispositionAction = 'pintu2_pass'">
+                            🔬 Subtansi Ok (Pintu 2)
+                        </button>
+                        <button type="button" class="disp-action-card" :class="{ 'active-accept': dispositionAction === 'pintu3_publish' }" @click="dispositionAction = 'pintu3_publish'">
+                            📜 Sah & Vault (Pintu 3)
                         </button>
                         <button type="button" class="disp-action-card" :class="{ 'active-reject': dispositionAction === 'reject' }" @click="dispositionAction = 'reject'">
                             ❌ Tolak Usulan
@@ -2133,8 +2139,8 @@
                         </div>
                     </template>
 
-                    <!-- ACTION: ACCEPT & FORWARD TO 3 PILLARS (WITH PRESETS) -->
-                    <template x-if="dispositionAction === 'accept'">
+                    <!-- ACTION: ACCEPT & FORWARD TO 3 PILLARS / PIPELINE (WITH PRESETS) -->
+                    <template x-if="dispositionAction !== 'reject'">
                         <div style="display: flex; flex-direction: column; gap: 0.65rem; background: #ECFDF5; border: 1.5px solid #6EE7B7; border-radius: 12px; padding: 1rem;">
                             <label style="font-size: 0.75rem; font-weight: 900; color: #065F46;">Tanggapan / Catatan Kajian Resmi (WAJIB DIISI) *</label>
 

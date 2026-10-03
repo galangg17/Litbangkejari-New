@@ -1163,16 +1163,50 @@
                     </form>
 
                     @if($trackedTicket)
-                        <div style="margin-top: 1.5rem; text-align: left; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 16px; padding: 1.25rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                                <span style="font-weight: 900; color: #166534;">Tiket: {{ $trackedTicket->ticket_no }}</span>
-                                <span style="background: #DCFCE7; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.25rem 0.65rem; border-radius: 9999px;">
-                                    {{ $trackedTicket->status }}
+                        <div style="margin-top: 1.5rem; text-align: left; background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(16,185,129,0.12);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                                <div>
+                                    <span style="font-size: 0.72rem; font-weight: 900; color: #047857; text-transform: uppercase; letter-spacing: 0.05em;">HASIL PENCARIAN TIKET</span>
+                                    <div style="font-size: 1.2rem; font-weight: 900; color: #065F46; font-family: 'JetBrains Mono', monospace;">{{ $trackedTicket->ticket_no }}</div>
+                                </div>
+                                <span style="background: #10B981; color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; padding: 0.35rem 0.85rem; border-radius: 9999px; box-shadow: 0 4px 10px rgba(16,185,129,0.25);">
+                                    🟢 {{ $trackedTicket->status }}
                                 </span>
                             </div>
-                            <div style="font-size: 0.95rem; font-weight: 800; color: var(--color-emerald-dark);">{{ $trackedTicket->title }}</div>
-                            <div style="font-size: 0.8125rem; color: #475569; margin-top: 0.25rem;">Pengusul: {{ $trackedTicket->name }} ({{ $trackedTicket->institution }})</div>
-                            <div style="font-size: 0.8125rem; color: #15803D; margin-top: 0.5rem; font-weight: 700;">📌 Update Terakhir: {{ $trackedTicket->last_update_note }}</div>
+
+                            <div style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.25rem;">{{ $trackedTicket->title }}</div>
+                            <div style="font-size: 0.84375rem; color: #475569; font-weight: 700; margin-bottom: 1.15rem;">
+                                Pengusul: <strong style="color: #0F172A;">{{ $trackedTicket->name }}</strong> ({{ $trackedTicket->institution ?? 'Kejaksaan RI' }}) | Kategori: {{ $trackedTicket->category }}
+                            </div>
+
+                            <!-- 3-PINTU VERIFIKASI STEPPER TIMELINE -->
+                            <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 14px; padding: 1rem; margin-bottom: 1rem;">
+                                <div style="font-size: 0.72rem; font-weight: 900; color: #047857; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+                                    🏛️ STATUS PIPELINE 3-PINTU VERIFIKASI RESMI
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.5rem; text-align: center;">
+                                    <div style="padding: 0.6rem 0.4rem; border-radius: 10px; font-size: 0.72rem; font-weight: 800; {{ $trackedTicket->timeline_step >= 1 ? 'background: #DCFCE7; color: #15803D; border: 1.5px solid #86EFAC;' : 'background: #F1F5F9; color: #94A3B8;' }}">
+                                        <div>Pintu 1</div>
+                                        <div style="font-size: 0.6875rem; font-weight: 700;">Skrining Admin</div>
+                                    </div>
+                                    <div style="padding: 0.6rem 0.4rem; border-radius: 10px; font-size: 0.72rem; font-weight: 800; {{ $trackedTicket->timeline_step >= 2 ? 'background: #E0F2FE; color: #0369A1; border: 1.5px solid #7DD3FC;' : 'background: #F1F5F9; color: #94A3B8;' }}">
+                                        <div>Pintu 2</div>
+                                        <div style="font-size: 0.6875rem; font-weight: 700;">Penelaahan Subtansi</div>
+                                    </div>
+                                    <div style="padding: 0.6rem 0.4rem; border-radius: 10px; font-size: 0.72rem; font-weight: 800; {{ $trackedTicket->timeline_step >= 3 ? 'background: #F3E8FF; color: #6B21A8; border: 1.5px solid #D8B4FE;' : 'background: #F1F5F9; color: #94A3B8;' }}">
+                                        <div>Pintu 3</div>
+                                        <div style="font-size: 0.6875rem; font-weight: 700;">Pengesahan Pimpinan</div>
+                                    </div>
+                                    <div style="padding: 0.6rem 0.4rem; border-radius: 10px; font-size: 0.72rem; font-weight: 800; {{ $trackedTicket->timeline_step >= 4 ? 'background: #FEF3C7; color: #92400E; border: 1.5px solid #FCD34D;' : 'background: #F1F5F9; color: #94A3B8;' }}">
+                                        <div>Stempel QR Seal</div>
+                                        <div style="font-size: 0.6875rem; font-weight: 700;">Terbit Vault Publik</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="font-size: 0.84375rem; color: #047857; font-weight: 800; background: #E6F4EA; border-left: 4px solid #10B981; padding: 0.75rem 1rem; border-radius: 8px;">
+                                📌 Update Catatan Resmi: {{ $trackedTicket->last_update_note ?? 'Usulan sedang dalam alur penelaahan Pokja Riset.' }}
+                            </div>
                         </div>
                     @endif
                 </div>
