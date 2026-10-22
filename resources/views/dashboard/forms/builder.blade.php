@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<script>
+    window.__studioFormFields = @json($form->fields);
+</script>
+
 <div style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif;" 
      x-data="{ 
          activeStudioTab: 'questions',
@@ -9,14 +13,40 @@
          hasReason: false,
          reasonLabel: 'Sebutkan alasan atau penjelasan pilihan Anda...',
          reasonTrigger: 'all',
-         editingField: null,
          isEditModalOpen: false,
          searchQuestion: '',
-         fieldsList: @json($form->fields),
+         fieldsList: window.__studioFormFields || [],
+         editingField: {
+             id: '',
+             category: '',
+             field_label: '',
+             help_text: '',
+             field_type: 'radio',
+             options_raw: '',
+             has_reason: false,
+             reason_label: '',
+             is_required: false
+         },
          openEditModalById(id) {
              const f = this.fieldsList.find(item => item.id == id);
              if (f) {
-                 this.editingField = JSON.parse(JSON.stringify(f));
+                 let optsRaw = '';
+                 if (Array.isArray(f.options)) {
+                     optsRaw = f.options.join('\n');
+                 } else if (typeof f.options === 'string') {
+                     optsRaw = f.options;
+                 }
+                 this.editingField = {
+                     id: f.id,
+                     category: f.category || '',
+                     field_label: f.field_label || '',
+                     help_text: f.help_text || '',
+                     field_type: f.field_type || 'radio',
+                     options_raw: optsRaw,
+                     has_reason: !!f.has_reason,
+                     reason_label: f.reason_label || '',
+                     is_required: !!f.is_required
+                 };
                  this.isEditModalOpen = true;
              }
          },
@@ -741,7 +771,7 @@
                         <label style="font-size: 0.78125rem; font-weight: 700; color: #0F172A; display: block; margin-bottom: 0.35rem;">
                             Daftar Pilihan Jawaban (Tulis 1 pilihan per baris):
                         </label>
-                        <textarea name="options_raw" rows="5" :value="editingField.options ? editingField.options.join('\n') : ''" placeholder="Opsi 1&#10;Opsi 2&#10;Opsi 3" style="width: 100%; background: #FFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.84375rem; outline: none; font-family: inherit; line-height: 1.5;"></textarea>
+                        <textarea name="options_raw" rows="5" x-model="editingField.options_raw" placeholder="Opsi 1&#10;Opsi 2&#10;Opsi 3" style="width: 100%; background: #FFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.84375rem; outline: none; font-family: inherit; line-height: 1.5;"></textarea>
                     </div>
 
                     <!-- FITUR KOTAK ALASAN DI MODAL EDIT -->
