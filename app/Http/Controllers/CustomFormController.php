@@ -633,10 +633,26 @@ class CustomFormController extends Controller
                         $counts[$ans] = ($counts[$ans] ?? 0) + 1;
                     }
                 }
+
+                $fieldReasons = [];
+                foreach ($responses as $resp) {
+                    $reasonText = $resp->answers[$fn]['reason'] ?? null;
+                    if ($reasonText && is_string($reasonText)) {
+                        $selVal = $resp->answers[$fn]['value'] ?? '-';
+                        if (is_array($selVal)) $selVal = implode(', ', $selVal);
+                        $fieldReasons[] = [
+                            'respondent' => $resp->respondent_name ?? 'Anonim',
+                            'selected' => $selVal,
+                            'reason' => $reasonText,
+                        ];
+                    }
+                }
+
                 $summary[$fn] = [
                     'label' => $field->field_label,
                     'type' => $type,
                     'counts' => $counts,
+                    'reasons' => $fieldReasons,
                 ];
             } else {
                 $texts = [];
