@@ -148,6 +148,37 @@
             align-items: center;
             gap: 0.45rem;
         }
+        .studio-modal-backdrop {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 999999 !important;
+            background: rgba(15, 23, 42, 0.65) !important;
+            backdrop-filter: blur(6px) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 1.5rem !important;
+            box-sizing: border-box !important;
+        }
+        .studio-modal-card {
+            background: #FFFFFF !important;
+            width: 100% !important;
+            max-width: 620px !important;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            border-radius: 16px !important;
+            border: 1px solid #CBD5E1 !important;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3) !important;
+            padding: 1.75rem !important;
+            margin: auto !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+        }
     </style>
 
     <!-- 1. TOP STUDIO HEADER (SOPHISTICATED DARK SLATE & MUTED ACCENT) -->
@@ -638,11 +669,11 @@
     <!-- MODAL EDIT PERTANYAAN -->
     <div x-show="isEditModalOpen" 
          x-cloak
-         style="position: fixed; inset: 0; z-index: 99999; background: rgba(15,23,42,0.65); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1.25rem;"
-         @keydown.escape.window="isEditModalOpen = false">
+         class="studio-modal-backdrop"
+         @keydown.escape.window="isEditModalOpen = false"
+         @click="isEditModalOpen = false">
         
-        <div class="modal-card" 
-             style="background: #FFF; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; border-radius: 14px; border: 1px solid #CBD5E1; box-shadow: 0 20px 50px rgba(0,0,0,0.25); padding: 1.5rem;"
+        <div class="studio-modal-card" 
              @click.stop>
             
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F1F5F9; padding-bottom: 0.75rem; margin-bottom: 1.15rem;">
