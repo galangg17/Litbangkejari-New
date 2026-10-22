@@ -12,9 +12,13 @@
          editingField: null,
          isEditModalOpen: false,
          searchQuestion: '',
-         openEditModal(field) {
-             this.editingField = JSON.parse(JSON.stringify(field));
-             this.isEditModalOpen = true;
+         fieldsList: @json($form->fields),
+         openEditModalById(id) {
+             const f = this.fieldsList.find(item => item.id == id);
+             if (f) {
+                 this.editingField = JSON.parse(JSON.stringify(f));
+                 this.isEditModalOpen = true;
+             }
          },
          applyPreset(type) {
              this.showAddComposer = true;
@@ -514,7 +518,7 @@
                                         </form>
 
                                         <!-- EDIT -->
-                                        <button type="button" @click="openEditModal({{ json_encode($field) }})" class="action-tool-btn" style="border-color: #94A3B8; color: #0F172A; font-weight: 800;">
+                                        <button type="button" @click="openEditModalById({{ $field->id }})" class="action-tool-btn" style="border-color: #94A3B8; color: #0F172A; font-weight: 800;">
                                             ✏️ Edit
                                         </button>
 
@@ -686,8 +690,8 @@
                 <button type="button" @click="isEditModalOpen = false" style="background: #F1F5F9; border: none; width: 28px; height: 28px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; color: #64748B;">✕</button>
             </div>
 
-            <template x-if="editingField">
-                <form :action="'/dashboard/forms/fields/' + editingField.id + '/update'" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+            <div x-show="editingField">
+                <form :action="'/dashboard/forms/fields/' + (editingField ? editingField.id : '') + '/update'" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
                     @csrf
                     @method('PUT')
 
@@ -770,7 +774,7 @@
                         </div>
                     </div>
                 </form>
-            </template>
+            </div>
         </div>
     </div>
 
