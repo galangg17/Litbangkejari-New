@@ -111,13 +111,34 @@
         background: #ECFDF5;
         border-color: #10B981;
     }
+
+    /* 2-COLUMN RESPONSIVE LAYOUT */
+    .form-workspace-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+    @media (min-width: 992px) {
+        .form-workspace-grid {
+            grid-template-columns: 390px 1fr;
+            align-items: start;
+            gap: 2.25rem;
+        }
+        .form-sticky-panel {
+            position: sticky;
+            top: 85px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+    }
 </style>
 
 <div style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif; padding-bottom: 5rem;">
 
     <!-- TOP BAR -->
     <header style="background: rgba(7, 39, 24, 0.98); border-bottom: 2px solid #D4AF37; padding: 1rem 1.5rem; color: #FFF; position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-        <div style="max-width: 820px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="max-width: 1240px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
             <div style="display: flex; align-items: center; gap: 0.85rem;">
                 <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo" style="height: 42px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));" />
                 <div>
@@ -134,52 +155,11 @@
     </header>
 
     <!-- MAIN FORM BODY -->
-    <main style="max-width: 820px; margin: 2rem auto 0; padding: 0 1rem;">
-
-        <!-- HERO HEADER CARD -->
-        <div class="form-hero-wrapper" style="margin-bottom: 1.5rem;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
-                <div style="display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid #D4AF37; padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 900; color: #D4AF37; letter-spacing: 0.05em; text-transform: uppercase;">
-                    <span>🏛️ FORMULIR RESMI LITBANG</span>
-                </div>
-
-                @if($form->isOpen())
-                    <span style="background: rgba(16, 185, 129, 0.25); color: #86EFAC; border: 1.5px solid #10B981; font-size: 0.75rem; font-weight: 900; padding: 0.35rem 0.85rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.4rem; backdrop-filter: blur(6px);">
-                        🟢 PENERIMAAN AKTIF
-                    </span>
-                @else
-                    <span style="background: rgba(239, 68, 68, 0.25); color: #FCA5A5; border: 1.5px solid #EF4444; font-size: 0.75rem; font-weight: 900; padding: 0.35rem 0.85rem; border-radius: 9999px;">
-                        🔴 TELAH DITUTUP
-                    </span>
-                @endif
-            </div>
-
-            <h1 style="font-size: clamp(1.6rem, 3vw, 2.15rem); font-weight: 900; color: #FFFFFF; line-height: 1.25; margin: 0 0 0.85rem; letter-spacing: -0.01em;">
-                {{ $form->title }}
-            </h1>
-
-            @if($form->description)
-                <p style="font-size: 0.95rem; color: #E8F0E8; line-height: 1.7; margin: 0 0 1.5rem; white-space: pre-line; max-width: 720px;">
-                    {{ $form->description }}
-                </p>
-            @endif
-
-            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.18); padding-top: 1.15rem; font-size: 0.78125rem; color: #CBD5E1; flex-wrap: wrap; gap: 0.75rem;">
-                <div style="display: flex; align-items: center; gap: 0.4rem;">
-                    <span style="color: #F87171; font-size: 1.1rem; line-height: 1;">*</span>
-                    <span>Tanda bintang merah menunjukkan kolom yang wajib diisi</span>
-                </div>
-                @if($form->deadline_at)
-                    <div style="color: #FDE68A; font-weight: 800; background: rgba(0,0,0,0.3); padding: 0.3rem 0.75rem; border-radius: 8px; border: 1px solid rgba(212,175,55,0.3);">
-                        ⏳ Batas Waktu: {{ $form->deadline_at->format('d M Y, H:i') }} WIB
-                    </div>
-                @endif
-            </div>
-        </div>
+    <main style="max-width: 1240px; margin: 2rem auto 0; padding: 0 1.25rem;">
 
         @if(!$form->isOpen())
             <!-- CLOSED NOTICE -->
-            <div style="background: #FFFFFF; border-radius: 22px; padding: 3.5rem 2rem; text-align: center; border: 1.5px solid #E2E8F0; box-shadow: 0 8px 30px rgba(0,0,0,0.04);">
+            <div style="background: #FFFFFF; border-radius: 22px; padding: 4rem 2rem; text-align: center; border: 1.5px solid #E2E8F0; box-shadow: 0 8px 30px rgba(0,0,0,0.04); max-width: 680px; margin: 2rem auto;">
                 <div style="font-size: 3.5rem; margin-bottom: 0.75rem;">🔒</div>
                 <h3 style="font-size: 1.35rem; font-weight: 900; color: #991B1B; margin: 0 0 0.5rem;">Penerimaan Tanggapan Telah Ditutup</h3>
                 <p style="font-size: 0.90625rem; color: #64748B; margin: 0 0 1.75rem; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.6;">
@@ -191,19 +171,78 @@
             </div>
         @else
 
-            <!-- VALIDATION ERRORS -->
-            @if ($errors->any())
-                <div style="background: #FEF2F2; border: 2px solid #EF4444; color: #991B1B; border-radius: 18px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; font-size: 0.875rem; box-shadow: 0 8px 24px rgba(239,68,68,0.12);">
-                    <div style="font-weight: 900; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9375rem;">
-                        <span>⚠️</span> Mohon lengkapi isian formulir yang belum sesuai:
+            <!-- 2-COLUMN WORKSPACE: LEFT STICKY HERO & INFO | RIGHT FORM QUESTIONS -->
+            <div class="form-workspace-grid">
+                
+                <!-- SISI KIRI: STICKY HERO & PETUNJUK RESMI FORMULIR -->
+                <aside class="form-sticky-panel">
+                    
+                    <!-- HERO CARD -->
+                    <div class="form-hero-wrapper">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.85rem;">
+                            <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(212, 175, 55, 0.2); border: 1.5px solid #D4AF37; padding: 0.3rem 0.75rem; border-radius: 9999px; font-size: 0.6875rem; font-weight: 900; color: #D4AF37; letter-spacing: 0.05em; text-transform: uppercase;">
+                                <span>🏛️ INSTRUMEN RESMI</span>
+                            </div>
+
+                            <span style="background: rgba(16, 185, 129, 0.25); color: #86EFAC; border: 1px solid #10B981; font-size: 0.72rem; font-weight: 900; padding: 0.25rem 0.65rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                🟢 PENERIMAAN AKTIF
+                            </span>
+                        </div>
+
+                        <h1 style="font-size: 1.35rem; font-weight: 900; color: #FFFFFF; line-height: 1.3; margin: 0 0 0.85rem; letter-spacing: -0.01em;">
+                            {{ $form->title }}
+                        </h1>
+
+                        @if($form->description)
+                            <div style="font-size: 0.84375rem; color: #E2E8F0; line-height: 1.6; margin: 0 0 1.15rem; white-space: pre-line;">
+                                {{ $form->description }}
+                            </div>
+                        @endif
+
+                        <div style="border-top: 1px solid rgba(255,255,255,0.18); padding-top: 0.85rem; font-size: 0.75rem; color: #CBD5E1; display: flex; flex-direction: column; gap: 0.45rem;">
+                            <div style="display: flex; align-items: center; gap: 0.4rem;">
+                                <span style="color: #F87171; font-size: 1rem; line-height: 1;">*</span>
+                                <span>Tanda bintang merah menunjukkan butir wajib diisi.</span>
+                            </div>
+                            @if($form->deadline_at)
+                                <div style="color: #FDE68A; font-weight: 800;">
+                                    ⏳ Batas Waktu: {{ $form->deadline_at->format('d M Y, H:i') }} WIB
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                    <ul style="margin: 0; padding-left: 1.25rem; line-height: 1.6;">
-                        @foreach ($errors->all() as $err)
-                            <li>{{ $err }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+
+                    <!-- SUMMARY & TRUST BADGE CARD -->
+                    <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 1.25rem 1.4rem; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+                        <div style="font-size: 0.7rem; font-weight: 800; color: #64748B; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+                            RINGKASAN KUESIONER
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid #F1F5F9;">
+                            <span style="font-size: 0.84375rem; font-weight: 700; color: #334155;">Jumlah Pertanyaan</span>
+                            <span style="font-size: 0.90625rem; font-weight: 900; color: #072718; background: #F1F5F9; padding: 0.2rem 0.6rem; border-radius: 6px;">{{ $form->fields->count() }} Butir</span>
+                        </div>
+                        <div style="font-size: 0.78125rem; color: #64748B; line-height: 1.5;">
+                            🔒 Seluruh tanggapan Anda dihimpun secara aman ke sistem basis data Diklat PPPJ Kejaksaan RI.
+                        </div>
+                    </div>
+
+                </aside>
+
+                <!-- SISI KANAN: STREAM BUTIR PERTANYAAN -->
+                <div class="form-questions-stream">
+                    <!-- VALIDATION ERRORS -->
+                    @if ($errors->any())
+                        <div style="background: #FEF2F2; border: 2px solid #EF4444; color: #991B1B; border-radius: 18px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; font-size: 0.875rem; box-shadow: 0 8px 24px rgba(239,68,68,0.12);">
+                            <div style="font-weight: 900; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9375rem;">
+                                <span>⚠️</span> Mohon lengkapi isian formulir yang belum sesuai:
+                            </div>
+                            <ul style="margin: 0; padding-left: 1.25rem; line-height: 1.6;">
+                                @foreach ($errors->all() as $err)
+                                    <li>{{ $err }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
             <!-- MAIN SUBMISSION FORM -->
             <form action="{{ route('forms.submit', $form->slug) }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.15rem;">
@@ -420,6 +459,8 @@
                     🛡️ Sistem Formulir Aman & Terenkripsi • Litbang Gajah Mada Adhyaksa Kejaksaan RI
                 </div>
             </form>
+            </div>
+            </div>
         @endif
 
     </main>
