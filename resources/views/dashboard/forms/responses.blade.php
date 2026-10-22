@@ -8,6 +8,91 @@
          filterQuestion: 'all'
      }">
 
+    <style>
+        .resp-tab-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: #F1F5F9;
+            padding: 0.35rem;
+            border-radius: 14px;
+            border: 1.5px solid #CBD5E1;
+        }
+        .resp-tab-btn {
+            appearance: none;
+            -webkit-appearance: none;
+            border: none !important;
+            outline: none !important;
+            background: transparent;
+            color: #475569;
+            font-weight: 800;
+            font-size: 0.84375rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            user-select: none;
+            box-shadow: none !important;
+        }
+        .resp-tab-btn:hover {
+            color: #072718;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .resp-tab-btn.active {
+            background: linear-gradient(135deg, #072718 0%, #15803D 100%) !important;
+            color: #FFFFFF !important;
+            font-weight: 900 !important;
+            box-shadow: 0 4px 14px rgba(7, 39, 24, 0.25) !important;
+        }
+        .header-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8125rem;
+            font-weight: 800;
+            padding: 0.55rem 1.1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .header-btn:hover {
+            transform: translateY(-1px);
+        }
+        .header-btn-green {
+            background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+            color: #FFFFFF;
+            box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+        }
+        .header-btn-blue {
+            background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+            color: #FFFFFF;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+        }
+        .header-btn-glass {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: #FFFFFF;
+            backdrop-filter: blur(8px);
+        }
+        .header-btn-glass:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+        .header-btn-gold {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #D4AF37 !important;
+            color: #FDE68A;
+        }
+        .header-btn-gold:hover {
+            background: rgba(212, 175, 55, 0.32);
+        }
+    </style>
+
     <!-- 1. TOP EXECUTIVE HEADER (DARK EMERALD & GOLD ACCENT) -->
     <header style="background: linear-gradient(135deg, #072718 0%, #0D3E27 100%); border-bottom: 2.5px solid #D4AF37; padding: 1.25rem 2rem; color: #FFFFFF; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
         <div style="max-width: 1240px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.25rem;">
@@ -40,20 +125,16 @@
 
             <!-- EXPORT & ACTION TOOLBAR -->
             <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
-                <a href="{{ route('dashboard.forms.builder', $form->id) }}" 
-                   style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; backdrop-filter: blur(8px); transition: all 0.2s ease;">
+                <a href="{{ route('dashboard.forms.builder', $form->id) }}" class="header-btn header-btn-glass">
                     ✏️ Edit Formulir
                 </a>
-                <a href="{{ route('dashboard.forms.export.csv', $form->id) }}" 
-                   style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 14px rgba(22,163,74,0.35); transition: transform 0.2s ease;">
+                <a href="{{ route('dashboard.forms.export.csv', $form->id) }}" class="header-btn header-btn-green">
                     📥 Unduh Excel (CSV)
                 </a>
-                <a href="{{ route('dashboard.forms.export.pdf.summary', $form->id) }}" target="_blank" 
-                   style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 14px rgba(2,132,199,0.35); transition: transform 0.2s ease;">
+                <a href="{{ route('dashboard.forms.export.pdf.summary', $form->id) }}" target="_blank" class="header-btn header-btn-blue">
                     🖨️ Cetak PDF Kesimpulan
                 </a>
-                <a href="{{ route('forms.show', $form->slug) }}" target="_blank" 
-                   style="background: rgba(212,175,55,0.2); border: 1px solid #D4AF37; color: #FDE68A; font-size: 0.8125rem; font-weight: 800; padding: 0.55rem 1rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                <a href="{{ route('forms.show', $form->slug) }}" target="_blank" class="header-btn header-btn-gold">
                     🌐 Buka Form Publik
                 </a>
             </div>
@@ -104,27 +185,27 @@
                 </div>
 
                 <!-- SLEEK 3-WAY TAB CAPSULE (GOOGLE FORMS EXECUTIVE STYLE) -->
-                <div style="display: flex; gap: 0.35rem; background: #F1F5F9; padding: 0.4rem; border-radius: 14px; border: 1.5px solid #CBD5E1;">
+                <div class="resp-tab-group">
                     <button type="button" 
                             @click="responseTab = 'individual'" 
-                            :style="responseTab === 'individual' ? 'background: #072718; color: #D4AF37; font-weight: 900; box-shadow: 0 4px 12px rgba(7,39,24,0.25);' : 'background: transparent; color: #475569; font-weight: 800;'"
-                            style="padding: 0.6rem 1.25rem; font-size: 0.84375rem; border-radius: 10px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; transition: all 0.2s ease;">
+                            class="resp-tab-btn" 
+                            :class="{ 'active': responseTab === 'individual' }">
                         <span>👤</span>
                         <span>Perorangan (Individual)</span>
                     </button>
 
                     <button type="button" 
                             @click="responseTab = 'table'" 
-                            :style="responseTab === 'table' ? 'background: #072718; color: #D4AF37; font-weight: 900; box-shadow: 0 4px 12px rgba(7,39,24,0.25);' : 'background: transparent; color: #475569; font-weight: 800;'"
-                            style="padding: 0.6rem 1.25rem; font-size: 0.84375rem; border-radius: 10px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; transition: all 0.2s ease;">
+                            class="resp-tab-btn" 
+                            :class="{ 'active': responseTab === 'table' }">
                         <span>📋</span>
                         <span>Tabel Respon (Spreadsheet)</span>
                     </button>
 
                     <button type="button" 
                             @click="responseTab = 'summary'" 
-                            :style="responseTab === 'summary' ? 'background: #072718; color: #D4AF37; font-weight: 900; box-shadow: 0 4px 12px rgba(7,39,24,0.25);' : 'background: transparent; color: #475569; font-weight: 800;'"
-                            style="padding: 0.6rem 1.25rem; font-size: 0.84375rem; border-radius: 10px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem; transition: all 0.2s ease;">
+                            class="resp-tab-btn" 
+                            :class="{ 'active': responseTab === 'summary' }">
                         <span>📊</span>
                         <span>Ringkasan / Statistik</span>
                     </button>
