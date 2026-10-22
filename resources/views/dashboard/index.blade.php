@@ -1642,6 +1642,9 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+
             <!-- RESET & CLEANSING DATA UJI COBA (PURGE DUMMY TESTING DATA) -->
             <div class="content-card" style="margin-top: 1.5rem; border-top: 4px solid #DC2626; background: #FFF5F5;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
@@ -1675,7 +1678,6 @@
                         🗑️ Reset Data Uji Coba & Siapkan Untuk Produksi Resmi
                     </button>
                 </form>
-            </div>
             </div>
         </div>
 

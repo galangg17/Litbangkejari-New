@@ -95,40 +95,147 @@
     border-bottom: 1px solid rgba(212,175,55,0.2);
   }
 
-  /* CLEAN OFF-WHITE FLOATING NAVBAR */
+  /* LUXURY GLASS FLOATING NAVBAR */
   .fresh-navbar-header {
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(12px);
-    border: 1.5px solid rgba(46, 111, 64, 0.15);
+    background: rgba(13, 40, 24, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(212, 175, 55, 0.45);
     border-radius: 9999px;
-    padding: 0.55rem 1.35rem;
+    padding: 0.5rem 0.85rem 0.5rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 8px 24px rgba(27, 67, 50, 0.08);
-    gap: 1rem;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+    gap: 0.85rem;
   }
 
   .resp-nav-links {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    gap: 0.35rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
   }
 
-  .resp-nav-links a {
-    color: var(--color-emerald-dark);
+  .nav-item {
+    color: #E2E8F0;
     text-decoration: none;
     font-size: 0.8125rem;
-    font-weight: 800;
-    padding: 0.5rem 1rem;
+    font-weight: 700;
+    padding: 0.45rem 0.75rem;
     border-radius: 9999px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .nav-item:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #FFFFFF;
+  }
+
+  .nav-item.highlight-gold {
+    color: var(--color-accent-gold);
+    font-weight: 800;
+  }
+
+  .nav-item.highlight-gold:hover {
+    background: rgba(212, 175, 55, 0.18);
+    color: #FDE68A;
+  }
+
+  .nav-btn-gold {
+    background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%);
+    color: #04140B;
+    font-weight: 900;
+    font-size: 0.8125rem;
+    padding: 0.5rem 1.15rem;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
     transition: all 0.2s ease;
   }
 
-  .resp-nav-links a:hover {
-    background: var(--color-emerald-mint);
-    color: var(--color-emerald-dark);
+  .nav-btn-gold:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.5);
+  }
+
+  .nav-btn-glass {
+    background: rgba(255, 255, 255, 0.12);
+    color: #FFFFFF;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    padding: 0.48rem 0.95rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .nav-btn-glass:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #FFFFFF;
+  }
+
+  .mobile-nav-toggle {
+    display: none;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    color: #FFFFFF;
+    border-radius: 9999px;
+    padding: 0.45rem 0.65rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-toggle:hover {
+    background: rgba(212, 175, 55, 0.25);
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #E2E8F0;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 700;
+    padding: 0.65rem 0.85rem;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+  }
+
+  @media (max-width: 992px) {
+    .resp-nav-links.desktop-nav {
+      display: none !important;
+    }
+    .mobile-nav-toggle {
+      display: inline-flex !important;
+    }
+    .brand-subtext {
+      display: none !important;
+    }
   }
 
   /* HERO BANNER WITH GEDUNG KEJAKSAAN PHOTO BACKGROUND (CENTERED LIKE GAMBAR 1) */
@@ -357,6 +464,7 @@
 
 <!-- ROOT X-DATA WRAPPER (ENCLOSES BOTH LANDING CONTENT AND UNZOOMED MODALS) -->
 <div x-data="{ 
+    mobileNavOpen: false,
     isProposalModalOpen: false, 
     isCurriculumUploadModalOpen: false,
     selectedPdf: null, 
@@ -448,39 +556,92 @@
 
             <!-- TOP FLOATING GLASSMORPHISM NAVBAR -->
             <div style="position: sticky; top: 0.85rem; z-index: 50; padding: 0 0.85rem; margin: 0.85rem auto 0; width: 100%; max-width: 1240px; box-sizing: border-box;">
-                <header class="fresh-navbar-header" style="background: rgba(13, 40, 24, 0.82); border: 1.5px solid rgba(212, 175, 55, 0.4); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 12px 32px rgba(0,0,0,0.4);">
-                    <div style="display: flex; align-items: center; gap: 0.85rem; cursor: pointer;" onclick="window.location.href='{{ route('landing.index') }}'">
-                        <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Emblem Adhyaksa" style="height: 42px; width: auto; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4));" />
+                <header class="fresh-navbar-header">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; flex-shrink: 0;" onclick="window.location.href='{{ route('landing.index') }}'">
+                        <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Emblem Adhyaksa" style="height: 40px; width: auto; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4)); flex-shrink: 0;" />
                         <div>
-                            <div style="font-weight: 900; font-size: 0.95rem; color: #FFFFFF; line-height: 1.1;">
+                            <div style="font-weight: 900; font-size: 0.92rem; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.01em; white-space: nowrap;">
                                 LITBANG GAJAH MADA ADHYAKSA
                             </div>
-                            <div style="font-size: 0.65rem; color: var(--color-accent-gold); font-weight: 900; text-transform: uppercase; margin-top: 1px;">
-                                PORTAL PENELITIAN DAN PENGEMBANGAN 2026
+                            <div class="brand-subtext" style="font-size: 0.625rem; color: var(--color-accent-gold); font-weight: 900; text-transform: uppercase; margin-top: 1px; letter-spacing: 0.04em; white-space: nowrap;">
+                                PORTAL PENELITIAN & PENGEMBANGAN 2026
                             </div>
                         </div>
                     </div>
 
-                    <nav class="resp-nav-links">
-                        <a href="#katalog-hub" style="color: #E8F0E8;">📄 Katalog 3 Pilar</a>
-                        <a href="{{ route('forms.index') }}" style="color: var(--color-accent-gold); font-weight: 800;">📝 Formulir & Kuesioner</a>
-                        <a href="#lacak-tiket-hub" style="color: #E8F0E8;">🎟️ Lacak Usulan</a>
-                        <a href="#kontak-hub" style="color: #E8F0E8;">📍 Kontak</a>
-                        <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);">
+                    <!-- DESKTOP NAV LINKS -->
+                    <nav class="resp-nav-links desktop-nav">
+                        <a href="#katalog-hub" class="nav-item">📄 Katalog</a>
+                        <a href="{{ route('forms.index') }}" class="nav-item highlight-gold">
+                            📝 Formulir
+                            <span style="background: rgba(212,175,55,0.25); border: 1px solid var(--color-accent-gold); color: #FDE68A; font-size: 0.6rem; padding: 0.1rem 0.4rem; border-radius: 9999px; margin-left: 0.2rem; font-weight: 900;">Baru</span>
+                        </a>
+                        <a href="#lacak-tiket-hub" class="nav-item">🎟️ Lacak</a>
+                        <a href="#kontak-hub" class="nav-item">📍 Kontak</a>
+                        
+                        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.2); margin: 0 0.25rem;"></div>
+
+                        <button @click="isProposalModalOpen = true" class="nav-btn-gold">
                             ⚡ Ajukan Usulan
                         </button>
 
                         @if(session('is_logged_in'))
-                            <a href="{{ route('dashboard.index') }}" style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.3);">
-                                📊 Dashboard Admin
+                            <a href="{{ route('dashboard.index') }}" class="nav-btn-glass">
+                                📊 Dashboard
                             </a>
                         @else
-                            <a href="{{ route('login') }}" style="background: rgba(255,255,255,0.15); color: #FFFFFF; font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.3);">
+                            <a href="{{ route('login') }}" class="nav-btn-glass">
                                 🔑 Masuk Admin
                             </a>
                         @endif
                     </nav>
+
+                    <!-- MOBILE HAMBURGER BUTTON -->
+                    <button type="button" @click="mobileNavOpen = !mobileNavOpen" class="mobile-nav-toggle" aria-label="Menu Navigasi">
+                        <svg x-show="!mobileNavOpen" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                        <svg x-show="mobileNavOpen" style="display: none;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </header>
+
+                <!-- MOBILE DROPDOWN ACCORDION -->
+                <div x-show="mobileNavOpen" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 -translate-y-3"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 translate-y-0"
+                     x-transition:leave-end="opacity-0 -translate-y-3"
+                     style="display: none; margin-top: 0.5rem; background: rgba(13, 40, 24, 0.98); border: 1.5px solid rgba(212, 175, 55, 0.45); border-radius: 20px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); box-shadow: 0 16px 40px rgba(0,0,0,0.5); padding: 0.85rem; flex-direction: column; gap: 0.4rem;"
+                     @click.away="mobileNavOpen = false">
+                    <a href="#katalog-hub" @click="mobileNavOpen = false" class="mobile-nav-item">📄 Katalog 3 Pilar</a>
+                    <a href="{{ route('forms.index') }}" @click="mobileNavOpen = false" class="mobile-nav-item" style="color: var(--color-accent-gold); font-weight: 800;">
+                        📝 Formulir & Kuesioner (Baru)
+                    </a>
+                    <a href="#lacak-tiket-hub" @click="mobileNavOpen = false" class="mobile-nav-item">🎟️ Lacak Usulan</a>
+                    <a href="#kontak-hub" @click="mobileNavOpen = false" class="mobile-nav-item">📍 Kontak Sekretariat</a>
+                    
+                    <div style="height: 1px; background: rgba(255,255,255,0.12); margin: 0.35rem 0;"></div>
+                    
+                    <button @click="mobileNavOpen = false; isProposalModalOpen = true;" style="width: 100%; text-align: center; background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.84375rem; padding: 0.65rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35); margin-bottom: 0.35rem;">
+                        ⚡ Ajukan Usulan Riset
+                    </button>
+                    @if(session('is_logged_in'))
+                        <a href="{{ route('dashboard.index') }}" style="display: block; text-align: center; background: rgba(255,255,255,0.12); color: #FFFFFF; font-size: 0.84375rem; font-weight: 800; padding: 0.6rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.25); text-decoration: none;">
+                            📊 Buka Dashboard Admin
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" style="display: block; text-align: center; background: rgba(255,255,255,0.12); color: #FFFFFF; font-size: 0.84375rem; font-weight: 800; padding: 0.6rem; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.25); text-decoration: none;">
+                            🔑 Masuk Portal Admin
+                        </a>
+                    @endif
+                </div>
             </div>
 
             <!-- HERO CENTERED CONTENT -->
