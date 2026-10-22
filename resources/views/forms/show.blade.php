@@ -89,6 +89,10 @@
         background: #F0FDF4;
         border-color: #86EFAC;
     }
+    .radio-card-option.active-card-opt {
+        background: #ECFDF5;
+        border-color: #10B981;
+    }
     .radio-card-option input[type="radio"]:checked + span,
     .radio-card-option input[type="checkbox"]:checked + span {
         font-weight: 900;
@@ -260,46 +264,107 @@
                                           class="custom-input" style="resize: vertical; line-height: 1.6;">{{ old('fields.' . $field->field_name) }}</textarea>
 
                             @elseif($field->field_type === 'select')
-                                <select name="fields[{{ $field->field_name }}]" 
-                                        {{ $field->is_required ? 'required' : '' }}
-                                        class="custom-input" style="max-width: 440px; cursor: pointer;">
-                                    <option value="">-- Silakan Pilih Opsi --</option>
-                                    @if(!empty($field->options))
-                                        @foreach($field->options as $opt)
-                                            <option value="{{ $opt }}" {{ old('fields.' . $field->field_name) == $opt ? 'selected' : '' }}>{{ $opt }}</option>
-                                        @endforeach
+                                <div x-data="{ selectedVal: '{{ old('fields.' . $field->field_name) }}' }">
+                                    <select name="fields[{{ $field->field_name }}]" 
+                                            x-model="selectedVal"
+                                            {{ $field->is_required ? 'required' : '' }}
+                                            class="custom-input" style="max-width: 480px; cursor: pointer;">
+                                        <option value="">-- Silakan Pilih Opsi --</option>
+                                        @if(!empty($field->options))
+                                            @foreach($field->options as $opt)
+                                                @php $cleanOpt = ltrim(trim($opt), "• -*\t "); @endphp
+                                                <option value="{{ $cleanOpt }}" {{ old('fields.' . $field->field_name) == $cleanOpt ? 'selected' : '' }}>{{ $cleanOpt }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+
+                                    @if($field->has_reason)
+                                        <div x-show="selectedVal" 
+                                             x-transition:enter="transition ease-out duration-200"
+                                             x-transition:enter-start="opacity-0 -translate-y-2"
+                                             x-transition:enter-end="opacity-100 translate-y-0"
+                                             style="display: none; margin-top: 0.85rem; max-width: 580px; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 0.95rem; box-shadow: 0 4px 12px rgba(16,185,129,0.1);">
+                                            <label style="display: block; font-size: 0.8125rem; font-weight: 800; color: #166534; margin-bottom: 0.35rem;">
+                                                💬 {{ $field->reason_label ?? 'Sebutkan alasan atau penjelasan pilihan Anda:' }}
+                                            </label>
+                                            <textarea name="reasons[{{ $field->field_name }}]" 
+                                                      rows="2" 
+                                                      placeholder="Ketikkan alasan Anda di sini..."
+                                                      style="width: 100%; border: 1.5px solid #86EFAC; border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.84375rem; background: #FFF; outline: none; line-height: 1.5; font-family: inherit;">{{ old('reasons.' . $field->field_name) }}</textarea>
+                                        </div>
                                     @endif
-                                </select>
+                                </div>
 
                             @elseif($field->field_type === 'radio')
-                                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+                                <div style="display: flex; flex-direction: column; gap: 0.65rem;" 
+                                     x-data="{ selectedVal: '{{ old('fields.' . $field->field_name) }}' }">
                                     @if(!empty($field->options))
                                         @foreach($field->options as $opt)
-                                            <label class="radio-card-option">
+                                            @php $cleanOpt = ltrim(trim($opt), "• -*\t "); @endphp
+                                            <label class="radio-card-option" 
+                                                   :class="{ 'active-card-opt': selectedVal === '{{ addslashes($cleanOpt) }}' }"
+                                                   @click="selectedVal = '{{ addslashes($cleanOpt) }}'">
                                                 <input type="radio" 
                                                        name="fields[{{ $field->field_name }}]" 
-                                                       value="{{ $opt }}" 
-                                                       {{ old('fields.' . $field->field_name) == $opt ? 'checked' : '' }}
+                                                       value="{{ $cleanOpt }}" 
+                                                       x-model="selectedVal"
+                                                       {{ old('fields.' . $field->field_name) == $cleanOpt ? 'checked' : '' }}
                                                        {{ $field->is_required ? 'required' : '' }}
                                                        style="width: 20px; height: 20px; accent-color: #047857; cursor: pointer;" />
-                                                <span style="font-size: 0.90625rem; color: #1E293B;">{{ $opt }}</span>
+                                                <span style="font-size: 0.90625rem; font-weight: 700; color: #1E293B;">{{ $cleanOpt }}</span>
                                             </label>
                                         @endforeach
+                                    @endif
+
+                                    @if($field->has_reason)
+                                        <div x-show="selectedVal" 
+                                             x-transition:enter="transition ease-out duration-200"
+                                             x-transition:enter-start="opacity-0 -translate-y-2"
+                                             x-transition:enter-end="opacity-100 translate-y-0"
+                                             style="display: none; margin-top: 0.85rem; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 0.95rem; box-shadow: 0 4px 12px rgba(16,185,129,0.1);">
+                                            <label style="display: block; font-size: 0.8125rem; font-weight: 800; color: #166534; margin-bottom: 0.35rem;">
+                                                💬 {{ $field->reason_label ?? 'Sebutkan alasan atau penjelasan pilihan Anda:' }}
+                                            </label>
+                                            <textarea name="reasons[{{ $field->field_name }}]" 
+                                                      rows="2" 
+                                                      placeholder="Ketikkan alasan atau penjelasan Anda di sini..."
+                                                      style="width: 100%; border: 1.5px solid #86EFAC; border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.84375rem; background: #FFF; outline: none; line-height: 1.5; font-family: inherit;">{{ old('reasons.' . $field->field_name) }}</textarea>
+                                        </div>
                                     @endif
                                 </div>
 
                             @elseif($field->field_type === 'checkbox')
-                                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+                                <div style="display: flex; flex-direction: column; gap: 0.65rem;" 
+                                     x-data="{ checkedItems: {{ json_encode(old('fields.' . $field->field_name, [])) }} }">
                                     @if(!empty($field->options))
                                         @foreach($field->options as $opt)
-                                            <label class="radio-card-option">
+                                            @php $cleanOpt = ltrim(trim($opt), "• -*\t "); @endphp
+                                            <label class="radio-card-option" 
+                                                   :class="{ 'active-card-opt': checkedItems.includes('{{ addslashes($cleanOpt) }}') }">
                                                 <input type="checkbox" 
                                                        name="fields[{{ $field->field_name }}][]" 
-                                                       value="{{ $opt }}" 
+                                                       value="{{ $cleanOpt }}" 
+                                                       x-model="checkedItems"
                                                        style="width: 20px; height: 20px; accent-color: #047857; cursor: pointer;" />
-                                                <span style="font-size: 0.90625rem; color: #1E293B;">{{ $opt }}</span>
+                                                <span style="font-size: 0.90625rem; font-weight: 700; color: #1E293B;">{{ $cleanOpt }}</span>
                                             </label>
                                         @endforeach
+                                    @endif
+
+                                    @if($field->has_reason)
+                                        <div x-show="checkedItems.length > 0" 
+                                             x-transition:enter="transition ease-out duration-200"
+                                             x-transition:enter-start="opacity-0 -translate-y-2"
+                                             x-transition:enter-end="opacity-100 translate-y-0"
+                                             style="display: none; margin-top: 0.85rem; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 0.95rem; box-shadow: 0 4px 12px rgba(16,185,129,0.1);">
+                                            <label style="display: block; font-size: 0.8125rem; font-weight: 800; color: #166534; margin-bottom: 0.35rem;">
+                                                💬 {{ $field->reason_label ?? 'Sebutkan alasan atau pertimbangan untuk mata kuliah / opsi yang Anda pilih:' }}
+                                            </label>
+                                            <textarea name="reasons[{{ $field->field_name }}]" 
+                                                      rows="2" 
+                                                      placeholder="Ketikkan alasan untuk mata kuliah / opsi yang Anda pilih di atas..."
+                                                      style="width: 100%; border: 1.5px solid #86EFAC; border-radius: 8px; padding: 0.6rem 0.75rem; font-size: 0.84375rem; background: #FFF; outline: none; line-height: 1.5; font-family: inherit;">{{ old('reasons.' . $field->field_name) }}</textarea>
+                                        </div>
                                     @endif
                                 </div>
 

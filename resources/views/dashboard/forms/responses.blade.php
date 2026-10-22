@@ -101,6 +101,27 @@
                                 @endforeach
                             </div>
 
+                            @if(!empty($data['reasons']))
+                                <div style="margin-top: 1rem; border-top: 1px dashed #CBD5E1; padding-top: 0.85rem;">
+                                    <div style="font-size: 0.75rem; font-weight: 800; color: #166534; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
+                                        <span>💬</span>
+                                        <span>Alasan & Penjelasan Responden ({{ count($data['reasons']) }} Catatan):</span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 0.45rem; max-height: 220px; overflow-y: auto;">
+                                        @foreach($data['reasons'] as $rItem)
+                                            <div style="background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.78125rem;">
+                                                <div style="font-weight: 800; color: #15803D; margin-bottom: 0.2rem;">
+                                                    {{ $rItem['respondent'] }} &bull; Opsi: <span style="color: #072718;">{{ $rItem['selected'] }}</span>
+                                                </div>
+                                                <div style="color: #334155; line-height: 1.45;">
+                                                    "{{ $rItem['reason'] }}"
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
                         <!-- DAFTAR CUPLIKAN JAWABAN TEKS -->
                         @elseif(isset($data['samples']))
                             <div style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 250px; overflow-y: auto;">
@@ -184,6 +205,15 @@
                                             @endif
                                         @else
                                             <span>{{ $ans ?? '-' }}</span>
+                                        @endif
+
+                                        @php
+                                            $reason = $currentResponse->answers[$field->field_name]['reason'] ?? null;
+                                        @endphp
+                                        @if(!empty($reason))
+                                            <div style="margin-top: 0.5rem; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 8px; padding: 0.55rem 0.85rem; font-size: 0.8125rem; color: #166534;">
+                                                <strong>💬 Alasan / Penjelasan:</strong> {{ $reason }}
+                                            </div>
                                         @endif
                                     </div>
                                 </div>

@@ -171,6 +171,19 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                @if(!empty($data['reasons']))
+                    <div style="margin-top: 8px; font-size: 9pt; font-weight: bold; color: #166534;">
+                        💬 Alasan & Penjelasan Responden:
+                    </div>
+                    <ul style="margin: 4px 0 0 0; padding-left: 1.2rem; font-size: 9pt; color: #334155;">
+                        @foreach($data['reasons'] as $rItem)
+                            <li style="margin-bottom: 3px;">
+                                <strong>{{ $rItem['respondent'] }} (Opsi: {{ $rItem['selected'] }}):</strong> "{{ $rItem['reason'] }}"
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
             @elseif(isset($data['samples']))
                 <div style="font-size: 9pt; color: #475569; margin-bottom: 4px;">Cuplikan Jawaban Teks:</div>
                 <ul style="margin: 0; padding-left: 1.25rem; font-size: 9.5pt; color: #1E293B;">

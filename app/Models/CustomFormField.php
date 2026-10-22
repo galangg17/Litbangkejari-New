@@ -15,6 +15,9 @@ class CustomFormField extends Model
         'field_name',
         'field_type',
         'options',
+        'has_reason',
+        'reason_label',
+        'reason_trigger',
         'help_text',
         'is_required',
         'order_index',
@@ -22,6 +25,7 @@ class CustomFormField extends Model
 
     protected $casts = [
         'options' => 'array',
+        'has_reason' => 'boolean',
         'is_required' => 'boolean',
     ];
 

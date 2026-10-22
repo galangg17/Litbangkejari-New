@@ -157,6 +157,15 @@
                 @else
                     {{ $ans ?? '-' }}
                 @endif
+
+                @php
+                    $reason = $response->answers[$field->field_name]['reason'] ?? null;
+                @endphp
+                @if(!empty($reason))
+                    <div style="margin-top: 6px; font-size: 9.5pt; color: #166534; background: #F0FDF4; padding: 6px 10px; border-left: 3px solid #16A34A; border-radius: 4px;">
+                        <strong>Alasan / Penjelasan:</strong> {{ $reason }}
+                    </div>
+                @endif
             </div>
         </div>
     @endforeach

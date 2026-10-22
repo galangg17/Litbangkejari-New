@@ -81,6 +81,7 @@ class CustomFormController extends Controller
         $request->validate($rules, $messages);
 
         $inputData = $request->input('fields', []);
+        $reasonsData = $request->input('reasons', []);
         $respondentName = null;
         $respondentId = null;
 
@@ -102,11 +103,22 @@ class CustomFormController extends Controller
                 }
             }
 
-            $answers[$fn] = [
+            $reasonVal = $reasonsData[$fn] ?? null;
+            if (is_array($reasonVal)) {
+                $reasonVal = implode('; ', array_filter($reasonVal));
+            }
+
+            $fieldAnswer = [
                 'label' => $field->field_label,
                 'type' => $field->field_type,
                 'value' => $val,
             ];
+
+            if (!empty($reasonVal)) {
+                $fieldAnswer['reason'] = trim($reasonVal);
+            }
+
+            $answers[$fn] = $fieldAnswer;
 
             // Deteksi otomatis nama / NIP responden jika ada field bersesuaian
             $labelLower = strtolower($field->field_label);
@@ -241,9 +253,12 @@ class CustomFormController extends Controller
         $form = CustomForm::findOrFail($formId);
 
         $validated = $request->validate([
-            'field_label' => 'required|string|max:255',
+            'field_label' => 'required|string|max:500',
             'field_type' => 'required|in:text,textarea,select,radio,checkbox,file,date,number',
             'options_raw' => 'nullable|string',
+            'has_reason' => 'nullable',
+            'reason_label' => 'nullable|string|max:255',
+            'reason_trigger' => 'nullable|string',
             'help_text' => 'nullable|string',
             'is_required' => 'nullable',
         ]);
@@ -251,10 +266,17 @@ class CustomFormController extends Controller
         $options = null;
         if (in_array($validated['field_type'], ['select', 'radio', 'checkbox']) && !empty($validated['options_raw'])) {
             $lines = explode("\n", str_replace("\r", "", $validated['options_raw']));
-            $options = array_values(array_filter(array_map('trim', $lines)));
+            $options = array_values(array_filter(array_map(function($line) {
+                $clean = trim($line);
+                // Bersihkan bullet atau titik double di awal teks
+                return ltrim($clean, "• -*\t ");
+            }, $lines)));
         }
 
         $cleanFieldName = Str::slug($validated['field_label'], '_');
+        if (empty($cleanFieldName)) {
+            $cleanFieldName = 'pertanyaan_' . time();
+        }
         $fieldName = $cleanFieldName;
         $counter = 1;
         while (CustomFormField::where('custom_form_id', $form->id)->where('field_name', $fieldName)->exists()) {
@@ -269,12 +291,104 @@ class CustomFormController extends Controller
             'field_name' => $fieldName,
             'field_type' => $validated['field_type'],
             'options' => $options,
+            'has_reason' => $request->has('has_reason'),
+            'reason_label' => $request->input('reason_label') ?: 'Sebutkan alasan atau penjelasan pilihan Anda...',
+            'reason_trigger' => $request->input('reason_trigger') ?: 'all',
             'help_text' => $validated['help_text'] ?? null,
             'is_required' => $request->has('is_required'),
             'order_index' => $maxOrder + 1,
         ]);
 
         return redirect()->back()->with('toast', 'Pertanyaan baru berhasil ditambahkan!');
+    }
+
+    /**
+     * Perbarui Pertanyaan / Field yang sudah ada
+     */
+    public function updateField(Request $request, $fieldId)
+    {
+        $field = CustomFormField::findOrFail($fieldId);
+
+        $validated = $request->validate([
+            'field_label' => 'required|string|max:500',
+            'field_type' => 'required|in:text,textarea,select,radio,checkbox,file,date,number',
+            'options_raw' => 'nullable|string',
+            'has_reason' => 'nullable',
+            'reason_label' => 'nullable|string|max:255',
+            'reason_trigger' => 'nullable|string',
+            'help_text' => 'nullable|string',
+            'is_required' => 'nullable',
+        ]);
+
+        $options = null;
+        if (in_array($validated['field_type'], ['select', 'radio', 'checkbox']) && !empty($validated['options_raw'])) {
+            $lines = explode("\n", str_replace("\r", "", $validated['options_raw']));
+            $options = array_values(array_filter(array_map(function($line) {
+                $clean = trim($line);
+                return ltrim($clean, "• -*\t ");
+            }, $lines)));
+        }
+
+        $field->update([
+            'field_label' => $validated['field_label'],
+            'field_type' => $validated['field_type'],
+            'options' => $options,
+            'has_reason' => $request->has('has_reason'),
+            'reason_label' => $request->input('reason_label') ?: 'Sebutkan alasan atau penjelasan pilihan Anda...',
+            'reason_trigger' => $request->input('reason_trigger') ?: 'all',
+            'help_text' => $validated['help_text'] ?? null,
+            'is_required' => $request->has('is_required'),
+        ]);
+
+        return redirect()->back()->with('toast', 'Pertanyaan #' . $field->order_index . ' berhasil diperbarui!');
+    }
+
+    /**
+     * Ubah Urutan Pertanyaan (Move Up / Down)
+     */
+    public function moveField($fieldId, $direction)
+    {
+        $field = CustomFormField::findOrFail($fieldId);
+        $formId = $field->custom_form_id;
+
+        if ($direction === 'up') {
+            $swapWith = CustomFormField::where('custom_form_id', $formId)
+                ->where('order_index', '<', $field->order_index)
+                ->orderBy('order_index', 'desc')
+                ->first();
+        } else {
+            $swapWith = CustomFormField::where('custom_form_id', $formId)
+                ->where('order_index', '>', $field->order_index)
+                ->orderBy('order_index', 'asc')
+                ->first();
+        }
+
+        if ($swapWith) {
+            $temp = $field->order_index;
+            $field->order_index = $swapWith->order_index;
+            $swapWith->order_index = $temp;
+            $field->save();
+            $swapWith->save();
+        }
+
+        return redirect()->back()->with('toast', 'Urutan pertanyaan berhasil diubah.');
+    }
+
+    /**
+     * Duplikat Pertanyaan
+     */
+    public function duplicateField($fieldId)
+    {
+        $field = CustomFormField::findOrFail($fieldId);
+        $maxOrder = CustomFormField::where('custom_form_id', $field->custom_form_id)->max('order_index') ?? 0;
+
+        $newField = $field->replicate();
+        $newField->field_label = $field->field_label . ' (Salinan)';
+        $newField->field_name = Str::slug($newField->field_label, '_') . '_' . time();
+        $newField->order_index = $maxOrder + 1;
+        $newField->save();
+
+        return redirect()->back()->with('toast', 'Pertanyaan berhasil diduplikat.');
     }
 
     /**
@@ -350,14 +464,29 @@ class CustomFormController extends Controller
                         $optionCounts[$ans] = ($optionCounts[$ans] ?? 0) + 1;
                     }
                 }
+                $fieldReasons = [];
+                foreach ($responses as $resp) {
+                    $reasonText = $resp->answers[$fn]['reason'] ?? null;
+                    if ($reasonText && is_string($reasonText)) {
+                        $selVal = $resp->answers[$fn]['value'] ?? '-';
+                        if (is_array($selVal)) $selVal = implode(', ', $selVal);
+                        $fieldReasons[] = [
+                            'respondent' => $resp->respondent_name ?? 'Anonim',
+                            'selected' => $selVal,
+                            'reason' => $reasonText,
+                        ];
+                    }
+                }
+
                 $summary[$fn] = [
                     'label' => $field->field_label,
                     'type' => $type,
                     'counts' => $optionCounts,
+                    'reasons' => $fieldReasons,
                 ];
             } else {
                 $recentText = [];
-                foreach ($responses->take(10) as $resp) {
+                foreach ($responses->take(15) as $resp) {
                     $ans = $resp->answers[$fn]['value'] ?? null;
                     if ($ans && is_string($ans)) {
                         $recentText[] = $ans;
@@ -402,6 +531,9 @@ class CustomFormController extends Controller
             $headerRow = ['No', 'Waktu Pengisian', 'Nama Responden', 'NIP/NRP/Identitas'];
             foreach ($form->fields as $field) {
                 $headerRow[] = $field->field_label;
+                if ($field->has_reason) {
+                    $headerRow[] = $field->field_label . ' (Alasan / Penjelasan)';
+                }
             }
             fputcsv($file, $headerRow);
 
@@ -417,6 +549,7 @@ class CustomFormController extends Controller
                 foreach ($form->fields as $field) {
                     $fn = $field->field_name;
                     $val = $resp->answers[$fn]['value'] ?? null;
+                    $reason = $resp->answers[$fn]['reason'] ?? null;
 
                     if (is_array($val)) {
                         if (isset($val['url'])) {
@@ -428,6 +561,10 @@ class CustomFormController extends Controller
                         }
                     } else {
                         $row[] = $val ?? '-';
+                    }
+
+                    if ($field->has_reason) {
+                        $row[] = $reason ?? '-';
                     }
                 }
 
