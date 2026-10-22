@@ -234,153 +234,255 @@
         @else
 
             <!-- ============================================================== -->
-            <!-- TAB 1: DATA PERORANGAN (INDIVIDUAL SHEET VIEW - GOOGLE FORM)    -->
+            <!-- TAB 1: DATA PERORANGAN (INDIVIDUAL DOSSIER REVIEW VIEW)        -->
             <!-- ============================================================== -->
             <div x-show="responseTab === 'individual'" style="display: none;">
                 @if($currentResponse)
                     <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 22px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04);">
                         
-                        <!-- INDIVIDUAL PAGINATOR BAR -->
-                        <div style="background: #F8FAFC; border-bottom: 1.5px solid #E2E8F0; padding: 1.15rem 1.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <!-- 1. EXECUTIVE PAGINATOR & QUICK JUMP TOOLBAR -->
+                        <div style="background: #F8FAFC; border-bottom: 1.5px solid #E2E8F0; padding: 1rem 1.75rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                             
-                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <!-- PREV / COUNTER / NEXT CONTROLS -->
+                            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
                                 <!-- PREVIOUS BUTTON -->
                                 <a href="{{ route('dashboard.forms.responses', ['id' => $form->id, 'index' => $currentIndex - 1]) }}" 
-                                   style="{{ $currentIndex > 0 ? '' : 'pointer-events: none; opacity: 0.4;' }} background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.8125rem; padding: 0.5rem 1rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
-                                    ◀ Responden Sebelumnya
+                                   style="{{ $currentIndex > 0 ? '' : 'pointer-events: none; opacity: 0.35;' }} background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.8125rem; padding: 0.5rem 0.95rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 5px rgba(0,0,0,0.03); transition: all 0.2s ease;">
+                                    ◀ Sebelumnya
                                 </a>
 
                                 <!-- CURRENT INDICATOR PILL -->
-                                <div style="background: #072718; color: #D4AF37; font-size: 0.84375rem; font-weight: 900; padding: 0.5rem 1.15rem; border-radius: 10px; border: 1px solid #C59B27; letter-spacing: 0.02em;">
-                                    Responden {{ $currentIndex + 1 }} dari {{ $responses->count() }}
+                                <div style="background: #072718; color: #D4AF37; font-size: 0.8125rem; font-weight: 900; padding: 0.5rem 1rem; border-radius: 10px; border: 1px solid #C59B27; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <span>👤 Responden {{ $currentIndex + 1 }}</span>
+                                    <span style="color: rgba(212,175,55,0.6);">/</span>
+                                    <span style="color: #FFFFFF;">{{ $responses->count() }}</span>
                                 </div>
 
                                 <!-- NEXT BUTTON -->
                                 <a href="{{ route('dashboard.forms.responses', ['id' => $form->id, 'index' => $currentIndex + 1]) }}" 
-                                   style="{{ $currentIndex < $responses->count() - 1 ? '' : 'pointer-events: none; opacity: 0.4;' }} background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.8125rem; padding: 0.5rem 1rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
-                                    Responden Berikutnya ▶
+                                   style="{{ $currentIndex < $responses->count() - 1 ? '' : 'pointer-events: none; opacity: 0.35;' }} background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.8125rem; padding: 0.5rem 0.95rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 5px rgba(0,0,0,0.03); transition: all 0.2s ease;">
+                                    Berikutnya ▶
                                 </a>
                             </div>
 
-                            <!-- DIRECT JUMP & PRINT -->
-                            <div style="display: flex; align-items: center; gap: 0.65rem;">
+                            <!-- DIRECT RESPONDENT SELECTOR & ACTIONS -->
+                            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                                <!-- DIRECT JUMP DROPDOWN -->
+                                <div style="display: flex; align-items: center; gap: 0.45rem;">
+                                    <span style="font-size: 0.78125rem; font-weight: 800; color: #64748B;">Lompat Ke:</span>
+                                    <select onchange="window.location.href=this.value" 
+                                            style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.48rem 0.85rem; font-size: 0.8125rem; font-weight: 800; color: #072718; outline: none; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+                                        @foreach($responses as $rIdx => $rItem)
+                                            <option value="{{ route('dashboard.forms.responses', ['id' => $form->id, 'index' => $rIdx]) }}" {{ $rIdx === $currentIndex ? 'selected' : '' }}>
+                                                #{{ $rIdx + 1 }} • {{ $rItem->respondent_name ?? 'Anonim' }} ({{ $rItem->created_at->format('d/m H:i') }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- PRINT INDIVIDUAL PDF -->
                                 <a href="{{ route('dashboard.forms.export.pdf.individual', ['id' => $form->id, 'responseId' => $currentResponse->id]) }}" 
                                    target="_blank" 
-                                   style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(2,132,199,0.3);">
+                                   style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-size: 0.8125rem; font-weight: 900; padding: 0.52rem 1.15rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(2,132,199,0.25);">
                                     🖨️ Cetak PDF Respon Ini
                                 </a>
                             </div>
                         </div>
 
-                        <!-- RESPONDENT PROFILE HERO BANNER -->
-                        <div style="background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%); border-bottom: 1.5px solid #E2E8F0; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                            <div style="display: flex; align-items: center; gap: 1.15rem;">
-                                <div style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #072718 0%, #16A34A 100%); color: #D4AF37; font-weight: 900; font-size: 1.35rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(7,39,24,0.25);">
-                                    {{ strtoupper(substr($currentResponse->respondent_name ?? 'A', 0, 1)) }}
-                                </div>
-                                <div>
-                                    <div style="font-size: 0.72rem; font-weight: 900; color: #166534; text-transform: uppercase; letter-spacing: 0.05em;">
-                                        PROFIL RESPONDEN RESMI
+                        <!-- 2. RESPONDENT DOSSIER PROFILE CARD -->
+                        <div style="background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%); border-bottom: 1.5px solid #E2E8F0; padding: 1.5rem 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.25rem;">
+                                
+                                <div style="display: flex; align-items: center; gap: 1.15rem;">
+                                    <!-- AVATAR BADGE -->
+                                    <div style="width: 58px; height: 58px; border-radius: 16px; background: linear-gradient(135deg, #072718 0%, #15803D 100%); color: #D4AF37; font-weight: 900; font-size: 1.45rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(7,39,24,0.2); border: 2px solid #C59B27; flex-shrink: 0;">
+                                        {{ strtoupper(substr($currentResponse->respondent_name ?? 'R', 0, 1)) }}
                                     </div>
-                                    <div style="font-size: 1.35rem; font-weight: 900; color: #072718; margin: 0.15rem 0;">
-                                        {{ $currentResponse->respondent_name ?? 'Anonim' }}
-                                        @if($currentResponse->respondent_identifier)
-                                            <span style="font-size: 0.875rem; color: #64748B; font-weight: 700; margin-left: 0.35rem;">
-                                                ({{ $currentResponse->respondent_identifier }})
+                                    
+                                    <div>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+                                            <span style="font-size: 0.6875rem; font-weight: 900; color: #166534; text-transform: uppercase; letter-spacing: 0.06em; background: #DCFCE7; border: 1px solid #86EFAC; padding: 0.15rem 0.55rem; border-radius: 6px;">
+                                                LEMBAR EVALUASI PESERTA RESMI
                                             </span>
-                                        @endif
-                                    </div>
-                                    <div style="font-size: 0.78125rem; color: #64748B; display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
-                                        <span>⏱️ Waktu Pengisian: <strong>{{ $currentResponse->created_at->format('d F Y, H:i:s') }} WIB</strong></span>
-                                        <span>•</span>
-                                        <span>🌐 Alamat IP: <code>{{ $currentResponse->ip_address ?? '127.0.0.1' }}</code></span>
+                                            <span style="font-size: 0.6875rem; font-weight: 800; color: #64748B;">
+                                                ID: #{{ $currentResponse->id }}
+                                            </span>
+                                        </div>
+
+                                        <h2 style="font-size: 1.4rem; font-weight: 900; color: #072718; margin: 0 0 0.25rem; line-height: 1.2;">
+                                            {{ $currentResponse->respondent_name ?? 'Responden Anonim' }}
+                                            @if($currentResponse->respondent_identifier)
+                                                <span style="font-size: 0.875rem; color: #475569; font-weight: 700; margin-left: 0.35rem;">
+                                                    • {{ $currentResponse->respondent_identifier }}
+                                                </span>
+                                            @endif
+                                        </h2>
+
+                                        <!-- METADATA CHIPS -->
+                                        <div style="display: flex; align-items: center; gap: 0.85rem; font-size: 0.78125rem; color: #64748B; flex-wrap: wrap;">
+                                            <span style="display: inline-flex; align-items: center; gap: 0.3rem;">
+                                                <span>⏱️</span>
+                                                <span>Diserahkan: <strong style="color: #1E293B;">{{ $currentResponse->created_at->format('d F Y, H:i') }} WIB</strong></span>
+                                            </span>
+                                            <span>•</span>
+                                            <span style="display: inline-flex; align-items: center; gap: 0.3rem;">
+                                                <span>🌐</span>
+                                                <span>IP: <code style="color: #475569; font-weight: 700;">{{ $currentResponse->ip_address ?? '127.0.0.1' }}</code></span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <span style="background: #DCFCE7; color: #15803D; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.85rem; border-radius: 9999px; border: 1px solid #86EFAC;">
-                                ✅ Terverifikasi Sistem
-                            </span>
+                                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem;">
+                                    <span style="background: #DCFCE7; color: #15803D; font-weight: 900; font-size: 0.78125rem; padding: 0.4rem 0.95rem; border-radius: 9999px; border: 1.5px solid #86EFAC; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                        <span>✅</span>
+                                        <span>Respon Terverifikasi</span>
+                                    </span>
+                                    <span style="font-size: 0.72rem; color: #94A3B8; font-weight: 700;">
+                                        Tersimpan Aman di Database
+                                    </span>
+                                </div>
+
+                            </div>
                         </div>
 
-                        <!-- Q&A CARDS LIST -->
-                        <div style="padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem;">
+                        <!-- 3. QUESTION & ANSWER DOSSIER LIST -->
+                        <div style="padding: 2rem; display: flex; flex-direction: column; gap: 1.35rem; background: #FFFFFF;">
                             @foreach($form->fields as $index => $field)
                                 @php
                                     $fieldData = $currentResponse->answers[$field->field_name] ?? null;
                                     $ans = $fieldData['value'] ?? null;
                                     $reason = $fieldData['reason'] ?? null;
+                                    $type = strtolower($field->field_type);
                                 @endphp
 
-                                <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 1.35rem 1.5rem; transition: all 0.2s ease; position: relative;">
+                                <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 1.4rem 1.6rem; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
                                     
-                                    <!-- QUESTION HEADER -->
-                                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                        <span style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 6px;">
-                                            #{{ $index + 1 }}
-                                        </span>
-                                        <span style="font-size: 0.72rem; font-weight: 800; color: #0284C7; background: #E0F2FE; padding: 0.15rem 0.55rem; border-radius: 6px;">
-                                            {{ strtoupper($field->field_type) }}
-                                        </span>
-                                        <span style="font-size: 0.875rem; font-weight: 900; color: #334155;">
-                                            {{ $field->field_label }}
+                                    <!-- QUESTION HEADER ROW -->
+                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.85rem;">
+                                        <div style="display: flex; align-items: flex-start; gap: 0.65rem;">
+                                            <!-- NUMBER BADGE -->
+                                            <div style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 8px; border: 1px solid #C59B27; flex-shrink: 0; margin-top: 0.1rem;">
+                                                #{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
+                                            </div>
+                                            
+                                            <div>
+                                                <!-- QUESTION LABEL -->
+                                                <h4 style="font-size: 0.96875rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.45;">
+                                                    {{ $field->field_label }}
+                                                    @if($field->is_required)
+                                                        <span style="color: #EF4444; font-weight: 900;" title="Wajib Diisi">*</span>
+                                                    @endif
+                                                </h4>
+
+                                                @if($field->help_text)
+                                                    <div style="font-size: 0.75rem; color: #64748B; margin-top: 0.2rem; font-style: italic;">
+                                                        ℹ️ {{ $field->help_text }}
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <!-- FIELD TYPE TAG -->
+                                        <span style="font-size: 0.6875rem; font-weight: 800; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.2rem 0.6rem; border-radius: 6px; white-space: nowrap; text-transform: uppercase;">
+                                            @if($type === 'radio') Pilihan Tunggal
+                                            @elseif($type === 'checkbox') Kotak Centang
+                                            @elseif($type === 'select') Pilihan Dropdown
+                                            @elseif($type === 'textarea') Uraian Panjang
+                                            @elseif($type === 'file') Berkas Lampiran
+                                            @else Jawaban Teks
+                                            @endif
                                         </span>
                                     </div>
 
-                                    <!-- ANSWER BODY -->
-                                    <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 1rem 1.25rem; margin-top: 0.5rem;">
+                                    <!-- ANSWER VALUE CONTAINER (STYLED BY DATA TYPE) -->
+                                    <div style="margin-left: 2.25rem;">
                                         @if(is_array($ans))
                                             @if(isset($ans['url']))
-                                                <!-- FILE DOWNLOAD -->
-                                                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
-                                                    <div style="display: flex; align-items: center; gap: 0.65rem;">
-                                                        <span style="font-size: 1.75rem;">📁</span>
+                                                <!-- ATTACHED FILE -->
+                                                <div style="display: inline-flex; align-items: center; justify-content: space-between; gap: 1.25rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 0.85rem 1.25rem;">
+                                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                        <span style="font-size: 1.85rem;">📁</span>
                                                         <div>
                                                             <div style="font-weight: 900; font-size: 0.875rem; color: #0F172A;">{{ $ans['name'] }}</div>
-                                                            <div style="font-size: 0.72rem; color: #64748B;">Ukuran: {{ $ans['size'] }}</div>
+                                                            <div style="font-size: 0.72rem; color: #64748B;">Ukuran Berkas: {{ $ans['size'] }}</div>
                                                         </div>
                                                     </div>
-                                                    <a href="{{ $ans['url'] }}" target="_blank" style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 1rem; border-radius: 8px; text-decoration: none;">
+                                                    <a href="{{ $ans['url'] }}" target="_blank" 
+                                                       style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 1rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
                                                         ⬇️ Unduh Berkas
                                                     </a>
                                                 </div>
                                             @else
                                                 <!-- MULTIPLE CHECKBOX PILLS -->
-                                                <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                                                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
                                                     @foreach($ans as $subVal)
                                                         @php $cleanSubVal = ltrim(trim($subVal), "• -*\t "); @endphp
-                                                        <span style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.84375rem; padding: 0.35rem 0.75rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
-                                                            ☑️ {{ $cleanSubVal }}
-                                                        </span>
+                                                        <div style="display: inline-flex; align-items: center; gap: 0.45rem; background: #EFF6FF; border: 1.5px solid #93C5FD; color: #1E40AF; font-weight: 800; font-size: 0.84375rem; padding: 0.45rem 0.95rem; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                                                            <span style="color: #2563EB;">☑️</span>
+                                                            <span>{{ $cleanSubVal }}</span>
+                                                        </div>
                                                     @endforeach
                                                 </div>
                                             @endif
-                                        @else
-                                            <!-- TEXT / SINGLE OPTION -->
+                                        @elseif($type === 'radio' || $type === 'select')
+                                            <!-- SINGLE CHOICE PILL (HIGHLIGHTED AS ACTIVE DECISION) -->
                                             @php $cleanAns = ltrim(trim($ans ?? ''), "• -*\t "); @endphp
-                                            <div style="font-size: 0.96875rem; font-weight: 800; color: #0F172A; line-height: 1.5;">
+                                            <div style="display: inline-flex; align-items: center; gap: 0.6rem; background: #ECFDF5; border: 1.5px solid #10B981; color: #065F46; padding: 0.55rem 1.15rem; border-radius: 12px; font-weight: 900; font-size: 0.90625rem; box-shadow: 0 2px 6px rgba(16,185,129,0.12);">
+                                                <span style="color: #10B981; font-size: 1rem;">🔘</span>
+                                                <span>{{ !empty($cleanAns) ? $cleanAns : '(Tidak memilih)' }}</span>
+                                            </div>
+                                        @elseif($type === 'textarea')
+                                            <!-- LONG TEXT / ESSAY ANSWER -->
+                                            @php $cleanAns = trim($ans ?? ''); @endphp
+                                            <div style="background: #F8FAFC; border-left: 4px solid #072718; border-top: 1px solid #E2E8F0; border-right: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; border-radius: 0 12px 12px 0; padding: 0.95rem 1.25rem; font-size: 0.90625rem; color: #1E293B; line-height: 1.6; font-weight: 600;">
                                                 {{ !empty($cleanAns) ? $cleanAns : '-' }}
+                                            </div>
+                                        @else
+                                            <!-- SHORT TEXT (E.G. NAMA, KELAS, NIP) -->
+                                            @php $cleanAns = trim($ans ?? ''); @endphp
+                                            <div style="display: inline-flex; align-items: center; gap: 0.6rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0F172A; padding: 0.5rem 1.1rem; border-radius: 10px; font-weight: 800; font-size: 0.90625rem; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                                                <span style="color: #64748B;">✍️</span>
+                                                <span>{{ !empty($cleanAns) ? $cleanAns : '-' }}</span>
+                                            </div>
+                                        @endif
+
+                                        <!-- HIGHLIGHTED REASON / PENJELASAN CALLOUT -->
+                                        @if(!empty($reason))
+                                            <div style="margin-top: 0.85rem; background: linear-gradient(135deg, #FEFCE8 0%, #FEF9C3 100%); border: 1.5px solid #FACC15; border-radius: 14px; padding: 0.95rem 1.25rem; display: flex; align-items: flex-start; gap: 0.85rem; box-shadow: 0 3px 10px rgba(234,179,8,0.1);">
+                                                <span style="font-size: 1.35rem; line-height: 1;">💡</span>
+                                                <div style="flex: 1;">
+                                                    <div style="font-size: 0.72rem; font-weight: 900; color: #854D0E; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">
+                                                        Alasan & Penjelasan Responden:
+                                                    </div>
+                                                    <div style="font-size: 0.90625rem; font-weight: 800; color: #713F12; line-height: 1.55; font-style: italic;">
+                                                        “{{ $reason }}”
+                                                    </div>
+                                                </div>
                                             </div>
                                         @endif
                                     </div>
 
-                                    <!-- HIGHLIGHTED REASON / PENJELASAN CALLOUT -->
-                                    @if(!empty($reason))
-                                        <div style="margin-top: 0.75rem; background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 0.85rem 1.15rem; display: flex; align-items: flex-start; gap: 0.65rem;">
-                                            <span style="font-size: 1.25rem; line-height: 1;">💬</span>
-                                            <div>
-                                                <div style="font-size: 0.75rem; font-weight: 900; color: #166534; text-transform: uppercase; margin-bottom: 0.2rem;">
-                                                    Alasan / Penjelasan Responden:
-                                                </div>
-                                                <div style="font-size: 0.90625rem; font-weight: 700; color: #14532D; line-height: 1.5;">
-                                                    "{{ $reason }}"
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-
                                 </div>
                             @endforeach
+                        </div>
+
+                        <!-- 4. BOTTOM FOOTER NAVIGATION -->
+                        <div style="background: #F8FAFC; border-top: 1.5px solid #E2E8F0; padding: 1.15rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <div style="font-size: 0.78125rem; color: #64748B; font-weight: 700;">
+                                Menampilkan Responden #{{ $currentIndex + 1 }} dari Total {{ $responses->count() }} Data
+                            </div>
+
+                            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                                <a href="{{ route('dashboard.forms.responses', ['id' => $form->id, 'index' => $currentIndex - 1]) }}" 
+                                   style="{{ $currentIndex > 0 ? '' : 'pointer-events: none; opacity: 0.35;' }} background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.8125rem; padding: 0.5rem 0.95rem; border-radius: 10px; text-decoration: none;">
+                                    ◀ Sebelumnya
+                                </a>
+                                <a href="{{ route('dashboard.forms.responses', ['id' => $form->id, 'index' => $currentIndex + 1]) }}" 
+                                   style="{{ $currentIndex < $responses->count() - 1 ? '' : 'pointer-events: none; opacity: 0.35;' }} background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 800; font-size: 0.8125rem; padding: 0.5rem 0.95rem; border-radius: 10px; text-decoration: none;">
+                                    Berikutnya ▶
+                                </a>
+                            </div>
                         </div>
 
                     </div>
