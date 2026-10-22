@@ -166,9 +166,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 0.4rem;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 0.25rem;
+            padding: 0.25rem 0;
         }
         .options-chip-item {
             background: #FFFFFF;
@@ -455,12 +453,9 @@
                         </h2>
                     </div>
 
-                    <!-- SEARCH FILTER & ADD SHORTCUT -->
+                    <!-- SEARCH FILTER -->
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <input type="text" x-model="searchQuestion" placeholder="🔍 Cari butir pertanyaan..." style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.4rem 0.75rem; font-size: 0.8125rem; outline: none; width: 220px;" />
-                        <button type="button" @click="showAddComposer = true; window.scrollTo({ top: 120, behavior: 'smooth' })" style="background: #072718; color: #D4AF37; font-weight: 800; font-size: 0.78125rem; padding: 0.45rem 0.95rem; border-radius: 8px; border: 1px solid #C59B27; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem;">
-                            ➕ Tambah
-                        </button>
+                        <input type="text" x-model="searchQuestion" placeholder="🔍 Cari butir pertanyaan..." style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.45rem 0.85rem; font-size: 0.8125rem; outline: none; width: 240px;" />
                     </div>
                 </div>
 
@@ -587,24 +582,28 @@
                                     @endif
                                 </div>
 
-                                <!-- OPTIONS PREVIEW (CLEAN COMPACT CHIP GRID) -->
+                                <!-- OPTIONS PREVIEW (CLEAN COMPACT CHIP GRID DENGAN TOGGLE EXPAND) -->
                                 @if(!empty($field->options))
-                                    <div style="margin-top: 0.65rem; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.75rem 0.85rem;">
+                                    <div style="margin-top: 0.65rem; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.75rem 0.85rem;" 
+                                         x-data="{ showAllOptions: false }">
                                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
                                             <span style="font-size: 0.7rem; font-weight: 700; color: #64748B; text-transform: uppercase;">
                                                 Pilihan Responden ({{ $optCount }} Opsi):
                                             </span>
                                             @if($optCount > 6)
-                                                <span style="font-size: 0.7rem; color: #0284C7; font-weight: 600;">
-                                                    Scroll untuk opsi lainnya ↓
-                                                </span>
+                                                <button type="button" 
+                                                        @click="showAllOptions = !showAllOptions" 
+                                                        style="border: none; background: transparent; color: #064E3B; font-weight: 750; font-size: 0.72rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.25rem;">
+                                                    <span x-text="showAllOptions ? '▲ Ciutkan Opsi' : '▼ Tampilkan Seluruh {{ $optCount }} Opsi'"></span>
+                                                </button>
                                             @endif
                                         </div>
 
                                         <div class="options-chip-grid">
                                             @foreach($field->options as $optIndex => $opt)
                                                 @php $cleanOpt = ltrim(trim($opt), "• -*\t "); @endphp
-                                                <div class="options-chip-item">
+                                                <div class="options-chip-item"
+                                                     @if($optIndex >= 6) x-show="showAllOptions" x-cloak @endif>
                                                     <span style="color: #94A3B8; font-size: 0.7rem; font-weight: 700; min-width: 18px;">{{ $optIndex + 1 }}.</span>
                                                     <span>{{ $cleanOpt }}</span>
                                                 </div>

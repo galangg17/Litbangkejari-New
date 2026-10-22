@@ -275,19 +275,65 @@
         </div>
 
         @if($responses->isEmpty())
-            <!-- EMPTY STATE -->
-            <div style="background: #FFFFFF; border: 2px dashed #CBD5E1; border-radius: 16px; padding: 4rem 2rem; text-align: center; color: #64748B;">
-                <div style="font-size: 3rem; margin-bottom: 0.75rem;">📊</div>
-                <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0 0 0.4rem;">
+            <!-- EMPTY STATE DENGAN KOTAK QUICK SHARE & QR CODE -->
+            <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 18px; padding: 2.5rem 2rem; text-align: center; color: #64748B; box-shadow: 0 4px 16px rgba(0,0,0,0.02); max-width: 720px; margin: 0 auto;"
+                 x-data="{ copied: false, shareUrl: '{{ route('forms.show', $form->slug) }}' }">
+                
+                <div style="font-size: 2.75rem; margin-bottom: 0.5rem;">📊</div>
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: #062E1D; margin: 0 0 0.35rem;">
                     Belum Ada Tanggapan yang Masuk
                 </h3>
-                <p style="font-size: 0.84375rem; max-width: 440px; margin: 0 auto 1.5rem; line-height: 1.6;">
-                    Bagikan tautan formulir ini kepada peserta PPPJ atau responden terkait untuk mulai menghimpun tanggapan.
+                <p style="font-size: 0.84375rem; max-width: 480px; margin: 0 auto 1.5rem; line-height: 1.6; color: #64748B;">
+                    Kuesioner ini sudah aktif dan siap menerima masukan. Bagikan tautan atau QR Code di bawah kepada peserta PPPJ atau responden.
                 </p>
-                <a href="{{ route('forms.show', $form->slug) }}" target="_blank" 
-                   style="background: #062E1D; color: #DFB743; font-size: 0.8125rem; font-weight: 800; padding: 0.65rem 1.4rem; border-radius: 9px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
-                    Buka Formulir Publik ➔
-                </a>
+
+                <!-- QUICK SHARE URL BOX -->
+                <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; text-align: left;">
+                    <label style="font-size: 0.72rem; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.45rem;">
+                        🔗 Tautan Publik Kuesioner:
+                    </label>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <input type="text" 
+                               readonly 
+                               :value="shareUrl" 
+                               style="flex: 1; min-width: 260px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.55rem 0.85rem; font-size: 0.84375rem; color: #0F172A; font-weight: 600; outline: none;" />
+                        <button type="button" 
+                                @click="navigator.clipboard.writeText(shareUrl); copied = true; setTimeout(() => copied = false, 2500)"
+                                style="background: #062E1D; color: #DFB743; font-weight: 800; font-size: 0.8125rem; padding: 0.55rem 1.2rem; border-radius: 8px; border: 1px solid rgba(223,183,67,0.5); cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s ease;">
+                            <span x-text="copied ? '✅ Berhasil Disalin!' : '📋 Salin Tautan'"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- QR CODE & ACTION BUTTONS -->
+                <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1rem; border-top: 1px solid #F1F5F9; padding-top: 1.5rem;">
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.4rem;">
+                        <div style="background: #FFFFFF; border: 1px solid #CBD5E1; padding: 6px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ urlencode(route('forms.show', $form->slug)) }}" 
+                                 alt="QR Code" 
+                                 style="width: 110px; height: 110px; display: block;" />
+                        </div>
+                        <a href="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ urlencode(route('forms.show', $form->slug)) }}" 
+                           target="_blank" 
+                           style="font-size: 0.72rem; font-weight: 750; color: #064E3B; text-decoration: underline;">
+                            Unduh QR Code HD ↗
+                        </a>
+                    </div>
+
+                    <div style="text-align: left; max-width: 320px;">
+                        <div style="font-size: 0.875rem; font-weight: 800; color: #0F172A; margin-bottom: 0.35rem;">
+                            Bisa Dipajang di Layar Kelas
+                        </div>
+                        <div style="font-size: 0.78125rem; color: #64748B; line-height: 1.5; margin-bottom: 0.85rem;">
+                            Peserta dapat langsung memindai (*scan*) QR Code menggunakan kamera ponsel untuk mengisi evaluasi tanpa mengetik tautan.
+                        </div>
+                        <a href="{{ route('forms.show', $form->slug) }}" target="_blank" 
+                           style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0F172A; font-size: 0.78125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                            🌐 Uji Buka Formulir ➔
+                        </a>
+                    </div>
+                </div>
+
             </div>
         @else
 
