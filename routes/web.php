@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CustomFormController;
 
 // Public Portal Landing Routes
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
@@ -13,6 +14,12 @@ Route::get('/catalog/download/{type}/{id}', [LandingController::class, 'download
 Route::get('/catalog/stream/{type}/{id}', [LandingController::class, 'streamDocument'])->name('catalog.stream');
 Route::get('/proposal/download/{id}', [LandingController::class, 'downloadProposal'])->name('proposal.download');
 Route::get('/proposal/stream/{id}', [LandingController::class, 'streamProposal'])->name('proposal.stream');
+
+// Public Custom Forms / Kuesioner Routes (Google Form Style)
+Route::get('/formulir', [CustomFormController::class, 'index'])->name('forms.index');
+Route::get('/f/{slug}', [CustomFormController::class, 'show'])->name('forms.show');
+Route::post('/f/{slug}/submit', [CustomFormController::class, 'submit'])->name('forms.submit');
+Route::get('/f/{slug}/selesai', [CustomFormController::class, 'submitted'])->name('forms.submitted');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -57,4 +64,18 @@ Route::middleware(['web'])->group(function () {
     Route::post('/dashboard/users/store', [DashboardController::class, 'storeUser'])->name('dashboard.users.store');
     Route::post('/dashboard/users/update/{id}', [DashboardController::class, 'updateUser'])->name('dashboard.users.update');
     Route::delete('/dashboard/users/delete/{id}', [DashboardController::class, 'destroyUser'])->name('dashboard.users.destroy');
+
+    // Custom Forms Management Routes (Google Form Internal Litbang)
+    Route::post('/dashboard/forms/store', [CustomFormController::class, 'storeForm'])->name('dashboard.forms.store');
+    Route::get('/dashboard/forms/{id}/builder', [CustomFormController::class, 'builder'])->name('dashboard.forms.builder');
+    Route::put('/dashboard/forms/{id}/update', [CustomFormController::class, 'updateForm'])->name('dashboard.forms.update');
+    Route::delete('/dashboard/forms/{id}/delete', [CustomFormController::class, 'destroyForm'])->name('dashboard.forms.destroy');
+    Route::post('/dashboard/forms/{id}/fields/store', [CustomFormController::class, 'storeField'])->name('dashboard.forms.fields.store');
+    Route::delete('/dashboard/forms/fields/{id}/delete', [CustomFormController::class, 'destroyField'])->name('dashboard.forms.fields.destroy');
+    
+    // Custom Form Responses, Summary, CSV & PDF Exports
+    Route::get('/dashboard/forms/{id}/responses', [CustomFormController::class, 'responses'])->name('dashboard.forms.responses');
+    Route::get('/dashboard/forms/{id}/export/csv', [CustomFormController::class, 'exportCsv'])->name('dashboard.forms.export.csv');
+    Route::get('/dashboard/forms/{id}/export/pdf/summary', [CustomFormController::class, 'exportSummaryPdf'])->name('dashboard.forms.export.pdf.summary');
+    Route::get('/dashboard/forms/{id}/export/pdf/individual/{responseId}', [CustomFormController::class, 'exportIndividualPdf'])->name('dashboard.forms.export.pdf.individual');
 });

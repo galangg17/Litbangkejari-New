@@ -12,6 +12,8 @@ use App\Models\FormField;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\AuditLog;
+use App\Models\CustomForm;
+use App\Models\CustomFormResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -164,13 +166,15 @@ class DashboardController extends Controller
             $curriculumsMap[$c->id] = $c;
         }
 
+        $customForms = CustomForm::withCount('responses')->orderBy('created_at', 'desc')->get();
+
         return view('dashboard.index', compact(
             'setting', 'activeTab', 'kajianList', 'pendingProposals', 
             'pintu1Proposals', 'pintu2Proposals', 'pintu3Proposals', 'publishedVaultProposals', 'categoryBreakdown',
             'newProposals', 'activeStudyProposals', 'policyProposals', 'innovationProposals', 'rejectedProposals', 
             'pendingCurriculums', 'verifiedCurriculums', 'innovations', 'curriculums', 
             'formFields', 'metrics', 'pipelineStages', 'categories', 'users', 'auditLogs',
-            'kajianProposalsMap', 'innovationProposalsMap', 'curriculumsMap'
+            'kajianProposalsMap', 'innovationProposalsMap', 'curriculumsMap', 'customForms'
         ));
     }
 

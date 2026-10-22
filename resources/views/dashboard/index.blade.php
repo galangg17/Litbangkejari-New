@@ -531,6 +531,7 @@
     isNewInnovationModalOpen: false,
     isNewCurriculumModalOpen: false,
     isNewFormFieldModalOpen: false,
+    isNewCustomFormModalOpen: false,
     selectedUserEdit: null,
     selectedProposalDisposition: null,
     selectedSubmissionFullView: null,
@@ -618,6 +619,9 @@
             </div>
 
             <div class="sidebar-section-title" style="margin-top: 0.5rem;">SISTEM & HAK AKSES</div>
+            <div class="menu-item" :class="{ 'active': activeTab === 'custom_forms' }" @click="activeTab = 'custom_forms'">
+                <span>📝 Formulir & Kuesioner (Google Form)</span>
+            </div>
             <div class="menu-item" :class="{ 'active': activeTab === 'users' }" @click="activeTab = 'users'">
                 <span>👥 Kelola User & Hak Akses</span>
             </div>
@@ -1675,6 +1679,115 @@
             </div>
         </div>
 
+        <!-- ============================================================== -->
+        <!-- TAB 7: KELOLA FORMULIR & KUESIONER (GOOGLE FORM STYLE)       -->
+        <!-- ============================================================== -->
+        <div x-show="activeTab === 'custom_forms'" style="display: none;">
+            <div class="content-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="font-size: 1.15rem; font-weight: 900; color: #072718; margin: 0 0 0.25rem;">
+                            📝 Manajemen Formulir & Kuesioner (Google Form Internal)
+                        </h3>
+                        <p style="font-size: 0.78125rem; color: #64748B; margin: 0;">
+                            Buat formulir kegiatan, survei, kuesioner evaluasi, dan rekap respon peserta secara otomatis lengkap dengan export Excel & PDF.
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                        <a href="{{ route('forms.index') }}" target="_blank" style="background: #F1F5F9; border: 1.5px solid #CBD5E1; color: #334155; font-size: 0.78125rem; font-weight: 800; padding: 0.55rem 1rem; border-radius: 10px; text-decoration: none;">
+                            🌐 Halaman Publik Formulir
+                        </a>
+                        <button type="button" @click="isNewCustomFormModalOpen = true" style="background: linear-gradient(135deg, #072718 0%, #16A34A 100%); color: #FFF; font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 10px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.25); display: inline-flex; align-items: center; gap: 0.4rem;">
+                            ➕ Buat Formulir Baru
+                        </button>
+                    </div>
+                </div>
+
+                @if($customForms->isEmpty())
+                    <div style="text-align: center; padding: 3.5rem 1.5rem; background: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: 16px;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📋</div>
+                        <h4 style="font-size: 1.05rem; font-weight: 900; color: #334155; margin: 0 0 0.35rem;">Belum Ada Formulir yang Dibuat</h4>
+                        <p style="font-size: 0.8125rem; color: #64748B; margin: 0 0 1.25rem;">Klik tombol "Buat Formulir Baru" di atas untuk membuat survei atau kuesioner pertama Anda.</p>
+                        <button type="button" @click="isNewCustomFormModalOpen = true" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.8125rem; padding: 0.6rem 1.35rem; border-radius: 10px; border: 1px solid #C59B27; cursor: pointer;">
+                            ➕ Buat Formulir Sekarang
+                        </button>
+                    </div>
+                @else
+                    <div class="light-table-container">
+                        <table class="light-table">
+                            <thead>
+                                <tr>
+                                    <th>Judul Formulir / Kegiatan</th>
+                                    <th>Status Penerimaan</th>
+                                    <th>Total Tanggapan</th>
+                                    <th>Batas Waktu</th>
+                                    <th>Tautan Formulir</th>
+                                    <th style="text-align: right;">Aksi & Rekap Data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($customForms as $cForm)
+                                    <tr>
+                                        <td>
+                                            <div style="font-weight: 900; font-size: 0.875rem; color: #072718;">{{ $cForm->title }}</div>
+                                            <div style="font-size: 0.72rem; color: #64748B; margin-top: 2px;">{{ Str::limit($cForm->description ?? 'Tanpa deskripsi', 80) }}</div>
+                                        </td>
+                                        <td>
+                                            @if($cForm->isOpen())
+                                                <span style="background: #DCFCE7; color: #15803D; font-weight: 900; font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid #86EFAC;">
+                                                    🟢 BUKA
+                                                </span>
+                                            @else
+                                                <span style="background: #FEE2E2; color: #991B1B; font-weight: 900; font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid #FCA5A5;">
+                                                    🔴 DITUTUP
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 0.875rem; font-weight: 900; color: #0284C7; background: #E0F2FE; padding: 0.2rem 0.65rem; border-radius: 6px;">
+                                                👥 {{ $cForm->responses_count }} Respon
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 0.75rem; color: #475569;">
+                                                {{ $cForm->deadline_at ? $cForm->deadline_at->format('d/m/Y H:i') : 'Tanpa batas' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.35rem;">
+                                                <input type="text" readonly value="{{ route('forms.show', $cForm->slug) }}" style="background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.25rem 0.5rem; font-size: 0.7rem; border-radius: 6px; width: 140px; color: #334155;" />
+                                                <button type="button" onclick="navigator.clipboard.writeText('{{ route('forms.show', $cForm->slug) }}'); alert('Tautan form berhasil disalin ke clipboard!');" style="background: #E2E8F0; border: none; font-size: 0.7rem; padding: 0.3rem 0.5rem; border-radius: 6px; cursor: pointer;" title="Salin Tautan">
+                                                    📋 Salin
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: right; white-space: nowrap;">
+                                            <div style="display: inline-flex; gap: 0.35rem;">
+                                                <a href="{{ route('dashboard.forms.responses', $cForm->id) }}" style="background: #16A34A; color: #FFF; font-size: 0.72rem; font-weight: 900; padding: 0.35rem 0.65rem; border-radius: 6px; text-decoration: none;" title="Lihat Rekap Respon & Kesimpulan">
+                                                    📊 Respon ({{ $cForm->responses_count }})
+                                                </a>
+                                                <a href="{{ route('dashboard.forms.builder', $cForm->id) }}" style="background: #0284C7; color: #FFF; font-size: 0.72rem; font-weight: 800; padding: 0.35rem 0.65rem; border-radius: 6px; text-decoration: none;" title="Edit Pertanyaan & Setting">
+                                                    ✏️ Builder
+                                                </a>
+                                                <form action="{{ route('dashboard.forms.destroy', $cForm->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Hapus formulir ini beserta seluruh data respon di dalamnya?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.72rem; padding: 0.35rem 0.55rem; border-radius: 6px; cursor: pointer;">
+                                                        🗑️
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+        </div>
+
     </div>
 
     <!-- MODAL: ADD INNOVATION -->
@@ -1802,6 +1915,50 @@
                 <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
                     <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.5rem 1rem; cursor: pointer;" @click="isNewFormFieldModalOpen = false">Batal</button>
                     <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.78125rem; padding: 0.5rem 1rem; border-radius: 8px; border: none; cursor: pointer;">Simpan Kolom</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: CREATE CUSTOM FORM (GOOGLE FORM BUILDER) -->
+    <div x-show="isNewCustomFormModalOpen" class="modal-overlay" style="display: none;" @click="isNewCustomFormModalOpen = false">
+        <div class="modal-card" style="max-width: 520px; background: #FFF; border: 2px solid #072718; color: #0F172A;" @click.stop>
+            <div style="padding: 1.15rem 1.25rem; border-bottom: 1px solid #E2E8F0; font-weight: 900; color: #072718; display: flex; justify-content: space-between; align-items: center; background: #F8FAFC;">
+                <span>📝 Buat Formulir / Kuesioner Baru</span>
+                <button type="button" @click="isNewCustomFormModalOpen = false" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #64748B;">✕</button>
+            </div>
+            <form action="{{ route('dashboard.forms.store') }}" method="POST" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem;">
+                @csrf
+                <div>
+                    <label style="font-size: 0.75rem; color: #334155; font-weight: 800; display: block; margin-bottom: 0.25rem;">Judul Formulir / Event Kegiatan *</label>
+                    <input type="text" name="title" placeholder="Contoh: Kuesioner Evaluasi FGD Riset 2026" required style="width: 100%; padding: 0.6rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.84375rem;" />
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem; color: #334155; font-weight: 800; display: block; margin-bottom: 0.25rem;">Deskripsi / Instruksi Responden (Opsional)</label>
+                    <textarea name="description" rows="3" placeholder="Jelaskan tujuan formulir, petunjuk singkat, atau ketentuan pengisian..." style="width: 100%; padding: 0.6rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.84375rem;"></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                    <div>
+                        <label style="font-size: 0.75rem; color: #334155; font-weight: 800; display: block; margin-bottom: 0.25rem;">Status Langsung Buka? *</label>
+                        <select name="status" style="width: 100%; padding: 0.55rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-weight: 700; font-size: 0.8125rem;">
+                            <option value="open">🟢 Buka (Aktif)</option>
+                            <option value="closed">🔴 Ditutup (Draft)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: #334155; font-weight: 800; display: block; margin-bottom: 0.25rem;">Batas Waktu (Opsional)</label>
+                        <input type="datetime-local" name="deadline_at" style="width: 100%; padding: 0.5rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.78125rem;" />
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem; color: #334155; font-weight: 800; display: block; margin-bottom: 0.25rem;">Pesan Setelah Submit (Thank You Message)</label>
+                    <input type="text" name="success_message" value="Tanggapan Anda telah berhasil disimpan." style="width: 100%; padding: 0.55rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.8125rem;" />
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; border-top: 1px solid #F1F5F9; padding-top: 0.85rem;">
+                    <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.55rem 1rem; cursor: pointer;" @click="isNewCustomFormModalOpen = false">Batal</button>
+                    <button type="submit" style="background: linear-gradient(135deg, #072718 0%, #16A34A 100%); color: #FFF; font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 8px; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(7,39,24,0.25);">
+                        Lanjut ke Form Builder ➔
+                    </button>
                 </div>
             </form>
         </div>

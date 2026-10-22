@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\InnovationProposal;
 use App\Models\Curriculum;
 use App\Models\FormField;
+use App\Models\CustomForm;
 
 class LandingController extends Controller
 {
@@ -59,7 +60,12 @@ class LandingController extends Controller
             }
         }
 
-        return view('landing.index', compact('setting', 'policyBriefs', 'innovations', 'curriculums', 'formFields', 'trackedTicket', 'categories'));
+        $activeCustomForms = CustomForm::where('status', 'open')
+            ->withCount('responses')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('landing.index', compact('setting', 'policyBriefs', 'innovations', 'curriculums', 'formFields', 'trackedTicket', 'categories', 'activeCustomForms'));
     }
 
     public function submitProposal(Request $request)

@@ -463,6 +463,7 @@
 
                     <nav class="resp-nav-links">
                         <a href="#katalog-hub" style="color: #E8F0E8;">📄 Katalog 3 Pilar</a>
+                        <a href="{{ route('forms.index') }}" style="color: var(--color-accent-gold); font-weight: 800;">📝 Formulir & Kuesioner</a>
                         <a href="#lacak-tiket-hub" style="color: #E8F0E8;">🎟️ Lacak Usulan</a>
                         <a href="#kontak-hub" style="color: #E8F0E8;">📍 Kontak</a>
                         <button @click="isProposalModalOpen = true" style="background: linear-gradient(135deg, var(--color-accent-gold) 0%, var(--color-accent-gold-dark) 100%); color: #04140B; font-weight: 900; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 9999px; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);">
@@ -712,6 +713,68 @@
                     </div>
                 </div>
             </section>
+
+            <!-- 6.5 SECTION AGENDA & FORMULIR KEGIATAN AKTIF (GOOGLE FORM STYLE) -->
+            @if(isset($activeCustomForms) && $activeCustomForms->isNotEmpty())
+            <section style="margin: 3.5rem 0 2rem; background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 24px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.85rem; background: #DCFCE7; border: 1px solid #86EFAC; border-radius: 9999px; font-size: 0.71875rem; font-weight: 900; color: #166534; text-transform: uppercase; margin-bottom: 0.5rem;">
+                            <span>🟢 FORMULIR & SURVEI RESMI DIBUKA</span>
+                        </div>
+                        <h2 style="font-size: 1.65rem; font-weight: 900; color: var(--color-emerald-dark); margin: 0; line-height: 1.25;">
+                            Formulir & Kuesioner Kegiatan yang Siap Diisi
+                        </h2>
+                        <p style="font-size: 0.84375rem; color: var(--color-text-muted); margin-top: 0.35rem; margin-bottom: 0;">
+                            Pilih kuesioner atau formulir di bawah ini untuk berpartisipasi dan memberikan masukan langsung ke tim Litbang.
+                        </p>
+                    </div>
+
+                    <a href="{{ route('forms.index') }}" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-size: 0.8125rem; font-weight: 900; padding: 0.55rem 1.15rem; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                        Lihat Semua Formulir ({{ $activeCustomForms->count() }}) →
+                    </a>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+                    @foreach($activeCustomForms->take(3) as $cForm)
+                        <div style="background: #F8FAFC; border: 1.5px solid #86EFAC; border-radius: 16px; padding: 1.35rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(16,185,129,0.06); position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #10B981, #047857);"></div>
+
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 0.6875rem; font-weight: 900; color: #166534; background: #DCFCE7; padding: 0.2rem 0.5rem; border-radius: 9999px;">
+                                        🟢 TERBUKA
+                                    </span>
+                                    <span style="font-size: 0.71875rem; color: #64748B; font-weight: 700;">
+                                        👥 {{ $cForm->responses_count }} Respon
+                                    </span>
+                                </div>
+
+                                <h3 style="font-size: 1rem; font-weight: 900; color: var(--color-emerald-dark); margin: 0 0 0.4rem; line-height: 1.35;">
+                                    {{ $cForm->title }}
+                                </h3>
+
+                                <p style="font-size: 0.78125rem; color: #475569; margin: 0; line-height: 1.5;">
+                                    {{ Str::limit($cForm->description ?? 'Formulir resmi Litbang Gajah Mada Adhyaksa.', 95) }}
+                                </p>
+                            </div>
+
+                            <div>
+                                @if($cForm->deadline_at)
+                                    <div style="font-size: 0.6875rem; color: #B45309; margin-bottom: 0.75rem; font-weight: 700;">
+                                        ⏳ Batas: {{ $cForm->deadline_at->format('d M Y, H:i') }} WIB
+                                    </div>
+                                @endif
+
+                                <a href="{{ route('forms.show', $cForm->slug) }}" style="display: block; text-align: center; background: linear-gradient(135deg, var(--color-emerald-dark) 0%, #16A34A 100%); color: #FFF; font-weight: 900; font-size: 0.8125rem; padding: 0.65rem 1rem; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 10px rgba(7,39,24,0.2);">
+                                    📝 Isi Formulir Sekarang
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </section>
+            @endif
 
             <!-- 7. 3-PILLAR CATALOG HUB -->
             <section id="katalog-hub" style="margin: 4rem 0;">
