@@ -11,6 +11,7 @@ class CustomFormField extends Model
 
     protected $fillable = [
         'custom_form_id',
+        'category',
         'field_label',
         'field_name',
         'field_type',

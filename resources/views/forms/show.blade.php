@@ -213,9 +213,16 @@
                     <div class="question-card">
                         
                         <!-- Header Question with Counter Badge -->
-                        <div style="display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 0.75rem;">
+                        <div style="display: flex; align-items: flex-start; gap: 0.85rem; margin-bottom: 0.85rem;">
                             <div class="question-badge">{{ $index + 1 }}</div>
                             <div style="flex: 1;">
+                                @if(!empty($field->category))
+                                    <div style="font-size: 0.72rem; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; display: inline-flex; align-items: center; gap: 0.3rem; background: #F0FDF4; border: 1px solid #BBF7D0; padding: 0.15rem 0.6rem; border-radius: 6px;">
+                                        <span>📁</span>
+                                        <span>{{ $field->category }}</span>
+                                    </div>
+                                @endif
+
                                 <label style="display: block; font-size: 1.05rem; font-weight: 900; color: #072718; line-height: 1.35;">
                                     {{ $field->field_label }}
                                     @if($field->is_required)
@@ -224,8 +231,8 @@
                                 </label>
 
                                 @if($field->help_text)
-                                    <div style="font-size: 0.8125rem; color: #64748B; margin-top: 0.35rem; line-height: 1.5;">
-                                        💡 {{ $field->help_text }}
+                                    <div style="font-size: 0.84375rem; color: #475569; margin-top: 0.35rem; line-height: 1.5; font-weight: 500;">
+                                        {{ $field->help_text }}
                                     </div>
                                 @endif
                             </div>

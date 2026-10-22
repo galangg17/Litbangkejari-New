@@ -367,6 +367,12 @@
                                             </div>
                                             
                                             <div>
+                                                @if(!empty($field->category))
+                                                    <div style="font-size: 0.6875rem; font-weight: 800; color: #047857; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem;">
+                                                        📁 {{ $field->category }}
+                                                    </div>
+                                                @endif
+
                                                 <!-- QUESTION LABEL -->
                                                 <h4 style="font-size: 0.96875rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.45;">
                                                     {{ $field->field_label }}

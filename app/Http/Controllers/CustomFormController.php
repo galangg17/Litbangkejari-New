@@ -253,6 +253,7 @@ class CustomFormController extends Controller
         $form = CustomForm::findOrFail($formId);
 
         $validated = $request->validate([
+            'category' => 'nullable|string|max:255',
             'field_label' => 'required|string|max:500',
             'field_type' => 'required|in:text,textarea,select,radio,checkbox,file,date,number',
             'options_raw' => 'nullable|string',
@@ -287,6 +288,7 @@ class CustomFormController extends Controller
 
         CustomFormField::create([
             'custom_form_id' => $form->id,
+            'category' => $validated['category'] ?? null,
             'field_label' => $validated['field_label'],
             'field_name' => $fieldName,
             'field_type' => $validated['field_type'],
@@ -310,6 +312,7 @@ class CustomFormController extends Controller
         $field = CustomFormField::findOrFail($fieldId);
 
         $validated = $request->validate([
+            'category' => 'nullable|string|max:255',
             'field_label' => 'required|string|max:500',
             'field_type' => 'required|in:text,textarea,select,radio,checkbox,file,date,number',
             'options_raw' => 'nullable|string',
@@ -330,6 +333,7 @@ class CustomFormController extends Controller
         }
 
         $field->update([
+            'category' => $validated['category'] ?? null,
             'field_label' => $validated['field_label'],
             'field_type' => $validated['field_type'],
             'options' => $options,
