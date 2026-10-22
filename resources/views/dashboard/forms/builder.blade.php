@@ -183,21 +183,24 @@
             gap: 0.45rem;
         }
         .studio-modal-backdrop {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            z-index: 999999 !important;
-            background: rgba(15, 23, 42, 0.65) !important;
-            backdrop-filter: blur(6px) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 1.5rem !important;
-            box-sizing: border-box !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 999999;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+        .studio-modal-backdrop[style*="display: none"] {
+            display: none !important;
         }
         .studio-modal-card {
             background: #FFFFFF !important;
@@ -703,6 +706,7 @@
     <!-- MODAL EDIT PERTANYAAN -->
     <div x-show="isEditModalOpen" 
          x-cloak
+         style="display: none;"
          class="studio-modal-backdrop"
          @keydown.escape.window="isEditModalOpen = false"
          @click="isEditModalOpen = false">
@@ -710,14 +714,14 @@
         <div class="studio-modal-card" 
              @click.stop>
             
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F1F5F9; padding-bottom: 0.75rem; margin-bottom: 1.15rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #F1F5F9; padding-bottom: 0.75rem; margin-bottom: 1.15rem; position: sticky; top: -1.75rem; background: #FFFFFF; z-index: 10; margin-top: -0.5rem; padding-top: 0.5rem;">
                 <div>
                     <h3 style="font-size: 1.1rem; font-weight: 800; color: #0F172A; margin: 0;">
                         Edit Butir Pertanyaan
                     </h3>
                     <div style="font-size: 0.75rem; color: #64748B;">Sesuaikan kategori, judul, dan detail pertanyaan</div>
                 </div>
-                <button type="button" @click="isEditModalOpen = false" style="background: #F1F5F9; border: none; width: 28px; height: 28px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; color: #64748B;">✕</button>
+                <button type="button" @click.stop="isEditModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; width: 32px; height: 32px; border-radius: 8px; font-size: 1rem; cursor: pointer; color: #475569; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease;">✕</button>
             </div>
 
             <div x-show="editingField">
@@ -788,14 +792,14 @@
                         </div>
                     </div>
 
-                    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #F1F5F9; padding-top: 0.85rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1.5px solid #F1F5F9; padding-top: 0.85rem; position: sticky; bottom: -1.75rem; background: #FFFFFF; z-index: 10; margin-bottom: -1rem; padding-bottom: 0.85rem;">
                         <label style="display: flex; align-items: center; gap: 0.45rem; font-size: 0.8125rem; font-weight: 700; color: #0F172A; cursor: pointer;">
                             <input type="checkbox" name="is_required" value="1" x-model="editingField.is_required" style="width: 16px; height: 16px; accent-color: #0F172A; cursor: pointer;" />
                             <span>Wajib Diisi (Required *)</span>
                         </label>
 
                         <div style="display: flex; gap: 0.5rem;">
-                            <button type="button" @click="isEditModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; font-size: 0.8125rem; padding: 0.55rem 1rem; border-radius: 6px; cursor: pointer;">
+                            <button type="button" @click.stop="isEditModalOpen = false" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; font-size: 0.8125rem; padding: 0.55rem 1rem; border-radius: 6px; cursor: pointer;">
                                 Batal
                             </button>
                             <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 800; font-size: 0.8125rem; padding: 0.55rem 1.25rem; border-radius: 6px; border: 1px solid #C59B27; cursor: pointer;">
