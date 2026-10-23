@@ -130,7 +130,7 @@ class CustomFormController extends Controller
             }
         }
 
-        CustomFormResponse::create([
+        $newResponse = CustomFormResponse::create([
             'custom_form_id' => $form->id,
             'respondent_name' => $respondentName ?? 'Anonim',
             'respondent_identifier' => $respondentId,
@@ -139,16 +139,18 @@ class CustomFormController extends Controller
             'user_agent' => $request->userAgent(),
         ]);
 
-        return redirect()->route('forms.submitted', $form->slug);
+        return redirect()->route('forms.submitted', $form->slug)->with('submitted_response_id', $newResponse->id);
     }
 
     /**
-     * Halaman sukses submit (Thank You Page ala Google Form)
+     * Halaman sukses submit (Thank You Page / Submission Receipt)
      */
-    public function submitted($slug)
+    public function submitted(Request $request, $slug)
     {
         $form = CustomForm::where('slug', $slug)->firstOrFail();
-        return view('forms.submitted', compact('form'));
+        $responseId = session('submitted_response_id');
+        $response = $responseId ? CustomFormResponse::find($responseId) : null;
+        return view('forms.submitted', compact('form', 'response'));
     }
 
     // ==========================================
@@ -418,6 +420,66 @@ class CustomFormController extends Controller
             ->with('toast', 'Formulir berhasil dihapus.');
     }
 
+    /**
+     * Kloning / Duplikat Seluruh Formulir beserta seluruh butir pertanyaan & opsinya
+     */
+    public function cloneForm($id)
+    {
+        $form = CustomForm::with(['fields' => function($q) {
+            $q->orderBy('order_index', 'asc');
+        }])->findOrFail($id);
+
+        $newTitle = '[Salinan] ' . $form->title;
+        $newSlug = Str::slug($newTitle) . '-' . time();
+
+        $clonedForm = CustomForm::create([
+            'title' => $newTitle,
+            'slug' => $newSlug,
+            'description' => $form->description,
+            'status' => 'open',
+            'deadline_at' => $form->deadline_at,
+            'success_message' => $form->success_message,
+            'allow_multiple_responses' => $form->allow_multiple_responses,
+        ]);
+
+        foreach ($form->fields as $field) {
+            CustomFormField::create([
+                'custom_form_id' => $clonedForm->id,
+                'category' => $field->category,
+                'field_name' => Str::slug($field->field_label, '_') . '_' . time() . '_' . rand(10, 99),
+                'field_label' => $field->field_label,
+                'field_type' => $field->field_type,
+                'options' => $field->options,
+                'has_reason' => $field->has_reason,
+                'reason_label' => $field->reason_label,
+                'reason_trigger' => $field->reason_trigger,
+                'help_text' => $field->help_text,
+                'is_required' => $field->is_required,
+                'order_index' => $field->order_index,
+            ]);
+        }
+
+        return redirect()->route('dashboard.forms.builder', $clonedForm->id)
+            ->with('toast', 'Formulir berhasil diduplikasi secara lengkap beserta seluruh pertanyaannya!');
+    }
+
+    /**
+     * Reorder Fields via Drag and Drop
+     */
+    public function reorderFields(Request $request, $id)
+    {
+        $orderedIds = $request->input('ordered_ids', []);
+        if (is_array($orderedIds)) {
+            foreach ($orderedIds as $index => $fieldId) {
+                CustomFormField::where('id', $fieldId)
+                    ->where('custom_form_id', $id)
+                    ->update(['order_index' => $index + 1]);
+            }
+        }
+
+        return response()->json(['success' => true, 'message' => 'Urutan pertanyaan berhasil disimpan.']);
+    }
+
     // ==========================================
     // REKAP & HASIL RESPON (RINGKASAN, INDIVIDUAL, EXCEL, PDF)
     // ==========================================
@@ -504,7 +566,58 @@ class CustomFormController extends Controller
             }
         }
 
-        return view('dashboard.forms.responses', compact('form', 'responses', 'currentResponse', 'currentIndex', 'summary'));
+        // Ekstrak daftar unik Kelas responden (misal: Kelas A, Kelas B, Kelompok I, dsb.)
+        $kelasList = [];
+        foreach ($responses as $r) {
+            $respKelas = '';
+            if (!empty($r->answers) && is_array($r->answers)) {
+                foreach ($r->answers as $ans) {
+                    $lbl = strtolower($ans['label'] ?? '');
+                    if (str_contains($lbl, 'kelas') || str_contains($lbl, 'kelompok')) {
+                        $val = $ans['value'] ?? null;
+                        if ($val && is_string($val)) {
+                            $respKelas = trim($val);
+                            if (!in_array($respKelas, $kelasList)) {
+                                $kelasList[] = $respKelas;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            $r->detected_kelas = $respKelas;
+        }
+        sort($kelasList);
+
+        // Hitung Executive Highlights (Temuan Kunci Otomatis untuk pimpinan)
+        $topFinding = null;
+        $maxVote = 0;
+        $totalReasonsCount = 0;
+        foreach ($summary as $fn => $item) {
+            if (!empty($item['counts'])) {
+                foreach ($item['counts'] as $opt => $cnt) {
+                    if ($cnt > $maxVote) {
+                        $maxVote = $cnt;
+                        $topFinding = [
+                            'question' => $item['label'],
+                            'option' => ltrim(trim($opt), "• -*\t "),
+                            'count' => $cnt,
+                            'percent' => $responses->count() > 0 ? round(($cnt / $responses->count()) * 100, 1) : 0,
+                        ];
+                    }
+                }
+            }
+            if (!empty($item['reasons'])) {
+                $totalReasonsCount += count($item['reasons']);
+            }
+        }
+        $highlights = [
+            'topFinding' => $topFinding,
+            'totalReasons' => $totalReasonsCount,
+            'totalResponses' => $responses->count(),
+        ];
+
+        return view('dashboard.forms.responses', compact('form', 'responses', 'currentResponse', 'currentIndex', 'summary', 'kelasList', 'highlights'));
     }
 
     /**

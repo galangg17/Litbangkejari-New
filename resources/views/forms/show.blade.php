@@ -275,7 +275,122 @@
     }
 </style>
 
-<div style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif; padding-bottom: 5rem;">
+<div style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif; padding-bottom: 5rem;"
+     x-data="{
+         totalQuestions: {{ $form->fields->count() }},
+         answeredCount: 0,
+         draftRestored: false,
+         storageKey: 'gmadhyaksa_draft_{{ $form->slug }}',
+         init() {
+             this.loadDraft();
+             this.$nextTick(() => { this.calculateProgress(); });
+         },
+         calculateProgress() {
+             let count = 0;
+             const form = document.getElementById('publicSubmissionForm');
+             if (!form) return;
+             @foreach($form->fields as $field)
+                 @php $fn = $field->field_name; $type = $field->field_type; @endphp
+                 if (this.isFieldFilled('{{ $fn }}', '{{ $type }}')) {
+                     count++;
+                 }
+             @endforeach
+             this.answeredCount = count;
+         },
+         isFieldFilled(name, type) {
+             const form = document.getElementById('publicSubmissionForm');
+             if (!form) return false;
+             if (type === 'radio') {
+                 return !!form.querySelector('input[name=\'fields[' + name + ']\']:checked');
+             } else if (type === 'checkbox') {
+                 const checked = form.querySelectorAll('input[name=\'fields[' + name + '][]\']:checked');
+                 return checked.length > 0;
+             } else if (type === 'file') {
+                 const fileInput = form.querySelector('input[name=\'file_' + name + '\']');
+                 return fileInput && fileInput.files && fileInput.files.length > 0;
+             } else {
+                 const input = form.querySelector('[name=\'fields[' + name + ']\']');
+                 return input && input.value && input.value.trim().length > 0;
+             }
+         },
+         onInputChanged() {
+             this.calculateProgress();
+             this.saveDraft();
+         },
+         saveDraft() {
+             const form = document.getElementById('publicSubmissionForm');
+             if (!form) return;
+             const draft = { fields: {}, reasons: {} };
+             const inputs = form.querySelectorAll('[name^=\'fields[\']');
+             inputs.forEach(el => {
+                 const name = el.name;
+                 if (el.type === 'radio') {
+                     if (el.checked) draft.fields[name] = el.value;
+                 } else if (el.type === 'checkbox') {
+                     if (!draft.fields[name]) draft.fields[name] = [];
+                     if (el.checked) draft.fields[name].push(el.value);
+                 } else if (el.type !== 'file') {
+                     draft.fields[name] = el.value;
+                 }
+             });
+             const reasons = form.querySelectorAll('[name^=\'reasons[\']');
+             reasons.forEach(el => {
+                 if (el.value) draft.reasons[el.name] = el.value;
+             });
+             try {
+                 localStorage.setItem(this.storageKey, JSON.stringify(draft));
+             } catch(e) {}
+         },
+         loadDraft() {
+             try {
+                 const saved = localStorage.getItem(this.storageKey);
+                 if (!saved) return;
+                 const draft = JSON.parse(saved);
+                 const form = document.getElementById('publicSubmissionForm');
+                 if (!form) return;
+                 let restored = false;
+                 if (draft.fields) {
+                     for (const [name, val] of Object.entries(draft.fields)) {
+                         if (Array.isArray(val)) {
+                             val.forEach(v => {
+                                 const cb = form.querySelector('input[name=\'' + name + '\'][value=\'' + CSS.escape(v) + '\']');
+                                 if (cb) { cb.checked = true; cb.dispatchEvent(new Event('change')); restored = true; }
+                             });
+                         } else {
+                             const el = form.querySelector('[name=\'' + name + '\']');
+                             if (el) {
+                                 if (el.type === 'radio') {
+                                     const rad = form.querySelector('input[name=\'' + name + '\'][value=\'' + CSS.escape(val) + '\']');
+                                     if (rad) { rad.checked = true; rad.dispatchEvent(new Event('change')); restored = true; }
+                                 } else {
+                                     if (!el.value && val) { el.value = val; el.dispatchEvent(new Event('input')); restored = true; }
+                                 }
+                             }
+                         }
+                     }
+                 }
+                 if (draft.reasons) {
+                     for (const [name, val] of Object.entries(draft.reasons)) {
+                         const el = form.querySelector('[name=\'' + name + '\']');
+                         if (el && !el.value && val) {
+                             el.value = val;
+                             el.dispatchEvent(new Event('input'));
+                             restored = true;
+                         }
+                     }
+                 }
+                 if (restored) {
+                     this.draftRestored = true;
+                 }
+             } catch(e) {}
+         },
+         clearDraft() {
+             try {
+                 localStorage.removeItem(this.storageKey);
+             } catch(e) {}
+             this.draftRestored = false;
+         }
+     }">
 
     <!-- TOP HEADER -->
     <header style="background: #062E1D; border-bottom: 2px solid #C59B27; padding: 0.85rem 1.5rem; color: #FFF; position: sticky; top: 0; z-index: 50; box-shadow: 0 4px 18px rgba(0,0,0,0.12);">
@@ -295,8 +410,40 @@
         </div>
     </header>
 
+    @if($form->isOpen())
+        <!-- SMART STICKY PROGRESS COUNTER BAR -->
+        <div style="position: sticky; top: 58px; z-index: 45; background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #E2E8F0; padding: 0.5rem 1.25rem;">
+            <div style="max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.78125rem; font-weight: 750; color: #062E1D;">
+                    <span>📝 Progres Isian:</span>
+                    <span style="color: #064E3B; font-weight: 800;" x-text="'Terisi ' + answeredCount + ' dari ' + totalQuestions + ' butir (' + Math.round((answeredCount / totalQuestions) * 100) + '%)'"></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="font-size: 0.7rem; color: #64748B; font-weight: 600;" x-show="answeredCount > 0" x-cloak>💾 Tersimpan Otomatis</span>
+                    <div style="width: 130px; height: 8px; background: #E2E8F0; border-radius: 9999px; overflow: hidden;">
+                        <div style="height: 100%; background: #064E3B; border-radius: 9999px; transition: width 0.3s ease;" :style="'width: ' + Math.min(100, Math.round((answeredCount / totalQuestions) * 100)) + '%'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- MAIN FORM BODY (1-SISI CENTRALLY FOCUSED) -->
     <main class="form-single-container">
+
+        <!-- DRAFT RESTORED NOTIFICATION BANNER -->
+        <div x-show="draftRestored" x-cloak style="background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 12px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.8125rem; color: #166534; box-shadow: 0 2px 8px rgba(16,185,129,0.08);">
+            <div style="display: flex; align-items: center; gap: 0.45rem;">
+                <span style="font-size: 1.1rem;">💾</span>
+                <span><strong>Draft Isian Dipulihkan:</strong> Jawaban yang belum Anda kirim sebelumnya berhasil dipulihkan otomatis dari penyimpanan browser.</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <button type="button" @click="clearDraft(); window.location.reload();" style="background: #DCFCE7; border: 1px solid #86EFAC; color: #15803D; font-size: 0.72rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 6px; cursor: pointer;">
+                    Reset Draft
+                </button>
+                <button type="button" @click="draftRestored = false" style="background: transparent; border: none; font-size: 0.95rem; cursor: pointer; color: #166534;">✕</button>
+            </div>
+        </div>
 
         @if(!$form->isOpen())
             <!-- CLOSED NOTICE -->
@@ -377,8 +524,8 @@
                 </div>
             @endif
 
-            <!-- MAIN SUBMISSION FORM (ALUR TUNGGAL VERTIKAL) -->
-            <form action="{{ route('forms.submit', $form->slug) }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- MAIN SUBMISSION FORM (ALUR TUNGGAL VERTIKAL DENGAN AUTOSAVE & PROGRES) -->
+            <form id="publicSubmissionForm" action="{{ route('forms.submit', $form->slug) }}" method="POST" enctype="multipart/form-data" @input="onInputChanged()" @change="onInputChanged()" @submit="clearDraft()" style="display: flex; flex-direction: column; gap: 1.25rem;">
                 @csrf
 
                 @foreach($form->fields as $index => $field)

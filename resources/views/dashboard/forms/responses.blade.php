@@ -150,7 +150,9 @@
      x-data="{ 
          responseTab: 'individual',
          searchQuery: '',
-         respondentSearch: ''
+         respondentSearch: '',
+         selectedKelas: 'all',
+         reasonFilter: ''
      }">
 
     <!-- TOP EXECUTIVE HEADER -->
@@ -244,31 +246,46 @@
                     </div>
                 </div>
 
-                <!-- 3-WAY TAB CAPSULE -->
-                <div class="resp-tab-capsule">
-                    <button type="button" 
-                            @click="responseTab = 'individual'" 
-                            class="resp-tab-btn" 
-                            :class="{ 'active': responseTab === 'individual' }">
-                        <span>👤</span>
-                        <span>Perorangan</span>
-                    </button>
+                <!-- CONTROLS & 3-WAY TAB CAPSULE -->
+                <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                    @if(!empty($kelasList) && count($kelasList) > 0)
+                        <div style="display: flex; align-items: center; gap: 0.45rem; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 0.3rem 0.65rem; border-radius: 10px;">
+                            <span style="font-size: 0.75rem; font-weight: 750; color: #475569;">🏫 Filter Kelas:</span>
+                            <select x-model="selectedKelas" 
+                                    style="background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; padding: 0.3rem 0.6rem; font-size: 0.78125rem; font-weight: 700; color: #062E1D; outline: none; cursor: pointer;">
+                                <option value="all">Semua Kelas ({{ $responses->count() }})</option>
+                                @foreach($kelasList as $k)
+                                    <option value="{{ $k }}">{{ $k }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
-                    <button type="button" 
-                            @click="responseTab = 'table'" 
-                            class="resp-tab-btn" 
-                            :class="{ 'active': responseTab === 'table' }">
-                        <span>📋</span>
-                        <span>Tabel Respon</span>
-                    </button>
+                    <div class="resp-tab-capsule">
+                        <button type="button" 
+                                @click="responseTab = 'individual'" 
+                                class="resp-tab-btn" 
+                                :class="{ 'active': responseTab === 'individual' }">
+                            <span>👤</span>
+                            <span>Perorangan</span>
+                        </button>
 
-                    <button type="button" 
-                            @click="responseTab = 'summary'" 
-                            class="resp-tab-btn" 
-                            :class="{ 'active': responseTab === 'summary' }">
-                        <span>📊</span>
-                        <span>Ringkasan Statistik</span>
-                    </button>
+                        <button type="button" 
+                                @click="responseTab = 'table'" 
+                                class="resp-tab-btn" 
+                                :class="{ 'active': responseTab === 'table' }">
+                            <span>📋</span>
+                            <span>Tabel Respon</span>
+                        </button>
+
+                        <button type="button" 
+                                @click="responseTab = 'summary'" 
+                                class="resp-tab-btn" 
+                                :class="{ 'active': responseTab === 'summary' }">
+                            <span>📊</span>
+                            <span>Ringkasan Statistik</span>
+                        </button>
+                    </div>
                 </div>
 
             </div>
@@ -368,7 +385,7 @@
                                 @endphp
                                 <a href="{{ route('dashboard.forms.responses', ['id' => $form->id, 'index' => $rIdx]) }}" 
                                    class="respondent-nav-item {{ $isCur ? 'active-item' : '' }}"
-                                   x-show="!respondentSearch || '{{ strtolower(addslashes($rName)) }}'.includes(respondentSearch.toLowerCase())">
+                                   x-show="(!respondentSearch || '{{ strtolower(addslashes($rName)) }}'.includes(respondentSearch.toLowerCase())) && (selectedKelas === 'all' || '{{ addslashes($rItem->detected_kelas ?? '') }}' === selectedKelas)">
                                     <div style="display: flex; align-items: center; gap: 0.65rem; overflow: hidden;">
                                         <div style="width: 28px; height: 28px; border-radius: 7px; background: {{ $isCur ? '#062E1D' : '#F1F5F9' }}; color: {{ $isCur ? '#DFB743' : '#475569' }}; font-weight: 800; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                             {{ $rIdx + 1 }}
@@ -377,8 +394,13 @@
                                             <div style="font-size: 0.8125rem; font-weight: 750; color: {{ $isCur ? '#062E1D' : '#0F172A' }}; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                 {{ $rName }}
                                             </div>
-                                            <div style="font-size: 0.6875rem; color: #64748B;">
-                                                {{ $rItem->created_at->format('d M, H:i') }}
+                                            <div style="font-size: 0.6875rem; color: #64748B; display: flex; align-items: center; gap: 0.35rem;">
+                                                <span>{{ $rItem->created_at->format('d M, H:i') }}</span>
+                                                @if(!empty($rItem->detected_kelas))
+                                                    <span style="font-size: 0.625rem; font-weight: 750; color: #064E3B; background: #F0FDF4; border: 1px solid #BBF7D0; padding: 0.05rem 0.3rem; border-radius: 4px;">
+                                                        {{ $rItem->detected_kelas }}
+                                                    </span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -576,7 +598,8 @@
                             </thead>
                             <tbody>
                                 @foreach($responses as $idx => $resp)
-                                    <tr style="border-bottom: 1px solid #E2E8F0; background: {{ $idx % 2 === 0 ? '#FFFFFF' : '#F8FAFC' }};">
+                                    <tr x-show="(selectedKelas === 'all' || '{{ addslashes($resp->detected_kelas ?? '') }}' === selectedKelas) && (!searchQuery || '{{ strtolower(addslashes(($resp->respondent_name ?? '') . ' ' . json_encode($resp->answers))) }}'.includes(searchQuery.toLowerCase()))"
+                                        style="border-bottom: 1px solid #E2E8F0; background: {{ $idx % 2 === 0 ? '#FFFFFF' : '#F8FAFC' }};">
                                         <td style="padding: 0.65rem 0.85rem; font-weight: 800; color: #64748B; border-right: 1px solid #E2E8F0; text-align: center;">
                                             {{ $idx + 1 }}
                                         </td>
@@ -584,7 +607,12 @@
                                             {{ $resp->created_at->format('d/m/Y H:i') }}
                                         </td>
                                         <td style="padding: 0.65rem 0.85rem; border-right: 1px solid #E2E8F0; font-weight: 750; color: #062E1D; white-space: nowrap;">
-                                            {{ $resp->respondent_name ?? 'Anonim' }}
+                                            <div>{{ $resp->respondent_name ?? 'Anonim' }}</div>
+                                            @if(!empty($resp->detected_kelas))
+                                                <div style="font-size: 0.65rem; color: #064E3B; font-weight: 700; margin-top: 0.15rem;">
+                                                    🏫 {{ $resp->detected_kelas }}
+                                                </div>
+                                            @endif
                                         </td>
                                         @foreach($form->fields as $fld)
                                             @php
@@ -631,6 +659,76 @@
             <!-- TAB 3: RINGKASAN & STATISTIK AGREGAT                           -->
             <!-- ============================================================== -->
             <div x-show="responseTab === 'summary'" style="display: none;">
+                <!-- EXECUTIVE HIGHLIGHTS / KEY FINDINGS BOX (KOTAK KESIMPULAN OTOMATIS) -->
+                <div style="background: linear-gradient(135deg, #062E1D 0%, #031B11 100%); border: 2px solid #C59B27; border-radius: 16px; padding: 1.5rem 1.75rem; color: #FFFFFF; margin-bottom: 1.5rem; box-shadow: 0 6px 20px rgba(6, 46, 29, 0.25);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.15rem; border-bottom: 1px solid rgba(223, 183, 67, 0.3); padding-bottom: 0.75rem;">
+                        <div style="display: flex; align-items: center; gap: 0.6rem;">
+                            <span style="font-size: 1.4rem;">🎯</span>
+                            <div>
+                                <h3 style="font-size: 1.05rem; font-weight: 800; color: #FFFFFF; margin: 0; letter-spacing: -0.01em;">
+                                    Sorotan Analisis Eksekutif (Executive Highlights / Key Findings)
+                                </h3>
+                                <p style="font-size: 0.75rem; color: #DFB743; margin: 0.15rem 0 0; font-weight: 600;">
+                                    Sintesis otomatis evaluasi untuk laporan pimpinan (Kaban Diklat / Kapuslitbang)
+                                </p>
+                            </div>
+                        </div>
+                        <span style="background: rgba(223, 183, 67, 0.15); border: 1px solid rgba(223, 183, 67, 0.4); color: #DFB743; font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                            ⚡ Analisis Instan
+                        </span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+                        <!-- Card 1: Top Finding / Most Selected -->
+                        <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 1rem 1.15rem;">
+                            <div style="font-size: 0.7rem; font-weight: 750; color: #DFB743; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">
+                                🥇 Mata Kuliah / Usulan Terbanyak
+                            </div>
+                            @if(!empty($highlights['topFinding']))
+                                <div style="font-size: 1.05rem; font-weight: 800; color: #FFFFFF; line-height: 1.35; margin-bottom: 0.25rem;">
+                                    {{ $highlights['topFinding']['option'] }}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #A7F3D0; font-weight: 700;">
+                                    {{ $highlights['topFinding']['count'] }} Responden ({{ $highlights['topFinding']['percent'] }}%)
+                                </div>
+                                <div style="font-size: 0.6875rem; color: #CBD5E1; margin-top: 0.35rem; line-height: 1.3;">
+                                    Butir: {{ Str::limit($highlights['topFinding']['question'], 45) }}
+                                </div>
+                            @else
+                                <div style="font-size: 0.85rem; color: #CBD5E1;">Belum cukup data agregat</div>
+                            @endif
+                        </div>
+
+                        <!-- Card 2: Total Qualitative Reasons -->
+                        <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 1rem 1.15rem;">
+                            <div style="font-size: 0.7rem; font-weight: 750; color: #DFB743; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">
+                                💬 Aspirasi & Catatan Kualitatif
+                            </div>
+                            <div style="font-size: 1.45rem; font-weight: 800; color: #FFFFFF; line-height: 1.2;">
+                                {{ $highlights['totalReasons'] ?? 0 }}
+                                <span style="font-size: 0.8rem; color: #CBD5E1; font-weight: 600;">Catatan Alasan</span>
+                            </div>
+                            <div style="font-size: 0.72rem; color: #A7F3D0; margin-top: 0.35rem;">
+                                Masukan kritis tersimpan lengkap untuk evaluasi kurikulum & sarana.
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Sample Rate / Coverage -->
+                        <div style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 1rem 1.15rem;">
+                            <div style="font-size: 0.7rem; font-weight: 750; color: #DFB743; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem;">
+                                📈 Cakupan Partisipasi Siswa
+                            </div>
+                            <div style="font-size: 1.45rem; font-weight: 800; color: #FFFFFF; line-height: 1.2;">
+                                {{ $responses->count() }}
+                                <span style="font-size: 0.8rem; color: #CBD5E1; font-weight: 600;">Peserta / Responden</span>
+                            </div>
+                            <div style="font-size: 0.72rem; color: #A7F3D0; margin-top: 0.35rem;">
+                                {{ count($kelasList) > 0 ? count($kelasList) . ' Kelompok Belajar / Kelas terdata' : 'Representasi evaluasi menyeluruh' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                     @foreach($summary as $fn => $data)
                         <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 14px; padding: 1.35rem 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
@@ -656,8 +754,8 @@
                                     @endphp
                                     @foreach($data['counts'] as $optName => $count)
                                         @php
-                                            $cleanOptName = ltrim(trim($optName), "• -*\t ");
-                                            $percent = $totalVotes > 0 ? round(($count / $totalVotes) * 100, 1) : 0;
+                                             $cleanOptName = ltrim(trim($optName), "• -*\t ");
+                                             $percent = $totalVotes > 0 ? round(($count / $totalVotes) * 100, 1) : 0;
                                         @endphp
                                         <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 9px; padding: 0.65rem 0.85rem;">
                                             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem; font-weight: 750; color: #1E293B; margin-bottom: 0.35rem;">
@@ -676,16 +774,26 @@
                                     @endforeach
                                 </div>
 
-                                <!-- ACCORDION ALASAN & URAIAN RESPOSEN -->
+                                <!-- ACCORDION ALASAN & URAIAN RESPONDEN WITH INSTANT SEARCH -->
                                 @if(!empty($data['reasons']))
                                     <div style="margin-top: 1rem; border-top: 1px dashed #CBD5E1; padding-top: 0.85rem;">
-                                        <div style="font-size: 0.78125rem; font-weight: 750; color: #064E3B; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
-                                            <span>💬</span>
-                                            <span>Rincian Alasan Responden ({{ count($data['reasons']) }} Catatan):</span>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; flex-wrap: wrap; gap: 0.5rem;">
+                                            <div style="font-size: 0.78125rem; font-weight: 750; color: #064E3B; display: flex; align-items: center; gap: 0.35rem;">
+                                                <span>💬</span>
+                                                <span>Rincian Alasan Responden ({{ count($data['reasons']) }} Catatan):</span>
+                                            </div>
+                                            <!-- PENCARIAN CEPAT TEKS ALASAN (SEARCH IN REASONS) -->
+                                            <div>
+                                                <input type="text" 
+                                                       x-model="reasonFilter" 
+                                                       placeholder="🔍 Saring alasan (misal: waktu, dosen, praktik)..." 
+                                                       style="background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 6px; padding: 0.3rem 0.6rem; font-size: 0.75rem; width: 230px; outline: none;" />
+                                            </div>
                                         </div>
-                                        <div style="display: flex; flex-direction: column; gap: 0.45rem; max-height: 250px; overflow-y: auto;">
+                                        <div style="display: flex; flex-direction: column; gap: 0.45rem; max-height: 280px; overflow-y: auto;">
                                             @foreach($data['reasons'] as $rItem)
-                                                <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 3px solid #064E3B; border-radius: 7px; padding: 0.6rem 0.85rem; font-size: 0.78125rem;">
+                                                <div x-show="!reasonFilter || '{{ strtolower(addslashes($rItem['reason'] . ' ' . $rItem['respondent'] . ' ' . $rItem['selected'])) }}'.includes(reasonFilter.toLowerCase())"
+                                                     style="background: #F8FAFC; border: 1px solid #E2E8F0; border-left: 3px solid #064E3B; border-radius: 7px; padding: 0.6rem 0.85rem; font-size: 0.78125rem;">
                                                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.2rem;">
                                                         <span style="font-weight: 750; color: #062E1D;">
                                                             {{ $rItem['respondent'] }}

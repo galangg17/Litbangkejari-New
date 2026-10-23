@@ -15,7 +15,30 @@
          reasonTrigger: 'all',
          isEditModalOpen: false,
          searchQuestion: '',
+         draggingId: null,
+         isReordering: false,
+         fieldIds: @json($form->fields->pluck('id')->values()->toArray()),
          fieldsList: window.__studioFormFields || [],
+         saveReorder() {
+             this.isReordering = true;
+             fetch('{{ route('dashboard.forms.reorder', $form->id) }}', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                 },
+                 body: JSON.stringify({ ordered_ids: this.fieldIds })
+             })
+             .then(res => res.json())
+             .then(data => {
+                 this.isReordering = false;
+                 window.location.reload();
+             })
+             .catch(err => {
+                 this.isReordering = false;
+                 alert('Gagal menyimpan urutan pertanyaan');
+             });
+         },
          editingField: {
              id: '',
              category: '',
@@ -236,6 +259,13 @@
             </div>
 
             <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+                <form action="{{ route('dashboard.forms.clone', $form->id) }}" method="POST" onsubmit="return confirm('Duplikasi seluruh formulir beserta seluruh butir pertanyaan dan opsi jawabannya?')" style="display: inline; margin: 0;">
+                    @csrf
+                    <button type="submit" 
+                            style="background: rgba(212,175,55,0.18); border: 1px solid rgba(212,175,55,0.5); color: #D4AF37; font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 0.95rem; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.15s ease;">
+                        📋 Duplikat Formulir
+                    </button>
+                </form>
                 <a href="{{ route('forms.show', $form->slug) }}" target="_blank" 
                    style="background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #FFF; font-size: 0.8125rem; font-weight: 700; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
                     👁️ Pratinjau Publik
@@ -479,13 +509,33 @@
                                 $optCount = !empty($field->options) ? count($field->options) : 0;
                             @endphp
 
-                            <div x-show="!searchQuestion || '{{ strtolower(addslashes($field->field_label . ' ' . $field->category . ' ' . $field->help_text)) }}'.includes(searchQuestion.toLowerCase())"
+                            <div draggable="true"
+                                 @dragstart="draggingId = {{ $field->id }}; $el.style.opacity = '0.45'"
+                                 @dragend="$el.style.opacity = '1'"
+                                 @dragover.prevent
+                                 @dragenter="$el.style.borderTop = '3px solid #072718'"
+                                 @dragleave="$el.style.borderTop = '1px solid #E2E8F0'"
+                                 @drop="
+                                     $el.style.borderTop = '1px solid #E2E8F0';
+                                     let fromIdx = fieldIds.indexOf(draggingId);
+                                     let toIdx = fieldIds.indexOf({{ $field->id }});
+                                     if (fromIdx !== -1 && toIdx !== -1 && fromIdx !== toIdx) {
+                                         fieldIds.splice(toIdx, 0, fieldIds.splice(fromIdx, 1)[0]);
+                                         saveReorder();
+                                     }
+                                 "
+                                 x-show="!searchQuestion || '{{ strtolower(addslashes($field->field_label . ' ' . $field->category . ' ' . $field->help_text)) }}'.includes(searchQuestion.toLowerCase())"
                                  style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 1.25rem 1.4rem; transition: all 0.15s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
                                 
                                 <!-- TOP ROW: NUMBER, CATEGORY, TYPE, REQUIRED, REASON BADGES & ACTION BUTTONS -->
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; flex-wrap: wrap; gap: 0.5rem;">
                                     
                                     <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+                                        <!-- DRAG HANDLE -->
+                                        <span style="cursor: grab; color: #94A3B8; font-size: 1.25rem; line-height: 1; user-select: none; padding: 0 0.15rem;" title="Tarik kartu ini untuk geser urutan pertanyaan">
+                                            ⠿
+                                        </span>
+
                                         <!-- NUMBER BADGE (SUBTLE SLATE PILL) -->
                                         <span style="background: #0F172A; color: #FFFFFF; font-weight: 800; font-size: 0.72rem; padding: 0.18rem 0.55rem; border-radius: 6px;">
                                             #{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}

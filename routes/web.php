@@ -70,6 +70,8 @@ Route::middleware(['web'])->group(function () {
     Route::get('/dashboard/forms/{id}/builder', [CustomFormController::class, 'builder'])->name('dashboard.forms.builder');
     Route::put('/dashboard/forms/{id}/update', [CustomFormController::class, 'updateForm'])->name('dashboard.forms.update');
     Route::delete('/dashboard/forms/{id}/delete', [CustomFormController::class, 'destroyForm'])->name('dashboard.forms.destroy');
+    Route::post('/dashboard/forms/{id}/clone', [CustomFormController::class, 'cloneForm'])->name('dashboard.forms.clone');
+    Route::post('/dashboard/forms/{id}/reorder-fields', [CustomFormController::class, 'reorderFields'])->name('dashboard.forms.reorder');
     Route::post('/dashboard/forms/{id}/fields/store', [CustomFormController::class, 'storeField'])->name('dashboard.forms.fields.store');
     Route::put('/dashboard/forms/fields/{id}/update', [CustomFormController::class, 'updateField'])->name('dashboard.forms.fields.update');
     Route::post('/dashboard/forms/fields/{id}/move/{direction}', [CustomFormController::class, 'moveField'])->name('dashboard.forms.fields.move');
