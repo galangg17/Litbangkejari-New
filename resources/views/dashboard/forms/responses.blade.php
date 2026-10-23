@@ -479,7 +479,7 @@
                                                         </div>
                                                     @endif
                                                     <div style="font-size: 0.9375rem; font-weight: 750; color: #0F172A; line-height: 1.4;">
-                                                        {{ $field->field_label }}
+                                                        @formText($field->field_label)
                                                     </div>
                                                 </div>
                                             </div>
@@ -739,7 +739,7 @@
                                         #{{ $loop->iteration }}
                                     </span>
                                     <h3 style="font-size: 0.96875rem; font-weight: 750; color: #0F172A; margin: 0;">
-                                        {{ $data['label'] }}
+                                        @formText($data['label'])
                                     </h3>
                                 </div>
                                 <span style="font-size: 0.6875rem; font-weight: 700; color: #475569; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 0.15rem 0.5rem; border-radius: 9999px;">

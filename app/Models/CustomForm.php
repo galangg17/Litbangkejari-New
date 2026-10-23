@@ -45,4 +45,9 @@ class CustomForm extends Model
         }
         return true;
     }
+
+    public function getFormattedDescriptionAttribute(): string
+    {
+        return \App\Helpers\FormTextHelper::format($this->description);
+    }
 }

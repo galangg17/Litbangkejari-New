@@ -3,6 +3,52 @@
 @section('content')
 <script>
     window.__studioFormFields = @json($form->fields);
+
+    function applyFormat(targetId, tag) {
+        const el = document.getElementById(targetId);
+        if (!el) return;
+        
+        const start = el.selectionStart;
+        const end = el.selectionEnd;
+        const text = el.value || '';
+        const openTag = `<${tag}>`;
+        const closeTag = `</${tag}>`;
+        
+        let replacement = '';
+        let newCursorPos = 0;
+        
+        if (start !== end) {
+            const selectedText = text.substring(start, end);
+            replacement = openTag + selectedText + closeTag;
+            el.value = text.substring(0, start) + replacement + text.substring(end);
+            newCursorPos = start + replacement.length;
+        } else {
+            replacement = openTag + closeTag;
+            el.value = text.substring(0, start) + replacement + text.substring(end);
+            newCursorPos = start + openTag.length;
+        }
+        
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        el.dispatchEvent(new Event('change', { bubbles: true }));
+        
+        el.focus();
+        el.setSelectionRange(newCursorPos, newCursorPos);
+    }
+
+    function handleFormatShortcut(e, targetId) {
+        if (!e.ctrlKey && !e.metaKey) return;
+        const key = e.key.toLowerCase();
+        if (key === 'b') {
+            e.preventDefault();
+            applyFormat(targetId, 'b');
+        } else if (key === 'i') {
+            e.preventDefault();
+            applyFormat(targetId, 'i');
+        } else if (key === 'u') {
+            e.preventDefault();
+            applyFormat(targetId, 'u');
+        }
+    }
 </script>
 
 <div style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif;" 
@@ -203,6 +249,35 @@
             align-items: center;
             gap: 0.45rem;
         }
+        .fmt-pill-bar {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            padding: 2px 4px;
+            margin-bottom: 5px;
+        }
+        .fmt-pill-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 25px;
+            height: 23px;
+            border: 1px solid #CBD5E1;
+            background: #FFFFFF;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #0F172A;
+            font-size: 0.78125rem;
+            transition: all 0.15s ease;
+        }
+        .fmt-pill-btn:hover {
+            background: #072718;
+            color: #D4AF37;
+            border-color: #072718;
+        }
         .studio-modal-backdrop {
             position: fixed;
             top: 0;
@@ -385,18 +460,34 @@
 
                     <!-- 2. JUDUL BESAR PERTANYAAN -->
                     <div>
-                        <label style="font-size: 0.78125rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 0.35rem;">
-                            Judul Besar Pertanyaan / Label Soal *
-                        </label>
-                        <input type="text" id="field_label_input" name="field_label" placeholder="Contoh: Penyesuaian Jam Pelajaran Mata Kuliah" required style="width: 100%; background: #FFFFFF; border: 1.5px solid #94A3B8; border-radius: 8px; padding: 0.6rem 0.85rem; font-size: 0.90625rem; font-weight: 700; outline: none; font-family: inherit;" />
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+                            <label style="font-size: 0.78125rem; font-weight: 800; color: #0F172A;">
+                                Judul Besar Pertanyaan / Label Soal *
+                            </label>
+                            <div class="fmt-pill-bar">
+                                <button type="button" onclick="applyFormat('field_label_input', 'b')" class="fmt-pill-btn" style="font-weight: 900; font-family: serif;" title="Tebal / Bold (Ctrl+B)">B</button>
+                                <button type="button" onclick="applyFormat('field_label_input', 'i')" class="fmt-pill-btn" style="font-style: italic; font-family: serif; font-weight: 700;" title="Miring / Italic (Ctrl+I)">I</button>
+                                <button type="button" onclick="applyFormat('field_label_input', 'u')" class="fmt-pill-btn" style="text-decoration: underline; font-weight: 700;" title="Garis Bawah / Underline (Ctrl+U)">U</button>
+                                <span style="font-size: 0.65rem; color: #64748B; margin-left: 3px;">Format Teks</span>
+                            </div>
+                        </div>
+                        <input type="text" id="field_label_input" name="field_label" onkeydown="handleFormatShortcut(event, 'field_label_input')" placeholder="Contoh: Penyesuaian Jam Pelajaran Mata Kuliah" required style="width: 100%; background: #FFFFFF; border: 1.5px solid #94A3B8; border-radius: 8px; padding: 0.6rem 0.85rem; font-size: 0.90625rem; font-weight: 700; outline: none; font-family: inherit;" />
                     </div>
 
                     <!-- 3. DETAIL / URAIAN PERTANYAAN -->
                     <div>
-                        <label style="font-size: 0.78125rem; font-weight: 800; color: #334155; display: block; margin-bottom: 0.35rem;">
-                            Detail / Uraian Pertanyaan (Opsional)
-                        </label>
-                        <textarea id="field_help_input" name="help_text" rows="2" placeholder="Contoh: Apakah ada mata kuliah yang menurut Anda perlu ditambah atau dikurangi jam pelajarannya? Sebutkan alasannya." style="width: 100%; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.84375rem; outline: none; font-family: inherit; line-height: 1.5;"></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+                            <label style="font-size: 0.78125rem; font-weight: 800; color: #334155;">
+                                Detail / Uraian Pertanyaan (Opsional)
+                            </label>
+                            <div class="fmt-pill-bar">
+                                <button type="button" onclick="applyFormat('field_help_input', 'b')" class="fmt-pill-btn" style="font-weight: 900; font-family: serif;" title="Tebal / Bold (Ctrl+B)">B</button>
+                                <button type="button" onclick="applyFormat('field_help_input', 'i')" class="fmt-pill-btn" style="font-style: italic; font-family: serif; font-weight: 700;" title="Miring / Italic (Ctrl+I)">I</button>
+                                <button type="button" onclick="applyFormat('field_help_input', 'u')" class="fmt-pill-btn" style="text-decoration: underline; font-weight: 700;" title="Garis Bawah / Underline (Ctrl+U)">U</button>
+                                <span style="font-size: 0.65rem; color: #64748B; margin-left: 3px;">Format Teks</span>
+                            </div>
+                        </div>
+                        <textarea id="field_help_input" name="help_text" onkeydown="handleFormatShortcut(event, 'field_help_input')" rows="2" placeholder="Contoh: Apakah ada mata kuliah yang menurut Anda perlu ditambah atau dikurangi jam pelajarannya? Sebutkan alasannya." style="width: 100%; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.84375rem; outline: none; font-family: inherit; line-height: 1.5;"></textarea>
                         <div style="font-size: 0.71875rem; color: #64748B; margin-top: 0.2rem;">
                             Penjelasan rinci atau sub-pertanyaan yang muncul tepat di bawah judul pertanyaan.
                         </div>
@@ -622,12 +713,12 @@
                                 <!-- QUESTION HEADLINE & DETAIL DESCRIPTION -->
                                 <div style="margin: 0.4rem 0 0.5rem;">
                                     <h3 style="font-size: 1.05rem; font-weight: 800; color: #0F172A; line-height: 1.4; margin: 0 0 0.25rem;">
-                                        {{ $field->field_label }}
+                                        @formText($field->field_label)
                                     </h3>
 
                                     @if($field->help_text)
                                         <div style="font-size: 0.84375rem; color: #475569; line-height: 1.5; font-weight: 500;">
-                                            {{ $field->help_text }}
+                                            @formText($field->help_text)
                                         </div>
                                     @endif
                                 </div>
@@ -709,10 +800,18 @@
                     </div>
 
                     <div>
-                        <label style="font-size: 0.8125rem; font-weight: 700; color: #0F172A; display: block; margin-bottom: 0.35rem;">
-                            Deskripsi / Petunjuk Pengisian untuk Responden
-                        </label>
-                        <textarea name="description" rows="3" style="width: 100%; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.6rem 0.85rem; font-size: 0.84375rem; outline: none; line-height: 1.5; font-family: inherit;">{{ $form->description }}</textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+                            <label style="font-size: 0.8125rem; font-weight: 700; color: #0F172A;">
+                                Deskripsi / Petunjuk Pengisian untuk Responden
+                            </label>
+                            <div class="fmt-pill-bar">
+                                <button type="button" onclick="applyFormat('form_description_input', 'b')" class="fmt-pill-btn" style="font-weight: 900; font-family: serif;" title="Tebal / Bold (Ctrl+B)">B</button>
+                                <button type="button" onclick="applyFormat('form_description_input', 'i')" class="fmt-pill-btn" style="font-style: italic; font-family: serif; font-weight: 700;" title="Miring / Italic (Ctrl+I)">I</button>
+                                <button type="button" onclick="applyFormat('form_description_input', 'u')" class="fmt-pill-btn" style="text-decoration: underline; font-weight: 700;" title="Garis Bawah / Underline (Ctrl+U)">U</button>
+                                <span style="font-size: 0.65rem; color: #64748B; margin-left: 3px;">Format Teks</span>
+                            </div>
+                        </div>
+                        <textarea id="form_description_input" name="description" onkeydown="handleFormatShortcut(event, 'form_description_input')" rows="3" style="width: 100%; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.6rem 0.85rem; font-size: 0.84375rem; outline: none; line-height: 1.5; font-family: inherit;">{{ $form->description }}</textarea>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -788,18 +887,34 @@
 
                     <!-- JUDUL BESAR PERTANYAAN -->
                     <div>
-                        <label style="font-size: 0.78125rem; font-weight: 800; color: #0F172A; display: block; margin-bottom: 0.35rem;">
-                            Judul Besar Pertanyaan / Label Soal *
-                        </label>
-                        <input type="text" name="field_label" x-model="editingField.field_label" required style="width: 100%; background: #FFFFFF; border: 1.5px solid #94A3B8; border-radius: 8px; padding: 0.6rem 0.85rem; font-size: 0.90625rem; font-weight: 700; outline: none; font-family: inherit;" />
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+                            <label style="font-size: 0.78125rem; font-weight: 800; color: #0F172A;">
+                                Judul Besar Pertanyaan / Label Soal *
+                            </label>
+                            <div class="fmt-pill-bar">
+                                <button type="button" onclick="applyFormat('edit_field_label_input', 'b')" class="fmt-pill-btn" style="font-weight: 900; font-family: serif;" title="Tebal / Bold (Ctrl+B)">B</button>
+                                <button type="button" onclick="applyFormat('edit_field_label_input', 'i')" class="fmt-pill-btn" style="font-style: italic; font-family: serif; font-weight: 700;" title="Miring / Italic (Ctrl+I)">I</button>
+                                <button type="button" onclick="applyFormat('edit_field_label_input', 'u')" class="fmt-pill-btn" style="text-decoration: underline; font-weight: 700;" title="Garis Bawah / Underline (Ctrl+U)">U</button>
+                                <span style="font-size: 0.65rem; color: #64748B; margin-left: 3px;">Format Teks</span>
+                            </div>
+                        </div>
+                        <input type="text" id="edit_field_label_input" name="field_label" x-model="editingField.field_label" onkeydown="handleFormatShortcut(event, 'edit_field_label_input')" required style="width: 100%; background: #FFFFFF; border: 1.5px solid #94A3B8; border-radius: 8px; padding: 0.6rem 0.85rem; font-size: 0.90625rem; font-weight: 700; outline: none; font-family: inherit;" />
                     </div>
 
                     <!-- DETAIL / URAIAN PERTANYAAN -->
                     <div>
-                        <label style="font-size: 0.78125rem; font-weight: 700; color: #334155; display: block; margin-bottom: 0.35rem;">
-                            Detail / Uraian Pertanyaan (Opsional)
-                        </label>
-                        <textarea name="help_text" rows="2" x-model="editingField.help_text" placeholder="Detail penjelasan pertanyaan..." style="width: 100%; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.84375rem; outline: none; font-family: inherit; line-height: 1.5;"></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.35rem; flex-wrap: wrap; gap: 0.4rem;">
+                            <label style="font-size: 0.78125rem; font-weight: 700; color: #334155;">
+                                Detail / Uraian Pertanyaan (Opsional)
+                            </label>
+                            <div class="fmt-pill-bar">
+                                <button type="button" onclick="applyFormat('edit_help_text_input', 'b')" class="fmt-pill-btn" style="font-weight: 900; font-family: serif;" title="Tebal / Bold (Ctrl+B)">B</button>
+                                <button type="button" onclick="applyFormat('edit_help_text_input', 'i')" class="fmt-pill-btn" style="font-style: italic; font-family: serif; font-weight: 700;" title="Miring / Italic (Ctrl+I)">I</button>
+                                <button type="button" onclick="applyFormat('edit_help_text_input', 'u')" class="fmt-pill-btn" style="text-decoration: underline; font-weight: 700;" title="Garis Bawah / Underline (Ctrl+U)">U</button>
+                                <span style="font-size: 0.65rem; color: #64748B; margin-left: 3px;">Format Teks</span>
+                            </div>
+                        </div>
+                        <textarea id="edit_help_text_input" name="help_text" rows="2" x-model="editingField.help_text" onkeydown="handleFormatShortcut(event, 'edit_help_text_input')" placeholder="Detail penjelasan pertanyaan..." style="width: 100%; background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.55rem 0.75rem; font-size: 0.84375rem; outline: none; font-family: inherit; line-height: 1.5;"></textarea>
                     </div>
 
                     <!-- TIPE JAWABAN -->

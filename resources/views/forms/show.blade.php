@@ -485,7 +485,7 @@
                 <!-- Description & Petunjuk Pengisian -->
                 @if($form->description)
                     <div class="hero-desc">
-                        {{ $form->description }}
+                        {!! $form->formatted_description !!}
                     </div>
                 @endif
 
@@ -550,7 +550,7 @@
                                 @endif
 
                                 <label class="question-title">
-                                    {{ $field->field_label }}
+                                    @formText($field->field_label)
                                     @if($field->is_required)
                                         <span style="color: #DC2626; font-size: 1.05rem; line-height: 1;" title="Wajib Diisi">*</span>
                                     @endif
@@ -558,7 +558,7 @@
 
                                 @if($field->help_text)
                                     <div class="question-help">
-                                        {{ $field->help_text }}
+                                        @formText($field->help_text)
                                     </div>
                                 @endif
                             </div>

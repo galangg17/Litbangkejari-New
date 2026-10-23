@@ -34,4 +34,14 @@ class CustomFormField extends Model
     {
         return $this->belongsTo(CustomForm::class, 'custom_form_id');
     }
+
+    public function getFormattedFieldLabelAttribute(): string
+    {
+        return \App\Helpers\FormTextHelper::format($this->field_label);
+    }
+
+    public function getFormattedHelpTextAttribute(): string
+    {
+        return \App\Helpers\FormTextHelper::format($this->help_text);
+    }
 }
