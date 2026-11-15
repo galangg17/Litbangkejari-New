@@ -43,7 +43,7 @@
     }
 </style>
 
-<div class="login-screen-wrapper" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(15, 35, 20, 0.55) 0%, rgba(27, 67, 50, 0.65) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=3'); background-size: cover; background-position: center; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; padding: 2rem; position: relative; overflow: hidden;">
+<div class="login-screen-wrapper" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(15, 35, 20, 0.55) 0%, rgba(27, 67, 50, 0.65) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=4'); background-size: cover; background-position: center; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; padding: 2rem; position: relative; overflow: hidden;">
 
     <!-- Glowing Background Orbs -->
     <div style="position: absolute; top: -120px; left: -120px; width: min(600px, 90vw); height: min(600px, 90vw); border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
