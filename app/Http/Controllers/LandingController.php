@@ -91,16 +91,23 @@ class LandingController extends Controller
         ]);
 
         $type = $validated['type'] ?? 'Policy Brief';
-        $seqCount = PublicProposal::where('type', $type)->count() + 1;
-        $seqStr = sprintf('%02d', $seqCount);
 
+        // Tentukan prefix tiket berdasarkan tipe usulan
         if ($type === 'Ide Inovasi') {
-            $ticketNo = 'INOV-' . $seqStr . '/LITBANG-MADA/2026';
+            $prefix = 'INOV-';
         } elseif ($type === 'Kurikulum') {
-            $ticketNo = 'MODUL-' . $seqStr . '/LITBANG-MADA/2026';
+            $prefix = 'MODUL-';
         } else {
-            $ticketNo = 'PB-' . $seqStr . '/LITBANG-MADA/2026';
+            $prefix = 'PB-';
         }
+
+        // Cari nomor urut unik yang belum terpakai di database untuk mencegah Unique Constraint Violation
+        $yearSuffix = '/LITBANG-MADA/2026';
+        $counter = PublicProposal::where('type', $type)->count() + 1;
+        do {
+            $ticketNo = $prefix . sprintf('%02d', $counter) . $yearSuffix;
+            $counter++;
+        } while (PublicProposal::where('ticket_no', $ticketNo)->exists());
 
         $fileName = null;
         $filePath = null;
