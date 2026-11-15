@@ -348,29 +348,164 @@
 
   .fresh-stat-box:hover { transform: translateY(-3px); }
 
-  /* CATALOG GRID & CARD SYSTEM */
+  /* CATALOG GRID & CARD SYSTEM - REFINED & EYE-FRIENDLY */
   .fresh-catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
+    align-items: stretch;
   }
 
   .fresh-catalog-card {
     background: #FFFFFF;
-    border: 1.5px solid #E2E8F0;
-    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 6px 20px rgba(27, 67, 50, 0.05);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
   }
 
   .fresh-catalog-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 36px rgba(27, 67, 50, 0.1);
-    border-color: var(--color-emerald-medium);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(15, 45, 33, 0.09);
+    border-color: #CBD5E1;
+  }
+
+  .catalog-card-header {
+    padding: 1.35rem 1.35rem 0.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .catalog-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .catalog-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0F291E;
+    line-height: 1.45;
+    margin-bottom: 0.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.75rem;
+  }
+
+  .catalog-card-desc {
+    font-size: 0.8125rem;
+    color: #64748B;
+    line-height: 1.6;
+    margin-bottom: 1.15rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3.85rem;
+  }
+
+  .catalog-card-footer {
+    border-top: 1px solid #F1F5F9;
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: #F8FAFC;
+  }
+
+  .catalog-badge-verified {
+    font-size: 0.72rem;
+    color: #059669;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .catalog-btn-preview {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    color: #334155;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .catalog-btn-preview:hover {
+    background: #F1F5F9;
+    border-color: #94A3B8;
+    color: #0F172A;
+  }
+
+  .catalog-btn-download {
+    background: #064E3B;
+    color: #FFFFFF !important;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgba(6, 78, 59, 0.2);
+  }
+
+  .catalog-btn-download:hover {
+    background: #047857;
+    box-shadow: 0 3px 8px rgba(6, 78, 59, 0.3);
+  }
+
+  /* CATALOG TABLE REFINEMENT */
+  .fresh-catalog-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.8125rem;
+  }
+
+  .fresh-catalog-table th {
+    background: #F8FAFC;
+    color: #0F291E;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 2px solid #E2E8F0;
+    white-space: nowrap;
+  }
+
+  .fresh-catalog-table td {
+    padding: 0.95rem 1.25rem;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: middle;
+  }
+
+  .fresh-catalog-table tbody tr {
+    transition: background 0.15s ease;
+  }
+
+  .fresh-catalog-table tbody tr:hover {
+    background: #F8FAFC;
   }
 
   /* OFFICE & MAP SPLIT SECTION */
@@ -407,15 +542,16 @@
   }
 
   /* CATEGORY PILLS */
+  /* CATEGORY PILLS - SOFT & COMFORTABLE */
   .category-pill-bar {
     display: flex;
-    gap: 0.4rem;
+    gap: 0.35rem;
     flex-wrap: wrap;
-    background: #FFFFFF;
-    border: 1.5px solid #CBD5E1;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
     border-radius: 9999px;
-    padding: 0.35rem 0.5rem;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    padding: 0.3rem 0.4rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
   }
 
   .category-pill-btn {
@@ -423,26 +559,26 @@
     border: none;
     outline: none;
     font-size: 0.78125rem;
-    font-weight: 800;
-    padding: 0.45rem 1.05rem;
+    font-weight: 600;
+    padding: 0.4rem 0.95rem;
     border-radius: 9999px;
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
     background: transparent;
-    color: var(--color-text-muted);
+    color: #64748B;
   }
 
   .category-pill-btn:hover {
-    color: var(--color-emerald-dark);
-    background: var(--color-emerald-mint);
+    color: #0F291E;
+    background: #E2E8F0;
   }
 
   .category-pill-btn.active {
-    background: var(--color-emerald-dark);
-    color: var(--color-accent-gold);
-    font-weight: 900;
-    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
+    background: #064E3B;
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(6, 78, 59, 0.22);
   }
 
   /* MEDIA QUERIES */
@@ -946,11 +1082,50 @@
             @endif
 
             <!-- 7. 3-PILLAR CATALOG HUB -->
+            @php
+                $cleanCatalogTitle = function($str) {
+                    if (empty($str)) return '';
+                    $str = trim($str);
+                    if (mb_strtoupper($str, 'UTF-8') === $str && mb_strlen($str) > 8) {
+                        $formatted = mb_convert_case(mb_strtolower($str, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+                        $acronymMap = [
+                            '/\bPppj\b/' => 'PPPJ',
+                            '/\bPaktj\b/' => 'PAKTJ',
+                            '/\bKuhp\b/' => 'KUHP',
+                            '/\bKuhap\b/' => 'KUHAP',
+                            '/\bSpbe\b/' => 'SPBE',
+                            '/\bSop\b/' => 'SOP',
+                            '/\bTun\b/' => 'TUN',
+                            '/\bUu\b/' => 'UU',
+                            '/\bRi\b/' => 'RI',
+                            '/\bDpr\b/' => 'DPR',
+                            '/\bQr\b/' => 'QR',
+                            '/\bPdf\b/' => 'PDF',
+                            '/\bDan\b/' => 'dan',
+                            '/\bAtau\b/' => 'atau',
+                            '/\bPada\b/' => 'pada',
+                            '/\bDalam\b/' => 'dalam',
+                            '/\bSebagai\b/' => 'sebagai',
+                            '/\bUntuk\b/' => 'untuk',
+                            '/\bYang\b/' => 'yang',
+                            '/\bTerkait\b/' => 'terkait',
+                            '/\bDari\b/' => 'dari',
+                            '/\bKe\b/' => 'ke',
+                            '/\bDi\b/' => 'di',
+                        ];
+                        return preg_replace(array_keys($acronymMap), array_values($acronymMap), $formatted);
+                    }
+                    return $str;
+                };
+            @endphp
             <section id="katalog-hub" style="margin: 4rem 0;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
                     <div>
-                        <span style="font-size: 0.71875rem; font-weight: 900; color: var(--color-emerald-medium); text-transform: uppercase; letter-spacing: 0.05em;">PORTAL KATALOG REPOSITORI</span>
-                        <h2 style="font-size: 1.85rem; font-weight: 900; color: var(--color-emerald-dark); margin-top: 0.25rem;">Katalog Pengetahuan 3 Pilar</h2>
+                        <span style="font-size: 0.72rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.08em; display: inline-flex; align-items: center; gap: 0.35rem;">
+                            <span style="width: 8px; height: 8px; border-radius: 9999px; background: #10B981; display: inline-block;"></span>
+                            PORTAL KATALOG REPOSITORI
+                        </span>
+                        <h2 style="font-size: 1.85rem; font-weight: 800; color: #0F291E; margin-top: 0.35rem; letter-spacing: -0.01em;">Katalog Pengetahuan 3 Pilar</h2>
                     </div>
 
                     <div class="category-pill-bar">
@@ -967,14 +1142,14 @@
                 </div>
 
                 <!-- LIVE SEARCH BAR & LAYOUT SWITCHER -->
-                <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 1.15rem 1.35rem; border-radius: 20px; margin-bottom: 1.85rem; display: flex; flex-direction: column; gap: 0.85rem; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+                <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 1.1rem 1.25rem; border-radius: 16px; margin-bottom: 1.75rem; display: flex; flex-direction: column; gap: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
                     <div style="position: relative;">
-                        <input type="text" x-model="searchQuery" placeholder="🔍 Cari judul naskah, inovasi, pengusul, atau modul secara instan..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.7rem 1rem; color: var(--color-text-dark); font-size: 0.875rem; outline: none;" />
+                        <input type="text" x-model="searchQuery" placeholder="🔍 Cari judul naskah, inovasi, pengusul, atau modul secara instan..." style="width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 0.65rem 1rem; color: #0F172A; font-size: 0.875rem; outline: none; transition: border-color 0.2s, background 0.2s;" onfocus="this.style.borderColor='#059669'; this.style.background='#FFFFFF';" onblur="this.style.borderColor='#E2E8F0'; this.style.background='#F8FAFC';" />
                     </div>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-                        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
-                            <span style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: 800; margin-right: 0.25rem;">Kategori Domain:</span>
+                        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center;">
+                            <span style="font-size: 0.75rem; color: #64748B; font-weight: 700; margin-right: 0.25rem;">Kategori Domain:</span>
                             <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Semua' }" @click="activeCategory = 'Semua'">Semua</button>
                             <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Pidana' }" @click="activeCategory = 'Pidana'">Pidana</button>
                             <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Perdata' }" @click="activeCategory = 'Perdata'">Perdata</button>
@@ -997,36 +1172,36 @@
                 <!-- TAB 1: POLICY BRIEF - GRID VIEW -->
                 <div x-show="activeMainTab === 'policy' && viewMode === 'grid'" class="fresh-catalog-grid">
                     @foreach($policyBriefs as $brief)
-                        <div class="fresh-catalog-card" style="border-top: 4px solid var(--color-emerald-dark);" x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
-                            <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.4rem;">
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.35rem 0.75rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                        <div class="fresh-catalog-card" style="border-top: 3px solid #059669;" x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
+                            <div class="catalog-card-header">
+                                <div class="catalog-card-meta">
+                                    <span style="font-size: 0.72rem; font-weight: 700; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.25rem 0.65rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
                                         📄 {{ $brief->category }}
                                     </span>
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.25rem 0.6rem; border-radius: 6px; font-family: monospace;">
+                                    <span style="font-size: 0.7rem; font-weight: 600; color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.2rem 0.5rem; border-radius: 6px; font-family: monospace;">
                                         {{ $brief->doc_no }}
                                     </span>
                                 </div>
 
-                                <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.6rem; line-height: 1.4;">
-                                    {{ $brief->title }}
+                                <h3 class="catalog-card-title" title="{{ $brief->title }}">
+                                    {{ $cleanCatalogTitle($brief->title) }}
                                 </h3>
 
-                                <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 1.25rem; flex: 1;">
+                                <p class="catalog-card-desc" title="{{ $brief->summary }}">
                                     {{ $brief->summary }}
                                 </p>
                             </div>
 
-                            <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.35rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: #FAFDFB;">
-                                <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                    🟢 QR Seal Verified
+                            <div class="catalog-card-footer">
+                                <span class="catalog-badge-verified">
+                                    <span style="width: 7px; height: 7px; border-radius: 9999px; background: #10B981; display: inline-block;"></span> QR Seal Verified
                                 </span>
                                 <div style="display: flex; gap: 0.4rem;">
-                                    <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(brief.title, brief.doc_no, brief.file_path, brief.id, 'kajian')">
+                                    <button type="button" class="catalog-btn-preview" @click="openPdfPreview(brief.title, brief.doc_no, brief.file_path, brief.id, 'kajian')">
                                         👁️ Pratinjau
                                     </button>
-                                    <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" style="background: linear-gradient(135deg, var(--color-emerald-dark) 0%, var(--color-emerald-medium) 100%); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(30,70,32,0.2);">
-                                        📥 Download
+                                    <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" class="catalog-btn-download">
+                                        📥 Unduh PDF
                                     </a>
                                 </div>
                             </div>
@@ -1035,43 +1210,45 @@
                 </div>
 
                 <!-- TAB 1: POLICY BRIEF - TABLE VIEW (FOR LARGE COLLECTIONS) -->
-                <div x-show="activeMainTab === 'policy' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+                <div x-show="activeMainTab === 'policy' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
                     <div style="overflow-x: auto;">
-                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8125rem;">
+                        <table class="fresh-catalog-table">
                             <thead>
-                                <tr style="background: var(--color-emerald-dark); color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; text-transform: uppercase;">
-                                    <th style="padding: 1rem 1.25rem;">No. Dokumen</th>
-                                    <th style="padding: 1rem 1.25rem;">Judul Naskah Kebijakan</th>
-                                    <th style="padding: 1rem 1.25rem;">Kategori Bidang</th>
-                                    <th style="padding: 1rem 1.25rem;">Status Verifikasi</th>
-                                    <th style="padding: 1rem 1.25rem; text-align: right;">Aksi Naskah</th>
+                                <tr>
+                                    <th>No. Dokumen</th>
+                                    <th>Judul Naskah Kebijakan</th>
+                                    <th>Kategori Bidang</th>
+                                    <th>Status Verifikasi</th>
+                                    <th style="text-align: right;">Aksi Naskah</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($policyBriefs as $brief)
-                                    <tr style="border-bottom: 1px solid #F1F5F9; transition: background 0.15s ease;" x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
-                                        <td style="padding: 1rem 1.25rem; font-family: monospace; font-weight: 800; color: var(--color-emerald-dark); white-space: nowrap;">
-                                            {{ $brief->doc_no }}
+                                    <tr x-show="(activeCategory === 'Semua' || '{{ $brief->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($brief->title . ' ' . $brief->summary . ' ' . $brief->category . ' ' . $brief->doc_no) }}'.includes(searchQuery.toLowerCase()))">
+                                        <td style="white-space: nowrap;">
+                                            <span style="font-family: monospace; font-size: 0.75rem; font-weight: 600; color: #475569; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.2rem 0.5rem; border-radius: 4px;">{{ $brief->doc_no }}</span>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem;">
-                                            <div style="font-weight: 900; color: var(--color-text-dark); font-size: 0.875rem;">{{ $brief->title }}</div>
-                                            <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ $brief->summary }}</div>
+                                        <td>
+                                            <div style="font-weight: 700; color: #0F172A; font-size: 0.84rem; line-height: 1.45;">{{ $cleanCatalogTitle($brief->title) }}</div>
+                                            <div style="font-size: 0.75rem; color: #64748B; margin-top: 3px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ $brief->summary }}</div>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
-                                            <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                                        <td style="white-space: nowrap;">
+                                            <span style="font-size: 0.72rem; font-weight: 600; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.2rem 0.6rem; border-radius: 9999px;">
                                                 {{ $brief->category }}
                                             </span>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
-                                            <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900;">🟢 QR Seal OK</span>
+                                        <td style="white-space: nowrap;">
+                                            <span style="font-size: 0.72rem; color: #059669; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                                <span style="width: 7px; height: 7px; border-radius: 9999px; background: #10B981; display: inline-block;"></span> Terverifikasi
+                                            </span>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
+                                        <td style="text-align: right; white-space: nowrap;">
                                             <div style="display: inline-flex; gap: 0.4rem;">
-                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: var(--color-emerald-dark); font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(brief.title, brief.doc_no, brief.file_path, brief.id, 'kajian')">
+                                                <button type="button" class="catalog-btn-preview" @click="openPdfPreview(brief.title, brief.doc_no, brief.file_path, brief.id, 'kajian')">
                                                     👁️ Pratinjau
                                                 </button>
-                                                <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" style="background: var(--color-emerald-dark); color: var(--color-accent-gold); font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
-                                                    📥 Download
+                                                <a href="{{ route('catalog.download', ['kajian', $brief->id]) }}" class="catalog-btn-download">
+                                                    📥 Unduh PDF
                                                 </a>
                                             </div>
                                         </td>
@@ -1085,41 +1262,41 @@
                 <!-- TAB 2: INOVASI TERUJI - GRID VIEW -->
                 <div x-show="activeMainTab === 'innovation' && viewMode === 'grid'" x-cloak class="fresh-catalog-grid">
                     @foreach($innovations as $inov)
-                        <div class="fresh-catalog-card" style="border-top: 4px solid #0284C7;" x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
-                            <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.4rem;">
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #075985; background: #F0F9FF; border: 1px solid #E0F2FE; padding: 0.35rem 0.75rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                        <div class="fresh-catalog-card" style="border-top: 3px solid #0284C7;" x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
+                            <div class="catalog-card-header">
+                                <div class="catalog-card-meta">
+                                    <span style="font-size: 0.72rem; font-weight: 700; color: #0369A1; background: #F0F9FF; border: 1px solid #BAE6FD; padding: 0.25rem 0.65rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
                                         💡 {{ $inov->status }}
                                     </span>
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.25rem 0.6rem; border-radius: 6px; font-family: monospace;">
+                                    <span style="font-size: 0.7rem; font-weight: 600; color: #64748B; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.2rem 0.5rem; border-radius: 6px; font-family: monospace;">
                                         {{ $inov->innovation_no }}
                                     </span>
                                 </div>
 
-                                <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.6rem; line-height: 1.4;">
-                                    {{ $inov->title }}
+                                <h3 class="catalog-card-title" title="{{ $inov->title }}">
+                                    {{ $cleanCatalogTitle($inov->title) }}
                                 </h3>
 
-                                <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 1.25rem; flex: 1;">
+                                <p class="catalog-card-desc" title="{{ $inov->summary }}">
                                     {{ $inov->summary }}
                                 </p>
 
                                 @if($inov->impact_description)
-                                    <div style="background: #F0F9FF; border-left: 3px solid #0284C7; padding: 0.5rem 0.75rem; border-radius: 0 8px 8px 0; font-size: 0.78rem; color: #0369A1; font-weight: 700; margin-bottom: 1rem;">
+                                    <div style="background: #F0F9FF; border-left: 3px solid #0284C7; padding: 0.4rem 0.65rem; border-radius: 0 6px 6px 0; font-size: 0.75rem; color: #0369A1; font-weight: 600; margin-bottom: 0.85rem; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">
                                         ✨ {{ $inov->impact_description }}
                                     </div>
                                 @endif
                             </div>
 
-                            <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.35rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: #F8FAFC;">
-                                <span style="font-size: 0.72rem; color: #0284C7; font-weight: 900; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                    ⚡ Teruji Birokrasi
+                            <div class="catalog-card-footer">
+                                <span style="font-size: 0.72rem; color: #0284C7; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <span style="width: 7px; height: 7px; border-radius: 9999px; background: #0284C7; display: inline-block;"></span> Teruji Birokrasi
                                 </span>
                                 <div style="display: flex; gap: 0.4rem;">
-                                    <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="openPdfPreview(inov.title, inov.innovation_no, inov.sop_file_path, inov.id, 'innovation')">
+                                    <button type="button" class="catalog-btn-preview" @click="openPdfPreview(inov.title, inov.innovation_no, inov.sop_file_path, inov.id, 'innovation')">
                                         👁️ Pratinjau
                                     </button>
-                                    <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" style="background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%); color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(2,132,199,0.25);">
+                                    <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" class="catalog-btn-download" style="background: #0284C7;">
                                         📥 SOP PDF
                                     </a>
                                 </div>
@@ -1129,42 +1306,42 @@
                 </div>
 
                 <!-- TAB 2: INOVASI TERUJI - TABLE VIEW -->
-                <div x-show="activeMainTab === 'innovation' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+                <div x-show="activeMainTab === 'innovation' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
                     <div style="overflow-x: auto;">
-                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8125rem;">
+                        <table class="fresh-catalog-table">
                             <thead>
-                                <tr style="background: #0284C7; color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; text-transform: uppercase;">
-                                    <th style="padding: 1rem 1.25rem;">No. Inovasi</th>
-                                    <th style="padding: 1rem 1.25rem;">Judul Inovasi Digital</th>
-                                    <th style="padding: 1rem 1.25rem;">Kategori / Status</th>
-                                    <th style="padding: 1rem 1.25rem;">Dampak Utama</th>
-                                    <th style="padding: 1rem 1.25rem; text-align: right;">Berkas SOP</th>
+                                <tr>
+                                    <th>No. Inovasi</th>
+                                    <th>Judul Inovasi Digital</th>
+                                    <th>Kategori / Status</th>
+                                    <th>Dampak Utama</th>
+                                    <th style="text-align: right;">Berkas SOP</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($innovations as $inov)
-                                    <tr style="border-bottom: 1px solid #F1F5F9; transition: background 0.15s ease;" x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
-                                        <td style="padding: 1rem 1.25rem; font-family: monospace; font-weight: 800; color: #0284C7; white-space: nowrap;">
-                                            {{ $inov->innovation_no }}
+                                    <tr x-show="(activeCategory === 'Semua' || '{{ $inov->category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($inov->title . ' ' . $inov->summary . ' ' . $inov->category . ' ' . $inov->innovation_no) }}'.includes(searchQuery.toLowerCase()))">
+                                        <td style="white-space: nowrap;">
+                                            <span style="font-family: monospace; font-size: 0.75rem; font-weight: 600; color: #0284C7; background: #F0F9FF; border: 1px solid #BAE6FD; padding: 0.2rem 0.5rem; border-radius: 4px;">{{ $inov->innovation_no }}</span>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem;">
-                                            <div style="font-weight: 900; color: var(--color-text-dark); font-size: 0.875rem;">{{ $inov->title }}</div>
-                                            <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ $inov->summary }}</div>
+                                        <td>
+                                            <div style="font-weight: 700; color: #0F172A; font-size: 0.84rem; line-height: 1.45;">{{ $cleanCatalogTitle($inov->title) }}</div>
+                                            <div style="font-size: 0.75rem; color: #64748B; margin-top: 3px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ $inov->summary }}</div>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
-                                            <span style="font-size: 0.75rem; font-weight: 800; color: #075985; background: #F0F9FF; border: 1px solid #E0F2FE; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                                        <td style="white-space: nowrap;">
+                                            <span style="font-size: 0.72rem; font-weight: 600; color: #075985; background: #F0F9FF; border: 1px solid #E0F2FE; padding: 0.2rem 0.6rem; border-radius: 9999px;">
                                                 {{ $inov->status }}
                                             </span>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; color: #0369A1; font-size: 0.78rem; font-weight: 700;">
+                                        <td style="color: #0369A1; font-size: 0.78rem; font-weight: 600;">
                                             {{ $inov->impact_description ?? '-' }}
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
+                                        <td style="text-align: right; white-space: nowrap;">
                                             <div style="display: inline-flex; gap: 0.4rem;">
-                                                <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0369A1; font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="openPdfPreview(inov.title, inov.innovation_no, inov.sop_file_path, inov.id, 'innovation')">
+                                                <button type="button" class="catalog-btn-preview" @click="openPdfPreview(inov.title, inov.innovation_no, inov.sop_file_path, inov.id, 'innovation')">
                                                     👁️ Pratinjau
                                                 </button>
-                                                <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" style="background: #0284C7; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                <a href="{{ route('catalog.download', ['innovation', $inov->id]) }}" class="catalog-btn-download" style="background: #0284C7;">
                                                     📥 SOP PDF
                                                 </a>
                                             </div>
@@ -1179,44 +1356,44 @@
                 <!-- TAB 3: KURIKULUM & MATERI - GRID VIEW -->
                 <div x-show="activeMainTab === 'curriculum' && viewMode === 'grid'" x-cloak class="fresh-catalog-grid">
                     @foreach($curriculums as $curr)
-                        <div class="fresh-catalog-card" style="border-top: 4px solid #16A34A;" x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
-                            <div style="padding: 1.5rem 1.35rem 0.5rem; flex: 1; display: flex; flex-direction: column;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.4rem;">
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.35rem 0.75rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                        <div class="fresh-catalog-card" style="border-top: 3px solid #10B981;" x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
+                            <div class="catalog-card-header">
+                                <div class="catalog-card-meta">
+                                    <span style="font-size: 0.72rem; font-weight: 700; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.25rem 0.65rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
                                         📚 {{ $curr->file_type }}
                                     </span>
-                                    <span style="font-size: 0.75rem; font-weight: 800; color: #92400E; background: #FEF3C7; border: 1px solid #FDE68A; padding: 0.25rem 0.65rem; border-radius: 6px;">
+                                    <span style="font-size: 0.7rem; font-weight: 600; color: #92400E; background: #FEF3C7; border: 1px solid #FDE68A; padding: 0.2rem 0.5rem; border-radius: 6px;">
                                         Bidang: {{ $curr->subject_category }}
                                     </span>
                                 </div>
 
-                                <h3 style="font-size: 1.05rem; font-weight: 900; color: var(--color-emerald-dark); margin-bottom: 0.6rem; line-height: 1.4;">
-                                    {{ $curr->title }}
+                                <h3 class="catalog-card-title" title="{{ $curr->title }}">
+                                    {{ $cleanCatalogTitle($curr->title) }}
                                 </h3>
 
-                                <p style="font-size: 0.8125rem; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 1.25rem; flex: 1;">
-                                    Pengunggah: <strong style="color: var(--color-text-dark);">{{ $curr->uploader_name ?? 'Admin Litbang' }}</strong>
+                                <div class="catalog-card-desc">
+                                    <div style="color: #334155; font-weight: 600;">Pengunggah: {{ $curr->uploader_name ?? 'Admin Litbang' }}</div>
                                     @if($curr->description)
-                                        <span style="display: block; margin-top: 0.35rem; color: #64748B;">{{ $curr->description }}</span>
+                                        <div style="margin-top: 0.25rem; color: #64748B;">{{ $curr->description }}</div>
                                     @endif
-                                </p>
+                                </div>
                             </div>
 
-                            <div style="border-top: 1px solid #F1F5F9; padding: 1rem 1.35rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; background: #F8FAFC;">
-                                <span style="font-size: 0.72rem; color: #16A34A; font-weight: 900; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                    🎓 Modul Terverifikasi
+                            <div class="catalog-card-footer">
+                                <span style="font-size: 0.72rem; color: #059669; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem;">
+                                    <span style="width: 7px; height: 7px; border-radius: 9999px; background: #10B981; display: inline-block;"></span> Modul Terverifikasi
                                 </span>
                                 <div style="display: flex; gap: 0.4rem;">
                                     @if($curr->external_link)
-                                        <a href="{{ $curr->external_link }}" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%); color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none;">
+                                        <a href="{{ $curr->external_link }}" target="_blank" rel="noopener noreferrer" style="background: #0284C7; color: #FFF; font-weight: 600; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none;">
                                             🔗 Drive
                                         </a>
                                     @endif
                                     @if($curr->file_path)
-                                        <button type="button" style="background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
+                                        <button type="button" class="catalog-btn-preview" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
                                             👁️ Pratinjau
                                         </button>
-                                        <a href="{{ route('catalog.download', ['curriculum', $curr->id]) }}" style="background: linear-gradient(135deg, #16A34A 0%, #15803D 100%); color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(22,163,74,0.25);">
+                                        <a href="{{ route('catalog.download', ['curriculum', $curr->id]) }}" class="catalog-btn-download" style="background: #059669;">
                                             📥 Unduh
                                         </a>
                                     @endif
@@ -1227,52 +1404,52 @@
                 </div>
 
                 <!-- TAB 3: KURIKULUM & MATERI - TABLE VIEW -->
-                <div x-show="activeMainTab === 'curriculum' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+                <div x-show="activeMainTab === 'curriculum' && viewMode === 'list'" x-cloak style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
                     <div style="overflow-x: auto;">
-                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8125rem;">
+                        <table class="fresh-catalog-table">
                             <thead>
-                                <tr style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.78125rem; text-transform: uppercase;">
-                                    <th style="padding: 1rem 1.25rem;">Tipe Modul</th>
-                                    <th style="padding: 1rem 1.25rem;">Judul Modul Pembelajaran</th>
-                                    <th style="padding: 1rem 1.25rem;">Bidang Materi</th>
-                                    <th style="padding: 1rem 1.25rem;">Pengunggah</th>
-                                    <th style="padding: 1rem 1.25rem; text-align: right;">Aksi Modul</th>
+                                <tr>
+                                    <th>Tipe Modul</th>
+                                    <th>Judul Modul Pembelajaran</th>
+                                    <th>Bidang Materi</th>
+                                    <th>Pengunggah</th>
+                                    <th style="text-align: right;">Aksi Modul</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($curriculums as $curr)
-                                    <tr style="border-bottom: 1px solid #F1F5F9; transition: background 0.15s ease;" x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
-                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
-                                            <span style="font-size: 0.75rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #DCFCE7; padding: 0.25rem 0.65rem; border-radius: 9999px;">
+                                    <tr x-show="(activeCategory === 'Semua' || '{{ $curr->subject_category }}'.includes(activeCategory)) && (searchQuery === '' || '{{ strtolower($curr->title . ' ' . $curr->subject_category . ' ' . $curr->file_type) }}'.includes(searchQuery.toLowerCase()))">
+                                        <td style="white-space: nowrap;">
+                                            <span style="font-size: 0.72rem; font-weight: 600; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.2rem 0.6rem; border-radius: 9999px;">
                                                 📚 {{ $curr->file_type }}
                                             </span>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem;">
-                                            <div style="font-weight: 900; color: var(--color-text-dark); font-size: 0.875rem;">{{ $curr->title }}</div>
+                                        <td>
+                                            <div style="font-weight: 700; color: #0F172A; font-size: 0.84rem; line-height: 1.45;">{{ $cleanCatalogTitle($curr->title) }}</div>
                                             @if($curr->description)
-                                                <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px;">{{ $curr->description }}</div>
+                                                <div style="font-size: 0.75rem; color: #64748B; margin-top: 3px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ $curr->description }}</div>
                                             @endif
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; white-space: nowrap;">
-                                            <span style="font-size: 0.75rem; font-weight: 800; color: #92400E; background: #FEF3C7; border: 1px solid #FDE68A; padding: 0.25rem 0.65rem; border-radius: 6px;">
+                                        <td style="white-space: nowrap;">
+                                            <span style="font-size: 0.72rem; font-weight: 600; color: #92400E; background: #FEF3C7; border: 1px solid #FDE68A; padding: 0.2rem 0.6rem; border-radius: 6px;">
                                                 {{ $curr->subject_category }}
                                             </span>
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; color: var(--color-text-muted); white-space: nowrap;">
+                                        <td style="color: #64748B; font-size: 0.78rem; white-space: nowrap;">
                                             {{ $curr->uploader_name ?? 'Admin Litbang' }}
                                         </td>
-                                        <td style="padding: 1rem 1.25rem; text-align: right; white-space: nowrap;">
+                                        <td style="text-align: right; white-space: nowrap;">
                                             <div style="display: inline-flex; gap: 0.4rem;">
                                                 @if($curr->external_link)
-                                                    <a href="{{ $curr->external_link }}" target="_blank" rel="noopener noreferrer" style="background: #0284C7; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                    <a href="{{ $curr->external_link }}" target="_blank" rel="noopener noreferrer" style="background: #0284C7; color: #FFF; font-weight: 600; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
                                                         🔗 Drive
                                                     </a>
                                                 @endif
                                                 @if($curr->file_path)
-                                                    <button type="button" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #15803D; font-weight: 800; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; cursor: pointer;" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
+                                                    <button type="button" class="catalog-btn-preview" @click="previewCurriculum(curriculums[{{ $loop->index }}])">
                                                         👁️ Pratinjau
                                                     </button>
-                                                    <a href="{{ route('catalog.download', ['curriculum', $curr->id]) }}" style="background: #16A34A; color: #FFFFFF; font-weight: 900; font-size: 0.75rem; padding: 0.35rem 0.75rem; border-radius: 7px; text-decoration: none;">
+                                                    <a href="{{ route('catalog.download', ['curriculum', $curr->id]) }}" class="catalog-btn-download" style="background: #059669;">
                                                         📥 Unduh
                                                     </a>
                                                 @endif
