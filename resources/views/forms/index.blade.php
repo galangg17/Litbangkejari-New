@@ -1,30 +1,52 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    @media (max-width: 640px) {
+        .portal-forms-header {
+            padding: 1rem 0.85rem !important;
+        }
+        .portal-forms-main {
+            margin: 1rem auto !important;
+            padding: 0 0.85rem 3rem !important;
+        }
+        .portal-intro-card {
+            padding: 1.15rem 1rem !important;
+            border-radius: 14px !important;
+        }
+        .forms-cards-grid {
+            grid-template-columns: 1fr !important;
+        }
+        .hide-mobile {
+            display: none !important;
+        }
+    }
+</style>
+
 <div style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif;">
     <!-- HEADER -->
-    <header style="background: linear-gradient(135deg, #072718 0%, #14452F 100%); border-bottom: 2px solid #D4AF37; padding: 1.5rem 1rem; color: #FFF;">
-        <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
+    <header class="portal-forms-header" style="background: linear-gradient(135deg, #072718 0%, #14452F 100%); border-bottom: 2px solid #D4AF37; padding: 1.5rem 1rem; color: #FFF;">
+        <div style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
                 <a href="{{ route('landing.index') }}">
-                    <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo" style="height: 50px; width: auto;" />
+                    <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo" style="height: 42px; width: auto;" />
                 </a>
                 <div>
-                    <span style="font-size: 0.72rem; color: #D4AF37; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em;">LITBANG GAJAH MADA ADHYAKSA</span>
-                    <h1 style="font-size: 1.25rem; font-weight: 900; color: #FFF; margin: 0; line-height: 1.2;">Portal Formulir, Survei & Kegiatan Terbuka</h1>
+                    <span style="font-size: 0.65rem; color: #D4AF37; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em;">LITBANG GAJAH MADA ADHYAKSA</span>
+                    <h1 style="font-size: 1.1rem; font-weight: 900; color: #FFF; margin: 0; line-height: 1.2;">Portal Formulir & Survei Terbuka</h1>
                 </div>
             </div>
             <div>
-                <a href="{{ route('landing.index') }}" style="background: rgba(255,255,255,0.12); border: 1.5px solid rgba(212,175,55,0.5); color: #FFF; font-size: 0.8125rem; font-weight: 800; padding: 0.5rem 1rem; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
-                    🏠 Kembali ke Beranda
+                <a href="{{ route('landing.index') }}" style="background: rgba(255,255,255,0.12); border: 1.5px solid rgba(212,175,55,0.5); color: #FFF; font-size: 0.75rem; font-weight: 800; padding: 0.4rem 0.85rem; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                    🏠 <span class="hide-mobile">Kembali ke </span>Beranda
                 </a>
             </div>
         </div>
     </header>
 
     <!-- CONTENT -->
-    <main style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem 4rem;">
-        <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; padding: 1.75rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+    <main class="portal-forms-main" style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem 4rem;">
+        <div class="portal-intro-card" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; padding: 1.75rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
             <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.5rem;">
                 <span style="font-size: 1.4rem;">📋</span>
                 <h2 style="font-size: 1.35rem; font-weight: 900; color: #072718; margin: 0;">Daftar Formulir & Kuesioner Resmi</h2>
@@ -41,7 +63,7 @@
                 <p style="font-size: 0.84375rem; color: #64748B; margin: 0;">Saat ini belum ada kuesioner atau formulir kegiatan aktif. Silakan cek kembali secara berkala.</p>
             </div>
         @else
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem;">
+            <div class="forms-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem;">
                 @foreach($forms as $form)
                     <div style="background: #FFFFFF; border: 1.5px solid {{ $form->isOpen() ? '#86EFAC' : '#E2E8F0' }}; border-radius: 18px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 16px rgba(0,0,0,0.03); position: relative; overflow: hidden;">
                         @if($form->isOpen())

@@ -1,54 +1,96 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(15, 35, 20, 0.55) 0%, rgba(27, 67, 50, 0.65) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=3'); background-size: cover; background-position: center; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; padding: 2rem; position: relative; overflow: hidden;">
+<style>
+    .login-split-grid {
+        width: 100%;
+        max-width: 1240px;
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 4rem;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    @media (max-width: 992px) {
+        .login-split-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+        }
+        .login-brand-side {
+            padding-right: 0 !important;
+            text-align: center;
+        }
+        .login-brand-header {
+            justify-content: center !important;
+        }
+        .login-brand-side p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .login-actions-row {
+            justify-content: center !important;
+        }
+        .login-card-pad {
+            padding: 1.75rem 1.25rem !important;
+            border-radius: 20px !important;
+        }
+    }
+    @media (max-width: 640px) {
+        .login-screen-wrapper {
+            padding: 1rem !important;
+        }
+    }
+</style>
+
+<div class="login-screen-wrapper" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(15, 35, 20, 0.55) 0%, rgba(27, 67, 50, 0.65) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=3'); background-size: cover; background-position: center; color: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; padding: 2rem; position: relative; overflow: hidden;">
 
     <!-- Glowing Background Orbs -->
-    <div style="position: absolute; top: -120px; left: -120px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
-    <div style="position: absolute; bottom: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(88, 129, 87, 0.4) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
+    <div style="position: absolute; top: -120px; left: -120px; width: min(600px, 90vw); height: min(600px, 90vw); border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -100px; right: -100px; width: min(500px, 80vw); height: min(500px, 80vw); border-radius: 50%; background: radial-gradient(circle, rgba(88, 129, 87, 0.4) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
 
     <!-- MAIN SPLIT LOGIN CONTAINER -->
-    <div style="width: 100%; max-width: 1240px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 4rem; align-items: center; position: relative; z-index: 2;">
+    <div class="login-split-grid">
         
         <!-- LEFT SIDE: BRAND ARTWORK & INSTITUTIONAL DESCRIPTION -->
-        <div style="padding-right: 1.5rem;">
+        <div class="login-brand-side" style="padding-right: 1.5rem;">
             <!-- Official Emblem Crest -->
-            <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2.5rem;">
-                <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Kejaksaan Senat Gajah Mada Adhyaksa" style="height: 85px; width: auto; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));" />
+            <div class="login-brand-header" style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2.5rem;">
+                <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Kejaksaan Senat Gajah Mada Adhyaksa" style="height: 75px; width: auto; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));" />
                 <div>
-                    <div style="font-weight: 900; font-size: 1.85rem; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.02em;">
+                    <div style="font-weight: 900; font-size: 1.75rem; color: #FFFFFF; line-height: 1.1; letter-spacing: -0.02em;">
                         Litbang Gajah Mada Adhyaksa™
                     </div>
-                    <div style="font-size: 0.875rem; color: #D4AF37; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;">
+                    <div style="font-size: 0.8125rem; color: #D4AF37; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px;">
                         KEJAKSAAN REPUBLIK INDONESIA
                     </div>
                 </div>
             </div>
 
             <!-- Main Heading & Description Text -->
-            <h1 style="font-size: clamp(2rem, 3.2vw, 2.75rem); font-weight: 900; line-height: 1.2; color: #FFFFFF; margin-bottom: 1.5rem; letter-spacing: -0.02em;">
+            <h1 style="font-size: clamp(1.75rem, 3.2vw, 2.75rem); font-weight: 900; line-height: 1.2; color: #FFFFFF; margin-bottom: 1.25rem; letter-spacing: -0.02em;">
                 Portal Penelitian dan <br />
                 <span style="color: #D4AF37; text-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);">
                     Pengembangan
                 </span>
             </h1>
 
-            <p style="font-size: 1.0625rem; color: #E8F0E8; line-height: 1.75; margin-bottom: 2.75rem; max-width: 540px;">
+            <p style="font-size: 0.95rem; color: #E8F0E8; line-height: 1.75; margin-bottom: 2rem; max-width: 540px;">
                 Akses pusat kontrol eksekutif LITBANG Senat Gajah Mada Adhyaksa untuk pengisian riset, audit metodologi 3-pintu, dan pengesahan digital dokumen resmi.
             </p>
 
             <!-- Bottom Action Pills Row -->
-            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                <a href="{{ route('landing.index') }}" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; border-radius: 9999px; border: 1.5px solid rgba(212, 175, 55, 0.5); background: rgba(255, 255, 255, 0.12); color: #FFFFFF; font-weight: 800; font-size: 0.875rem; backdrop-filter: blur(8px); transition: all 0.2s;">
+            <div class="login-actions-row" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <a href="{{ route('landing.index') }}" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.25rem; border-radius: 9999px; border: 1.5px solid rgba(212, 175, 55, 0.5); background: rgba(255, 255, 255, 0.12); color: #FFFFFF; font-weight: 800; font-size: 0.84375rem; backdrop-filter: blur(8px); transition: all 0.2s;">
                     🏠 Beranda Portal Publik
                 </a>
-                <span style="font-size: 0.875rem; color: #E8F0E8; font-weight: 700;">• Akses Terverifikasi Admin</span>
+                <span style="font-size: 0.8125rem; color: #E8F0E8; font-weight: 700;">• Akses Terverifikasi Admin</span>
             </div>
         </div>
 
         <!-- RIGHT SIDE: FLOATING GLASSMORPHIC FORM CARD -->
         <div>
-            <div style="background: rgba(27, 67, 50, 0.78); border: 2px solid #D4AF37; border-radius: 28px; padding: 2.75rem 2.5rem; backdrop-filter: blur(24px); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); position: relative;" x-data="{ showPass: false }">
+            <div class="login-card-pad" style="background: rgba(27, 67, 50, 0.78); border: 2px solid #D4AF37; border-radius: 28px; padding: 2.75rem 2.5rem; backdrop-filter: blur(24px); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); position: relative;" x-data="{ showPass: false }">
                 
                 <!-- Card Header -->
                 <div style="margin-bottom: 2rem;">

@@ -452,13 +452,21 @@
     .fresh-client-section { grid-template-columns: 1fr !important; }
     .fresh-split-section { grid-template-columns: 1fr !important; }
     .fresh-office-map-grid { grid-template-columns: 1fr !important; }
-    .fresh-navbar-header { flex-direction: column !important; align-items: stretch !important; border-radius: 20px !important; }
-    .resp-nav-links { justify-content: center !important; }
+    .fresh-navbar-header { 
+      flex-direction: row !important; 
+      align-items: center !important; 
+      justify-content: space-between !important;
+      padding: 0.5rem 0.85rem !important;
+      border-radius: 9999px !important; 
+    }
   }
 
   @media (max-width: 600px) {
     .fresh-feature-row { grid-template-columns: 1fr !important; }
     .fresh-stats-grid { grid-template-columns: 1fr !important; }
+    .fresh-utility-bar { font-size: 0.6875rem !important; padding: 0.4rem 0.85rem !important; }
+    .modal-two-col { grid-template-columns: 1fr !important; }
+    .modal-box-responsive { max-width: 95vw !important; padding: 1.15rem 1rem !important; }
   }
 </style>
 
@@ -552,7 +560,7 @@
         <div style="width: 100%; background: linear-gradient(135deg, rgba(11, 30, 18, 0.55) 0%, rgba(27, 67, 50, 0.65) 100%), url('{{ asset('gedung-kejaksaan.jpg') }}?v=3'); background-size: cover; background-position: center; border-bottom: 2.5px solid var(--color-accent-gold); position: relative; overflow: hidden; padding-bottom: 6.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
             
             <!-- Glowing Background Radial Light -->
-            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 850px; height: 850px; background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(850px, 100vw); height: min(850px, 100vw); background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>
 
             <!-- TOP FLOATING GLASSMORPHISM NAVBAR -->
             <div style="position: sticky; top: 0.85rem; z-index: 50; padding: 0 0.85rem; margin: 0.85rem auto 0; width: 100%; max-width: 1240px; box-sizing: border-box;">
@@ -1554,7 +1562,7 @@
 
     <!-- MODAL 1: FORMULIR PENGUSULAN INTERNAL (AJUKAN PIN) -->
     <div x-show="isProposalModalOpen" x-cloak style="position: fixed; inset: 0; z-index: 99999; background: rgba(15,23,42,0.75); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem;" @keydown.escape.window="isProposalModalOpen = false">
-        <div @click.away="isProposalModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 580px; max-height: 85vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto;">
+        <div @click.away="isProposalModalOpen = false" class="modal-box-responsive" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 580px; max-height: 85vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.85rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 0.65rem;">
                 <div>
                     <span style="font-size: 0.72rem; font-weight: 900; color: var(--color-emerald-medium); text-transform: uppercase; letter-spacing: 0.03em;">FORMULIR KODE PIN ANGKATAN</span>
@@ -1569,7 +1577,7 @@
                     🔑 Masukkan PIN Angkatan: <span style="color: var(--color-accent-gold-dark);">GAJAHMADA2026</span>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div class="modal-two-col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
                     <div>
                         <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Kode PIN Akses *</label>
                         <input type="password" name="batch_pin" value="GAJAHMADA2026" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8125rem; outline: none;" />
@@ -1585,7 +1593,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div class="modal-two-col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
                     <div>
                         <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Nama Pengusul *</label>
                         <input type="text" name="name" required placeholder="Nama Lengkap & Gelar..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8125rem; outline: none;" />
@@ -1597,7 +1605,7 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div class="modal-two-col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
                     <div>
                         <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Kategori Bidang *</label>
                         <select name="category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8125rem; outline: none;">
@@ -1645,7 +1653,7 @@
 
     <!-- MODAL 2: UPLOAD KURIKULUM -->
     <div x-show="isCurriculumUploadModalOpen" x-cloak style="position: fixed; inset: 0; z-index: 99999; background: rgba(15,23,42,0.75); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem;" @keydown.escape.window="isCurriculumUploadModalOpen = false">
-        <div @click.away="isCurriculumUploadModalOpen = false" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 540px; max-height: 85vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto;">
+        <div @click.away="isCurriculumUploadModalOpen = false" class="modal-box-responsive" style="background: #FFFFFF; border: 2px solid var(--color-accent-gold); border-radius: 20px; width: 100%; max-width: 540px; max-height: 85vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 25px 50px rgba(0,0,0,0.4); color: var(--color-text-dark); margin: auto;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.85rem; border-bottom: 1.5px solid #F1F5F9; padding-bottom: 0.65rem;">
                 <div>
                     <span style="font-size: 0.72rem; font-weight: 900; color: #16A34A; text-transform: uppercase;">MODUL KURIKULUM PPPJ</span>
@@ -1663,7 +1671,7 @@
                     <input type="text" name="uploader_name" required placeholder="Nama Lengkap..." style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8125rem; outline: none;" />
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                <div class="modal-two-col" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
                     <div>
                         <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Bidang Materi *</label>
                         <select name="subject_category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8125rem; outline: none;">

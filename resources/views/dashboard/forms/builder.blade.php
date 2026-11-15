@@ -312,6 +312,24 @@
             position: relative !important;
             box-sizing: border-box !important;
         }
+
+        @media (max-width: 768px) {
+            .studio-modal-card {
+                padding: 1.15rem 1rem !important;
+                border-radius: 14px !important;
+                max-height: 92vh !important;
+            }
+            .studio-modal-backdrop {
+                padding: 0.75rem !important;
+            }
+            .studio-nav-btn {
+                font-size: 0.75rem !important;
+                padding: 0.45rem 0.75rem !important;
+            }
+            .options-chip-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 
     <!-- 1. TOP STUDIO HEADER (SOPHISTICATED DARK SLATE & MUTED ACCENT) -->

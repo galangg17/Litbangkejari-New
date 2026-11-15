@@ -92,11 +92,27 @@
         grid-template-columns: 1fr;
         gap: 1.25rem;
     }
-    @media (min-width: 992px) {
+    @media (max-width: 992px) {
         .master-detail-grid {
-            grid-template-columns: 320px 1fr;
-            align-items: start;
-            gap: 1.5rem;
+            grid-template-columns: 1fr !important;
+        }
+        .top-action-btn {
+            font-size: 0.72rem !important;
+            padding: 0.4rem 0.75rem !important;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .resp-tab-capsule {
+            width: 100% !important;
+            justify-content: stretch !important;
+        }
+        .resp-tab-btn {
+            flex: 1 !important;
+            text-align: center !important;
+            padding: 0.45rem 0.5rem !important;
+            font-size: 0.72rem !important;
+            justify-content: center !important;
         }
     }
 

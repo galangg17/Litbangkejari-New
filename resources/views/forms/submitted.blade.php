@@ -7,16 +7,32 @@
         body { background: #FFF !important; padding: 0 !important; }
         .receipt-card { box-shadow: none !important; border: 1.5px solid #000 !important; }
     }
+    @media (max-width: 640px) {
+        .receipt-wrapper {
+            padding: 1rem 0.75rem !important;
+        }
+        .receipt-inner {
+            padding: 1.5rem 1.15rem 1.25rem !important;
+        }
+        .receipt-meta-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.2rem !important;
+        }
+        .receipt-meta-val {
+            text-align: left !important;
+        }
+    }
 </style>
 
-<div style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2.5rem 1.25rem;">
+<div class="receipt-wrapper" style="min-height: 100vh; background: #F8FAFC; color: #0F172A; font-family: 'Plus Jakarta Sans', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2.5rem 1.25rem;">
 
     <div class="receipt-card" style="background: #FFFFFF; border-radius: 20px; max-width: 620px; width: 100%; border: 1px solid #E2E8F0; box-shadow: 0 10px 30px rgba(6, 46, 29, 0.08); overflow: hidden; text-align: center;">
         
         <!-- Top Executive Accent Strip -->
         <div style="height: 6px; background: linear-gradient(90deg, #062E1D 0%, #C59B27 50%, #064E3B 100%);"></div>
 
-        <div style="padding: 2.5rem 2rem 2.25rem;">
+        <div class="receipt-inner" style="padding: 2.5rem 2rem 2.25rem;">
             <!-- SUCCESS BADGE -->
             <div style="width: 64px; height: 64px; border-radius: 50%; background: #F0FDF4; border: 2px solid #86EFAC; color: #166534; font-size: 2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; box-shadow: 0 6px 16px rgba(22,163,74,0.12);">
                 ✓
@@ -45,7 +61,7 @@
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.84375rem;">
-                    <div style="display: flex; justify-content: space-between;">
+                    <div class="receipt-meta-row" style="display: flex; justify-content: space-between;">
                         <span style="color: #64748B; font-weight: 600;">Nomor Tiket Respon:</span>
                         <strong style="color: #062E1D; font-family: monospace; font-size: 0.9375rem;">
                             #RES-{{ date('Y') }}-{{ str_pad($response->id ?? rand(100, 999), 5, '0', STR_PAD_LEFT) }}
@@ -53,18 +69,18 @@
                     </div>
 
                     @if(!empty($response->respondent_name) && $response->respondent_name !== 'Anonim')
-                        <div style="display: flex; justify-content: space-between;">
+                        <div class="receipt-meta-row" style="display: flex; justify-content: space-between;">
                             <span style="color: #64748B; font-weight: 600;">Nama Peserta:</span>
                             <strong style="color: #0F172A;">{{ $response->respondent_name }}</strong>
                         </div>
                     @endif
 
-                    <div style="display: flex; justify-content: space-between;">
+                    <div class="receipt-meta-row" style="display: flex; justify-content: space-between;">
                         <span style="color: #64748B; font-weight: 600;">Instrumen Evaluasi:</span>
-                        <span style="color: #0F172A; font-weight: 700; text-align: right; max-width: 320px;">{{ $form->title }}</span>
+                        <span class="receipt-meta-val" style="color: #0F172A; font-weight: 700; text-align: right; max-width: 320px;">{{ $form->title }}</span>
                     </div>
 
-                    <div style="display: flex; justify-content: space-between;">
+                    <div class="receipt-meta-row" style="display: flex; justify-content: space-between;">
                         <span style="color: #64748B; font-weight: 600;">Waktu Tercatat:</span>
                         <span style="color: #0F172A; font-weight: 700;">
                             {{ $response ? $response->created_at->format('d F Y, H:i') : date('d F Y, H:i') }} WIB

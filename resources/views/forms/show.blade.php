@@ -25,6 +25,32 @@
         margin: 2rem auto 0;
         padding: 0 1.25rem;
     }
+    @media (max-width: 640px) {
+        .form-single-container {
+            margin: 1rem auto 0;
+            padding: 0 0.85rem;
+        }
+        .form-hero-card {
+            padding: 1.35rem 1.15rem !important;
+            border-radius: 14px !important;
+            margin-bottom: 1rem !important;
+        }
+        .question-card {
+            padding: 1.15rem 1rem !important;
+            border-radius: 14px !important;
+        }
+        .hero-meta-bar {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.4rem !important;
+        }
+        .calm-input {
+            max-width: 100% !important;
+        }
+        .hide-on-mobile {
+            display: none !important;
+        }
+    }
 
     /* HERO CARD RESMI (FULL WIDTH ATAS) */
     .form-hero-card {
@@ -393,18 +419,18 @@
      }">
 
     <!-- TOP HEADER -->
-    <header style="background: #062E1D; border-bottom: 2px solid #C59B27; padding: 0.85rem 1.5rem; color: #FFF; position: sticky; top: 0; z-index: 50; box-shadow: 0 4px 18px rgba(0,0,0,0.12);">
-        <div style="max-width: 860px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Adhyaksa" style="height: 38px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />
-                <div>
-                    <div style="font-size: 0.625rem; color: #DFB743; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">KEJAKSAAN REPUBLIK INDONESIA</div>
-                    <div style="font-size: 0.875rem; font-weight: 800; color: #FFF; line-height: 1.2;">Litbang Gajah Mada Adhyaksa</div>
+    <header style="background: #062E1D; border-bottom: 2px solid #C59B27; padding: 0.75rem 1rem; color: #FFF; position: sticky; top: 0; z-index: 50; box-shadow: 0 4px 18px rgba(0,0,0,0.12);">
+        <div style="max-width: 860px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.65rem; min-width: 0;">
+                <img src="{{ asset('logo-adhyaksa.png') }}" alt="Logo Adhyaksa" style="height: 36px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); flex-shrink: 0;" />
+                <div style="min-width: 0;">
+                    <div style="font-size: 0.58rem; color: #DFB743; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">KEJAKSAAN REPUBLIK INDONESIA</div>
+                    <div style="font-size: 0.8125rem; font-weight: 800; color: #FFF; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Litbang Gajah Mada Adhyaksa</div>
                 </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <a href="{{ route('forms.index') }}" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(223,183,67,0.4); color: #FFF; font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.85rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s;">
-                    ← Beranda Formulir
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0;">
+                <a href="{{ route('forms.index') }}" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(223,183,67,0.4); color: #FFF; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.65rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem; white-space: nowrap;">
+                    ← <span class="hide-on-mobile">Beranda</span> Form
                 </a>
             </div>
         </div>
@@ -412,15 +438,15 @@
 
     @if($form->isOpen())
         <!-- SMART STICKY PROGRESS COUNTER BAR -->
-        <div style="position: sticky; top: 58px; z-index: 45; background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid #E2E8F0; padding: 0.5rem 1.25rem;">
-            <div style="max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
-                <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.78125rem; font-weight: 750; color: #062E1D;">
-                    <span>📝 Progres Isian:</span>
-                    <span style="color: #064E3B; font-weight: 800;" x-text="'Terisi ' + answeredCount + ' dari ' + totalQuestions + ' butir (' + Math.round((answeredCount / totalQuestions) * 100) + '%)'"></span>
+        <div style="position: sticky; top: 54px; z-index: 45; background: rgba(248, 250, 252, 0.96); backdrop-filter: blur(8px); border-bottom: 1px solid #E2E8F0; padding: 0.45rem 1rem;">
+            <div style="max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 750; color: #062E1D;">
+                    <span>📝 Progres:</span>
+                    <span style="color: #064E3B; font-weight: 800;" x-text="'Terisi ' + answeredCount + '/' + totalQuestions + ' (' + Math.round((answeredCount / totalQuestions) * 100) + '%)'"></span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <span style="font-size: 0.7rem; color: #64748B; font-weight: 600;" x-show="answeredCount > 0" x-cloak>💾 Tersimpan Otomatis</span>
-                    <div style="width: 130px; height: 8px; background: #E2E8F0; border-radius: 9999px; overflow: hidden;">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 0.6875rem; color: #64748B; font-weight: 600;" x-show="answeredCount > 0" x-cloak>💾 Tersimpan</span>
+                    <div style="width: 100px; height: 7px; background: #E2E8F0; border-radius: 9999px; overflow: hidden;">
                         <div style="height: 100%; background: #064E3B; border-radius: 9999px; transition: width 0.3s ease;" :style="'width: ' + Math.min(100, Math.round((answeredCount / totalQuestions) * 100)) + '%'"></div>
                     </div>
                 </div>

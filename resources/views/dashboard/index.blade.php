@@ -514,9 +514,59 @@
   }
 
   @media (max-width: 992px) {
-    .dashboard-layout { flex-direction: column; }
-    .sidebar-container { width: 100%; height: auto; position: relative; }
-    .main-content { max-width: 100%; padding: 0.75rem; }
+    .dashboard-layout { flex-direction: column; min-height: auto; }
+    .sidebar-container { 
+      width: 100% !important; 
+      height: auto !important; 
+      position: relative !important; 
+      border-right: none !important;
+      border-bottom: 2px solid #D4AF37 !important;
+    }
+    .sidebar-header {
+      padding: 0.85rem 1rem !important;
+    }
+    .sidebar-menu { 
+      display: flex !important; 
+      flex-direction: row !important; 
+      overflow-x: auto !important; 
+      -webkit-overflow-scrolling: touch;
+      padding: 0.5rem 0.75rem !important;
+      gap: 0.4rem !important;
+      white-space: nowrap !important;
+    }
+    .sidebar-section-title { 
+      display: none !important; 
+    }
+    .menu-item {
+      padding: 0.5rem 0.85rem !important;
+      border-radius: 8px !important;
+      font-size: 0.78125rem !important;
+      flex-shrink: 0 !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      background: rgba(255,255,255,0.05) !important;
+    }
+    .menu-item.active {
+      background: rgba(212, 175, 55, 0.25) !important;
+      border-color: #D4AF37 !important;
+    }
+    .main-content { 
+      max-width: 100% !important; 
+      padding: 0.85rem !important; 
+      overflow-x: hidden !important;
+    }
+    .stats-card-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 0.75rem !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .stats-card-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .studio-grid {
+      grid-template-columns: 1fr !important;
+    }
   }
 </style>
 
