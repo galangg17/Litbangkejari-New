@@ -1151,10 +1151,11 @@
                         <div style="display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center;">
                             <span style="font-size: 0.75rem; color: #64748B; font-weight: 700; margin-right: 0.25rem;">Kategori Domain:</span>
                             <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Semua' }" @click="activeCategory = 'Semua'">Semua</button>
-                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Pidana' }" @click="activeCategory = 'Pidana'">Pidana</button>
-                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'Perdata' }" @click="activeCategory = 'Perdata'">Perdata</button>
-                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'TUN' }" @click="activeCategory = 'TUN'">TUN</button>
-                            <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === 'SPBE' }" @click="activeCategory = 'SPBE'">SPBE</button>
+                            @foreach($categories as $cat)
+                                <button type="button" class="category-pill-btn" style="font-size: 0.75rem; padding: 0.3rem 0.75rem;" :class="{ 'active': activeCategory === '{{ $cat->name }}' }" @click="activeCategory = '{{ $cat->name }}'">
+                                    {{ $cat->icon ?? '' }} {{ $cat->name }}
+                                </button>
+                            @endforeach
                         </div>
 
                         <!-- LAYOUT MODE TOGGLE (GRID VS TABLE) -->
@@ -1786,10 +1787,15 @@
                     <div>
                         <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Kategori Bidang *</label>
                         <select name="category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8125rem; outline: none;">
-                            <option value="Hukum & Tata Kelola">Hukum & Tata Kelola</option>
-                            <option value="Pidana">Pidana Khusus / Umum</option>
-                            <option value="Perdata">Perdata & Tata Usaha Negara</option>
-                            <option value="SPBE">SPBE & Digitalisasi</option>
+                            @forelse($categories as $cat)
+                                <option value="{{ $cat->name }}">{{ $cat->icon ?? '📁' }} {{ $cat->name }}</option>
+                            @empty
+                                <option value="Pidana">⚖️ Pidana</option>
+                                <option value="Perdata">🏛️ Perdata</option>
+                                <option value="TUN">📜 TUN</option>
+                                <option value="Pengawasan">🔍 Pengawasan</option>
+                                <option value="Pembinaan">💼 Pembinaan</option>
+                            @endforelse
                         </select>
                     </div>
 
@@ -1852,10 +1858,15 @@
                     <div>
                         <label style="font-size: 0.78125rem; font-weight: 800; color: var(--color-text-dark); display: block; margin-bottom: 0.2rem;">Bidang Materi *</label>
                         <select name="subject_category" required style="width: 100%; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8125rem; outline: none;">
-                            <option value="Pidana">Hukum Pidana</option>
-                            <option value="Perdata">Hukum Perdata & TUN</option>
-                            <option value="Intelijen">Intelijen Kejaksaan</option>
-                            <option value="Manajemen">Manajemen Birokrasi</option>
+                            @forelse($categories as $cat)
+                                <option value="{{ $cat->name }}">{{ $cat->icon ?? '📁' }} {{ $cat->name }}</option>
+                            @empty
+                                <option value="Pidana">⚖️ Pidana</option>
+                                <option value="Perdata">🏛️ Perdata</option>
+                                <option value="TUN">📜 TUN</option>
+                                <option value="Pengawasan">🔍 Pengawasan</option>
+                                <option value="Pembinaan">💼 Pembinaan</option>
+                            @endforelse
                         </select>
                     </div>
 
