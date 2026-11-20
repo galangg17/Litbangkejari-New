@@ -588,6 +588,7 @@
     selectedKajianEdit: null,
     selectedInnovationEdit: null,
     selectedCurriculumEdit: null,
+    selectedCategoryEdit: null,
     curriculumsMap: {{ json_encode($curriculumsMap) }},
     tableSearchQuery: '',
     openSubmissionFullView(idOrProp) {
@@ -1658,11 +1659,12 @@
                 <h3 style="font-size: 1.0625rem; font-weight: 900; color: #0F172A; margin-bottom: 0.5rem;">⚖️ Kelola Kategori Domain Hukum</h3>
                 <p style="font-size: 0.78125rem; color: #64748B; margin-bottom: 1rem;">Admin dapat menambah atau menghapus kategori domain hukum (Contoh: Pidana, Perdata, TUN).</p>
 
-                <form action="{{ route('dashboard.store_category') }}" method="POST" style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+                <form action="{{ route('dashboard.store_category') }}" method="POST" style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: center;">
                     @csrf
-                    <input type="text" name="name" required placeholder="Nama Kategori (misal: Pidana, Perdata, TUN)" style="flex: 1; min-width: 200px; padding: 0.55rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.8125rem;" />
-                    <input type="text" name="icon" placeholder="Icon Emoji (misal: ⚖️)" style="width: 100px; padding: 0.55rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.8125rem;" />
-                    <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1rem; border-radius: 8px; border: none; cursor: pointer;">+ Tambah Kategori</button>
+                    <input type="text" name="name" required placeholder="Nama Kategori (misal: Pidana Umum, Pidsus, BPA)" style="flex: 1; min-width: 180px; padding: 0.55rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.8125rem;" />
+                    <input type="text" name="icon" placeholder="Icon (misal: ⚖️)" style="width: 100px; padding: 0.55rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.8125rem; text-align: center;" />
+                    <input type="text" name="description" placeholder="Deskripsi Singkat Ruang Lingkup Bidang..." style="flex: 2; min-width: 240px; padding: 0.55rem; background: #FFF; border: 1.5px solid #CBD5E1; border-radius: 8px; color: #0F172A; font-size: 0.8125rem;" />
+                    <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; font-size: 0.78125rem; padding: 0.55rem 1.15rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap;">+ Tambah Kategori</button>
                 </form>
 
                 <div class="light-table-container">
@@ -1671,22 +1673,27 @@
                             <tr>
                                 <th>Icon & Nama Kategori</th>
                                 <th>Deskripsi Singkat</th>
-                                <th style="text-align: right;">Aksi Hapus</th>
+                                <th style="text-align: right; width: 140px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($categories as $cat)
                             <tr>
-                                <td style="color: #0F172A; font-weight: 800;">{{ $cat->icon }} {{ $cat->name }}</td>
+                                <td style="color: #0F172A; font-weight: 800; white-space: nowrap;">{{ $cat->icon }} {{ $cat->name }}</td>
                                 <td style="color: #64748B;">{{ $cat->description }}</td>
-                                <td style="text-align: right;">
-                                    <form action="{{ route('dashboard.destroy_category', $cat->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.6875rem; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;" onclick="return confirm('Hapus kategori {{ $cat->name }}?')">
-                                            🗑️ Hapus
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <div style="display: inline-flex; gap: 0.35rem; align-items: center;">
+                                        <button type="button" style="background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.55rem; border-radius: 5px; cursor: pointer;" @click="selectedCategoryEdit = { id: {{ $cat->id }}, name: '{{ addslashes($cat->name) }}', icon: '{{ addslashes($cat->icon) }}', description: '{{ addslashes($cat->description) }}' }">
+                                            ✏️ Edit
                                         </button>
-                                    </form>
+                                        <form action="{{ route('dashboard.destroy_category', $cat->id) }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" style="background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B; font-size: 0.7rem; font-weight: 800; padding: 0.25rem 0.55rem; border-radius: 5px; cursor: pointer;" onclick="return confirm('Hapus kategori {{ $cat->name }}?')">
+                                                🗑️ Hapus
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -2764,6 +2771,50 @@
                     <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem;">
                         <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.78125rem; cursor: pointer;" @click="selectedCurriculumEdit = null">Batal</button>
                         <button type="submit" style="background: #16A34A; color: #FFF; font-weight: 900; border: none; border-radius: 8px; padding: 0.5rem 1.25rem; font-size: 0.78125rem; cursor: pointer;">💾 Simpan Perubahan</button>
+                    </div>
+                </form>
+            </template>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT KATEGORI DOMAIN HUKUM -->
+    <div x-show="selectedCategoryEdit !== null" class="modal-overlay" style="display: none;" @click="selectedCategoryEdit = null">
+        <div class="modal-card" style="max-width: 520px; border-radius: 20px; background: #FFFFFF; color: #0F172A; border: 2px solid #072718;" @click.stop>
+            <div style="padding: 1.125rem 1.35rem; border-bottom: 1.5px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; background: #F8FAFC;">
+                <div>
+                    <div style="font-size: 0.6875rem; font-weight: 900; color: #064E3B; text-transform: uppercase;">KELOLA KATEGORI DOMAIN HUKUM</div>
+                    <h3 style="font-size: 1rem; font-weight: 900; color: #0F172A;" x-text="selectedCategoryEdit ? 'Edit Kategori: ' + selectedCategoryEdit.name : 'Edit Kategori'"></h3>
+                </div>
+                <button @click="selectedCategoryEdit = null" style="background: none; border: none; color: #64748B; font-size: 1.25rem; cursor: pointer;">✕</button>
+            </div>
+
+            <template x-if="selectedCategoryEdit">
+                <form :action="'{{ url('/dashboard/update-category') }}/' + selectedCategoryEdit.id" method="POST" style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.875rem;">
+                    @csrf
+
+                    <div style="display: grid; grid-template-columns: 80px 1fr; gap: 0.75rem;">
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 800; color: #334155; display: block; margin-bottom: 0.25rem;">Icon</label>
+                            <input type="text" name="icon" :value="selectedCategoryEdit.icon" placeholder="⚖️" style="width: 100%; padding: 0.5rem; font-size: 1rem; text-align: center; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF;" />
+                        </div>
+                        <div>
+                            <label style="font-size: 0.75rem; font-weight: 800; color: #334155; display: block; margin-bottom: 0.25rem;">Nama Bidang / Kategori *</label>
+                            <input type="text" name="name" required :value="selectedCategoryEdit.name" placeholder="Nama Kategori..." style="width: 100%; padding: 0.5rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF;" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 0.75rem; font-weight: 800; color: #334155; display: block; margin-bottom: 0.25rem;">Deskripsi Singkat Bidang</label>
+                        <textarea name="description" rows="3" placeholder="Jelaskan ruang lingkup atau fokus bidang ini..." style="width: 100%; padding: 0.5rem; font-size: 0.8125rem; border-radius: 8px; border: 1.5px solid #CBD5E1; background: #FFF;" x-text="selectedCategoryEdit.description"></textarea>
+                    </div>
+
+                    <div style="background: #F0FDF4; border: 1px solid #BBF7D0; padding: 0.75rem; border-radius: 8px; font-size: 0.72rem; color: #166534; line-height: 1.45;">
+                        💡 <strong>Sinkronisasi Otomatis:</strong> Jika Anda mengubah nama kategori, seluruh naskah kebijakan, inovasi, modul kurikulum, dan usulan publik yang terkait akan otomatis diperbarui agar data tetap rapi dan tidak hilang.
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.25rem;">
+                        <button type="button" style="background: #F1F5F9; border: 1px solid #CBD5E1; color: #475569; font-weight: 700; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.78125rem; cursor: pointer;" @click="selectedCategoryEdit = null">Batal</button>
+                        <button type="submit" style="background: #072718; color: #D4AF37; font-weight: 900; border: none; border-radius: 8px; padding: 0.5rem 1.25rem; font-size: 0.78125rem; cursor: pointer;">💾 Simpan Perubahan</button>
                     </div>
                 </form>
             </template>

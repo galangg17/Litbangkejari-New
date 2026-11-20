@@ -983,6 +983,38 @@ class DashboardController extends Controller
             ->with('toast', 'Kategori Domain Hukum Baru Berhasil Ditambahkan!');
     }
 
+    public function updateCategory(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+        $oldName = $category->name;
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'icon' => 'nullable|string',
+        ]);
+
+        $newName = $validated['name'];
+
+        $category->update([
+            'name' => $newName,
+            'slug' => Str::slug($newName),
+            'description' => $validated['description'] ?? $category->description,
+            'icon' => $validated['icon'] ?? $category->icon ?? '⚖️',
+        ]);
+
+        // Cascade update ke seluruh tabel terkait jika nama kategori berubah agar tidak ada data yang tumburan/hilang
+        if ($oldName !== $newName) {
+            Kajian::where('category', $oldName)->update(['category' => $newName]);
+            InnovationProposal::where('category', $oldName)->update(['category' => $newName]);
+            Curriculum::where('subject_category', $oldName)->update(['subject_category' => $newName]);
+            PublicProposal::where('category', $oldName)->update(['category' => $newName]);
+        }
+
+        return redirect()->route('dashboard.index', ['tab' => 'settings'])
+            ->with('toast', 'Kategori ' . $newName . ' dan seluruh data terkait berhasil diperbarui!');
+    }
+
     public function destroyCategory($id)
     {
         $category = Category::findOrFail($id);
