@@ -724,6 +724,19 @@ class DashboardController extends Controller
                     $proposal->update(['innovation_id' => $inv->id]);
                 }
                 $targetPillar = 'Pilar 2: Bank Inovasi';
+            } elseif ($proposal->type === 'Kurikulum') {
+                Curriculum::create([
+                    'title' => $proposal->title,
+                    'subject_category' => $proposal->category ?? 'Pengembangan Kompetensi',
+                    'file_type' => 'Modul PDF',
+                    'batch_year' => 'PPPJ LXXXIII/II Tahun 2026',
+                    'uploader_name' => $proposal->name . ($proposal->institution ? ' (' . $proposal->institution . ')' : ''),
+                    'status' => 'Terverifikasi (Menunggu Terbit)',
+                    'is_verified' => false,
+                    'description' => $proposal->description,
+                    'file_path' => $adminFilePath ?? ($proposal->file_path ?? '/documents/pb_01.pdf'),
+                ]);
+                $targetPillar = 'Pilar 3: Kurikulum & Modul Pembelajaran';
             } else {
                 if (!$proposal->kajian) {
                     $kajian = Kajian::create([

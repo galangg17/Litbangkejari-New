@@ -981,13 +981,13 @@
                     <!-- SUB-TAB NAVIGATION PILLS -->
                     <div style="display: flex; gap: 0.35rem; background: #F1F5F9; padding: 0.35rem; border-radius: 12px; border: 1.5px solid #CBD5E1; flex-wrap: wrap;">
                         <button type="button" class="subtab-btn" :class="{ 'active-policy': inboxSubTab === 'new' || inboxSubTab === 'policy' }" @click="inboxSubTab = 'policy'">
-                            📄 Policy Brief ({{ $newProposals->where('type', '!=', 'Ide Inovasi')->count() }})
+                            📄 Policy Brief ({{ $newProposals->whereNotIn('type', ['Ide Inovasi', 'Kurikulum'])->count() }})
                         </button>
                         <button type="button" class="subtab-btn" :class="{ 'active-innovation': inboxSubTab === 'innovation' }" @click="inboxSubTab = 'innovation'">
                             💡 Usulan Inovasi ({{ $newProposals->where('type', 'Ide Inovasi')->count() }})
                         </button>
                         <button type="button" class="subtab-btn" :class="{ 'active-curriculum': inboxSubTab === 'curriculum' }" @click="inboxSubTab = 'curriculum'">
-                            📚 Kurikulum Peserta ({{ $pendingCurriculums->count() }})
+                            📚 Kurikulum Peserta ({{ $pendingCurriculums->count() + $newProposals->where('type', 'Kurikulum')->count() }})
                         </button>
                         <button type="button" class="subtab-btn" :class="{ 'active-policy': inboxSubTab === 'study' }" @click="inboxSubTab = 'study'">
                             ✅ Diterima ({{ $activeStudyProposals->count() }})
@@ -1011,7 +1011,7 @@
                 <!-- SUB-TAB 1: USULAN POLICY BRIEF (MENUNGGU SKRINING) -->
                 <div x-show="inboxSubTab === 'new' || inboxSubTab === 'policy'">
                     <div class="studio-card-grid">
-                        @forelse($newProposals->where('type', '!=', 'Ide Inovasi') as $prop)
+                        @forelse($newProposals->whereNotIn('type', ['Ide Inovasi', 'Kurikulum']) as $prop)
                             <div class="studio-card studio-card-inbox" x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
                                     <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
@@ -1152,10 +1152,41 @@
                     </div>
                 </div>
 
-                <!-- SUB-TAB 5: INBOX UNGGUHAN KURIKULUM PESERTA -->
+                <!-- SUB-TAB 5: INBOX UNGGUHAN & USULAN KURIKULUM PESERTA -->
                 <div x-show="inboxSubTab === 'curriculum'" style="display: none;">
                     <div class="studio-card-grid">
-                        @forelse($pendingCurriculums as $c)
+                        {{-- 1. Usulan Kurikulum dari Form Pengajuan Umum (PublicProposal dengan type = Kurikulum) --}}
+                        @foreach($newProposals->where('type', 'Kurikulum') as $prop)
+                            <div class="studio-card studio-card-curriculum" x-show="tableSearchQuery === '' || '{{ strtolower($prop->ticket_no . ' ' . $prop->name . ' ' . $prop->title . ' ' . $prop->category) }}'.includes(tableSearchQuery.toLowerCase())">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                                        <span style="font-size: 0.75rem; font-weight: 900; color: #16A34A; background: #DCFCE7; border: 1px solid #86EFAC; padding: 0.15rem 0.5rem; border-radius: 6px;">{{ $prop->ticket_no }}</span>
+                                        <span style="font-size: 0.72rem; font-weight: 800; color: #166534; background: #F0FDF4; border: 1px solid #BBF7D0; padding: 0.15rem 0.5rem; border-radius: 6px;">📚 Usulan Kurikulum | {{ $prop->category }}</span>
+                                    </div>
+                                    <button type="button" style="background: #16A34A; color: #FFF; font-weight: 900; font-size: 0.75rem; padding: 0.45rem 0.875rem; border-radius: 8px; border: none; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(22,163,74,0.2);" @click="selectedProposalDisposition = proposalsMap[{{ $prop->id }}]">
+                                        🔍 Inspeksi & Disposisi
+                                    </button>
+                                </div>
+                                <div style="font-size: 0.8125rem; font-weight: 800; color: #0F172A; line-height: 1.3; margin-bottom: 0.25rem;">
+                                    {{ $prop->title }}
+                                </div>
+                                <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                                    <span>Pengusul: <strong style="color: #334155;">{{ $prop->name }}</strong> ({{ $prop->institution ?? 'Kejaksaan RI' }})</span>
+                                </div>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; border-top: 1px solid #F1F5F9; margin-top: 0.5rem; padding-top: 0.65rem;">
+                                    @if($prop->file_path)
+                                        <a href="{{ route('proposal.download', $prop->id) }}" target="_blank" class="file-chip">
+                                            📄 Berkas Modul Pengusul
+                                        </a>
+                                    @else
+                                        <span style="font-size: 0.72rem; color: #94A3B8;">Tanpa lampiran file</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+
+                        {{-- 2. Unggahan Langsung dari Form Kurikulum --}}
+                        @foreach($pendingCurriculums as $c)
                             <div class="studio-card studio-card-curriculum" x-show="tableSearchQuery === '' || '{{ strtolower($c->title . ' ' . $c->uploader_name . ' ' . $c->subject_category) }}'.includes(tableSearchQuery.toLowerCase())">
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.75rem; flex-wrap: wrap;">
                                     <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
@@ -1199,9 +1230,11 @@
                                     @endif
                                 </div>
                             </div>
-                        @empty
-                            <div style="text-align: center; color: #94A3B8; padding: 2.5rem; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E1; font-weight: 700; font-size: 0.8125rem;">Tidak ada unggahan berkas kurikulum peserta yang menunggu verifikasi di Inbox.</div>
-                        @endforelse
+                        @endforeach
+
+                        @if($pendingCurriculums->isEmpty() && $newProposals->where('type', 'Kurikulum')->isEmpty())
+                            <div style="text-align: center; color: #94A3B8; padding: 2.5rem; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E1; font-weight: 700; font-size: 0.8125rem;">Tidak ada unggahan atau usulan berkas kurikulum peserta yang menunggu verifikasi di Inbox.</div>
+                        @endif
                     </div>
                 </div>
             </div>
